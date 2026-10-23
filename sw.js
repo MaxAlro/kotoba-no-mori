@@ -1,7 +1,7 @@
 // Kotoba no Mori: funciona sin conexión.
 // App: se sirve desde la caché y se actualiza en segundo plano (la versión nueva aparece al volver a abrir).
 // Paquetes: primero la red, y si no hay conexión, lo último descargado.
-const VERSION = "kotoba-v1";
+const VERSION = "kotoba-v2";
 const SHELL = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
 
 self.addEventListener("install", e => {
