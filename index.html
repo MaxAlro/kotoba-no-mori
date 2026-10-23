@@ -1,0 +1,1173 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Kotoba no Mori</title>
+<meta name="theme-color" content="#2C4A86">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Kotoba">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: app de una columna para celular, barra inferior fija con 5 secciones; el kanji grande en mincho es el protagonista, todo lo demás va en gótica sobria. */
+:root{
+  --paper:#EDF0F4; --surface:#FFFFFF; --ink:#17202D; --muted:#5A6476; --line:#D3DAE4;
+  --ai:#2C4A86; --ai-soft:#DDE5F4; --ki:#8F6400; --ki-soft:#F5E6B9;
+  --ok:#2E7A4D; --ok-soft:#DCEFE3; --bad:#A93838; --bad-soft:#F6DEDE;
+  --f-display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --r:10px; --nav-h:62px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0D121B; --surface:#161D29; --ink:#E4E8EF; --muted:#98A2B4; --line:#2A3344;
+  --ai:#94AEE6; --ai-soft:#22304D; --ki:#E2BC5E; --ki-soft:#3A3017;
+  --ok:#6DBF8C; --ok-soft:#1C3527; --bad:#E58080; --bad-soft:#3C2022; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0D121B; --surface:#161D29; --ink:#E4E8EF; --muted:#98A2B4; --line:#2A3344;
+  --ai:#94AEE6; --ai-soft:#22304D; --ki:#E2BC5E; --ki-soft:#3A3017;
+  --ok:#6DBF8C; --ok-soft:#1C3527; --bad:#E58080; --bad-soft:#3C2022; color-scheme:dark}
+
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);color-scheme:light}
+[hidden]{display:none!important}
+img{max-width:100%}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px calc(var(--nav-h) + 28px + env(safe-area-inset-bottom,0px))}
+header.top{display:flex;align-items:center;gap:12px;padding-block:4px 14px}
+.logo{font-family:var(--f-display);font-weight:800;font-size:30px;line-height:1;color:var(--ai)}
+.brand{display:flex;flex-direction:column;line-height:1.2}
+.brand b{font-size:15px;letter-spacing:.02em}
+.brand small{color:var(--muted);font-size:12px}
+.top .sync{margin-left:auto;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.dot.ok{background:var(--ok)} .dot.bad{background:var(--bad)}
+
+h1{font-size:22px;line-height:1.3;margin:0;text-wrap:balance}
+h2{font-size:17px;margin:0;text-wrap:balance}
+h3{font-size:13px;margin:0;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.stack{display:flex;flex-direction:column;gap:14px}
+.stack.tight{gap:8px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.section{display:flex;flex-direction:column;gap:10px}
+.divider{height:1px;background:var(--line);margin-block:4px}
+
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:10px 14px;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;text-decoration:none}
+.btn:hover{border-color:var(--ai)}
+.btn.primary{background:var(--ai);border-color:var(--ai);color:var(--surface);font-weight:700}
+.btn.ghost{background:transparent}
+.btn.block{width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.sm{min-height:34px;padding:6px 10px;font-size:13px}
+.speak{border:none;background:var(--ai-soft);color:var(--ai);border-radius:50%;width:34px;height:34px;min-height:34px;padding:0;cursor:pointer;display:inline-grid;place-items:center;flex:none}
+.speak svg{width:16px;height:16px}
+
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700;background:var(--ai-soft);color:var(--ai);white-space:nowrap}
+.chip.ki{background:var(--ki-soft);color:var(--ki)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.bad{background:var(--bad-soft);color:var(--bad)}
+.chip.plain{background:transparent;border:1px solid var(--line);color:var(--muted)}
+
+label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted);font-weight:500}
+input[type=text],input[type=number],input[type=url],select,textarea{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--ink);font-size:16px;width:100%;min-width:0}
+textarea{min-height:90px;resize:vertical}
+.jp-input{font-size:20px !important}
+
+/* Hoy */
+.today-date{font-family:var(--f-display);font-size:15px;color:var(--muted)}
+.big-num{font-family:var(--f-mono);font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.stat{display:flex;flex-direction:column;gap:4px}
+.stat span{font-size:12px;color:var(--muted)}
+.plan-line{display:grid;grid-template-columns:84px 1fr;gap:10px;font-size:14px}
+.plan-line b{font-family:var(--f-mono);font-size:13px;color:var(--ai)}
+.phase-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.phase-bar div{height:6px;border-radius:3px;background:var(--line)}
+.phase-bar div.done{background:var(--ai)}
+.phase-bar div.now{background:var(--ki)}
+
+/* Repaso */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px 18px;display:flex;flex-direction:column;gap:14px;align-items:stretch;min-height:340px}
+.card .face{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.card .kind{align-self:flex-start}
+.glyph{font-family:var(--f-display);font-weight:800;font-size:96px;line-height:1.05}
+.word-glyph{font-family:var(--f-display);font-weight:800;font-size:52px;line-height:1.2;word-break:keep-all}
+.sentence{font-size:19px;line-height:1.7}
+.sentence mark{background:var(--ki-soft);color:inherit;padding:0 2px;border-radius:3px}
+.reading{font-size:20px;color:var(--ai);font-weight:700}
+.meaning{font-size:19px;font-weight:700}
+.literal{font-size:14px;color:var(--ki);font-weight:500}
+.decomp{display:flex;flex-direction:column;gap:8px;text-align:left}
+.decomp-item{display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:start;padding:10px;border-radius:8px;background:var(--paper)}
+.decomp-item .k{font-family:var(--f-display);font-size:36px;line-height:1;text-align:center;cursor:pointer;color:var(--ai)}
+.decomp-item .formula{font-family:var(--f-display);font-size:17px}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.grades button{display:flex;flex-direction:column;gap:2px;padding:8px 4px;min-height:58px}
+.grades small{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.g0{border-color:var(--bad) !important;color:var(--bad)}
+.g3{border-color:var(--ok) !important;color:var(--ok)}
+.progress-line{height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.progress-line i{display:block;height:100%;background:var(--ai)}
+.traslado .glyph{font-size:120px}
+.traslado .grades button{min-height:72px;font-size:17px}
+
+/* Grafo */
+.graph-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.graph-box svg{display:block;width:100%;height:auto;max-width:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);padding:8px 12px;border-top:1px solid var(--line)}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.node{cursor:pointer}
+.node:focus{outline:none}
+.node:focus-visible circle,.node:focus-visible rect{stroke:var(--ki);stroke-width:3}
+.results{display:flex;flex-direction:column;gap:6px}
+.result{display:flex;gap:10px;align-items:baseline;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer;text-align:left}
+.result b{font-family:var(--f-display);font-size:20px}
+.kanji-strip{display:flex;gap:6px;flex-wrap:wrap}
+.kanji-strip button{font-family:var(--f-display);font-size:22px;width:44px;height:44px;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer}
+.kgroup{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:10px 12px}
+.kgroup summary{display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none;font-weight:700}
+.kgroup summary::-webkit-details-marker{display:none}
+.kgroup summary::before{content:"▸";color:var(--muted);font-size:12px;transition:transform .15s}
+.kgroup[open] summary::before{transform:rotate(90deg)}
+.kgroup .kg-name{font-family:var(--f-display);font-size:17px;white-space:pre}
+.kgroup .chip{margin-left:auto}
+.kgroup .kanji-strip{margin-top:10px}
+.kanji-strip button.ktile{width:66px;height:auto;padding:6px 2px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.ktile b{font-size:24px;line-height:1.1;font-weight:600}
+.ktile small{font-family:var(--f-body);font-size:10px;color:var(--muted);max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kanji-strip button.inSrs{border-color:var(--ai)}
+.kanji-strip button.comp{color:var(--muted);border-style:dashed}
+
+/* Paquetes */
+.pack{display:flex;flex-direction:column;gap:6px;padding:14px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);cursor:pointer;text-align:left;width:100%}
+.pack .meta{display:flex;gap:6px;flex-wrap:wrap}
+.vocab{display:flex;flex-direction:column}
+.vocab-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.vocab-row:last-child{border-bottom:none}
+.vocab-row .jp{font-family:var(--f-display);font-size:22px;font-weight:600}
+.vocab-row .es{min-width:0}
+.gram{padding:12px;border-radius:8px;background:var(--paper);display:flex;flex-direction:column;gap:6px}
+.gram b{font-family:var(--f-display);font-size:18px}
+.steps{display:flex;gap:6px}
+.steps button{flex:1;font-size:12px;padding:8px 4px;min-height:38px}
+.logrow{display:grid;grid-template-columns:1fr 40px 64px 40px;gap:6px;align-items:center;font-size:14px}
+.logrow .min{text-align:center}
+.on-chip{background:var(--ai-soft) !important;border-color:var(--ai) !important;color:var(--ai)}
+.steps button.on{background:var(--ai-soft);border-color:var(--ai);color:var(--ai);font-weight:700}
+
+/* Progreso */
+.chart{width:100%;height:auto;display:block;max-width:100%}
+.chart text{fill:var(--muted);font-family:var(--f-mono);font-size:10px}
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl{display:grid;grid-template-columns:18px 1fr;gap:12px}
+.tl .rail{display:flex;flex-direction:column;align-items:center}
+.tl .rail i{width:12px;height:12px;border-radius:50%;border:2px solid var(--line);background:var(--surface);margin-top:5px}
+.tl .rail span{flex:1;width:2px;background:var(--line)}
+.tl.done .rail i{background:var(--ai);border-color:var(--ai)}
+.tl.now .rail i{background:var(--ki);border-color:var(--ki)}
+.tl .body{padding-bottom:14px}
+.hours{display:grid;grid-template-columns:1fr 92px;gap:8px;align-items:center}
+.hours input{text-align:right}
+.meter{height:10px;background:var(--line);border-radius:5px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--ai)}
+.countdown{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* Diagnóstico */
+.q-glyph{font-family:var(--f-display);font-size:64px;line-height:1.2;text-align:center;font-weight:800}
+.q-text{font-size:20px;text-align:center}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.options button{min-height:56px;font-size:18px}
+.options button.right{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.options button.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.score-row{display:grid;grid-template-columns:110px 1fr 44px;gap:10px;align-items:center;font-size:14px}
+
+.empty{padding:22px 16px;text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;color:var(--muted)}
+.empty .glyph{font-size:64px;color:var(--line)}
+
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
+nav.tabs .in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);height:var(--nav-h)}
+nav.tabs button{border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--muted);font-size:11px;font-weight:500;position:relative}
+nav.tabs button b{font-family:var(--f-display);font-size:21px;line-height:1;font-weight:800}
+nav.tabs button[aria-current="page"]{color:var(--ai)}
+nav.tabs button .badge{position:absolute;top:6px;left:calc(50% + 8px);background:var(--ki);color:var(--surface);font-family:var(--f-mono);font-size:10px;border-radius:999px;padding:0 5px;line-height:16px}
+
+.kbd-hint{display:none}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--nav-h) + 14px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:8px;font-size:14px;z-index:30;max-width:calc(100% - 32px)}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp 0.8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.spin{animation:none}}
+@media (max-width:380px){.glyph{font-size:80px}.word-glyph{font-size:42px}.grid2{grid-template-columns:1fr}}
+
+/* Laptop: menú lateral y contenido en columnas */
+@media (min-width: 900px){
+  :root{--side:208px}
+  .wrap{max-width:1160px;margin:0;margin-left:var(--side);padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+  @media (min-width: 1400px){.wrap{margin-left:calc(var(--side) + (100vw - var(--side) - 1160px) / 2)}}
+  nav.tabs{top:0;bottom:0;right:auto;width:var(--side);border-top:none;border-right:1px solid var(--line);padding:calc(24px + env(safe-area-inset-top,0px)) 12px 24px max(12px,env(safe-area-inset-left,0px))}
+  nav.tabs .in{display:flex;flex-direction:column;gap:4px;height:auto;max-width:none;margin:0}
+  nav.tabs button{flex-direction:row;justify-content:flex-start;gap:12px;padding:10px 12px;border-radius:8px;font-size:14px;min-height:46px}
+  nav.tabs button:hover{background:var(--paper)}
+  nav.tabs button[aria-current="page"]{background:var(--ai-soft)}
+  nav.tabs button .badge{position:static;margin-left:auto}
+  .toast{bottom:24px;left:calc(var(--side) + (100% - var(--side)) / 2)}
+  h1{font-size:26px}
+  .v-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+  .v-grid > h1,.v-grid > .section,.v-grid > .countdown{grid-column:1/-1}
+  .v-grafo{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;align-items:start;grid-auto-flow:row dense}
+  .v-grafo > *{grid-column:1/-1}
+  .v-grafo > .graph-box{grid-column:1;grid-row:span 3}
+  .v-grafo > .g-detail,.v-grafo > .g-all{grid-column:2}
+  .pack-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+  .v-wide > .btn.primary{align-self:flex-start}
+  .v-narrow{max-width:720px;margin-inline:auto;width:100%}
+  .v-grafo > .graph-box svg{max-width:520px;margin:0 auto}
+  .kbd-hint{display:block !important}
+  .card{min-height:380px}
+  .countdown{grid-template-columns:repeat(2,minmax(0,280px))}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="logo" aria-hidden="true">森</div>
+    <div class="brand"><b>Kotoba no Mori</b><small>言葉の森 · camino a N2</small></div>
+    <button class="sync" id="sync" type="button" style="border:none;background:none;cursor:pointer"><span class="dot"></span><span>Cargando…</span></button>
+  </header>
+  <main id="main"></main>
+</div>
+<nav class="tabs" aria-label="Secciones"><div class="in" id="tabs"></div></nav>
+
+<script>
+"use strict";
+/* ---------- utilidades ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+function h(tag, a, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(a || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") el.className = v;
+    else if (k.startsWith("on") && typeof v === "function") el.addEventListener(k.slice(2), v);
+    else if (k === "value") el.value = v;
+    else el.setAttribute(k, v === true ? "" : v);
+  }
+  for (const c of kids.flat(Infinity)) { if (c == null || c === false) continue; el.append(c instanceof Node ? c : String(c)); }
+  return el;
+}
+const SVGNS = "http://www.w3.org/2000/svg";
+function s(tag, a, ...kids) {
+  const el = document.createElementNS(SVGNS, tag);
+  for (const [k, v] of Object.entries(a || {})) {
+    if (v == null) continue;
+    if (k.startsWith("on") && typeof v === "function") el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v);
+  }
+  for (const c of kids.flat(Infinity)) { if (c == null) continue; el.append(c instanceof Node ? c : document.createTextNode(String(c))); }
+  return el;
+}
+const DAY = 864e5;
+const dayStart = t => { const d = new Date(t); d.setHours(0, 0, 0, 0); return d.getTime(); };
+const dayKey = (t = Date.now()) => { const d = new Date(t); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+function weekKey(t = Date.now()) {
+  const d = new Date(t); d.setHours(0, 0, 0, 0);
+  const day = (d.getDay() + 6) % 7; d.setDate(d.getDate() - day + 3);
+  const y = d.getFullYear(); const jan4 = new Date(y, 0, 4);
+  const w = 1 + Math.round(((d - jan4) / DAY - 3 + ((jan4.getDay() + 6) % 7)) / 7);
+  return y + "-W" + String(w).padStart(2, "0");
+}
+function weekMonday(t = Date.now()) { const d = new Date(dayStart(t)); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d.getTime(); }
+const KANJI_RE = /[㐀-䶿一-鿿々]/g;
+const kanjiOf = str => [...new Set((str || "").match(KANJI_RE) || [])].filter(c => c !== "々");
+const kid = ch => "k" + ch.codePointAt(0).toString(16);
+const fmtInt = n => n < 1 ? "<1 d" : n < 30 ? n + " d" : n < 365 ? Math.round(n / 30) + " m" : (n / 365).toFixed(1) + " a";
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+function store(k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k)); localStorage.setItem(k, JSON.stringify(v)); } catch { return null; } }
+let toastTimer;
+function toast(msg) { document.querySelector(".toast")?.remove(); const t = h("div", { class: "toast", role: "status" }, msg); document.body.append(t); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.remove(), 3200); }
+
+/* ---------- voz ---------- */
+function speak(text) {
+  try {
+    const u = new SpeechSynthesisUtterance(text); u.lang = "ja-JP"; u.rate = 0.9;
+    const v = speechSynthesis.getVoices().find(v => v.lang && v.lang.startsWith("ja")); if (v) u.voice = v;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  } catch { toast("Este navegador no tiene voz en japonés."); }
+}
+const speakerIcon = () => { const svg = s("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", "aria-hidden": "true" }, s("path", { d: "M11 5 6 9H3v6h3l5 4z", fill: "currentColor" }), s("path", { d: "M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" })); return svg; };
+const speakBtn = (text, label) => h("button", { class: "speak", type: "button", "aria-label": "Escuchar " + (label || text), onclick: e => { e.stopPropagation(); speak(text); } }, speakerIcon());
+
+/* ---------- estado ---------- */
+const S = { kanji: new Map(), words: new Map(), cards: new Map(), packs: new Map(), stats: new Map(), logs: new Map(), diag: new Map(), config: { newPerDay: 10 }, loaded: new Set(), conn: "loading" };
+let db = null, sample = null;
+const COLS = { kanji: "kanji", words: "words", cards: "cards", packs: "packs", stats: "stats", logs: "logs", diag: "diagnostic" };
+
+let chain = Promise.resolve();
+function save(path, data, mode = "set") {
+  if (!db) { toast("Sin conexión a la base de datos: no se guardó."); return Promise.resolve(); }
+  chain = chain.then(() => db.doc(path)[mode](data)).catch(e => {
+    if (e && e.code === "quota_exceeded") toast("La base de datos está llena: borra paquetes viejos.");
+    else toast("No se pudo guardar (" + (e && e.code || "error") + ").");
+  });
+  return chain;
+}
+function del(path) { if (!db) return Promise.resolve(); chain = chain.then(() => db.doc(path).delete()).catch(() => toast("No se pudo borrar.")); return chain; }
+
+/* ---------- almacenamiento local, paquetes y sincronización ---------- */
+const LS = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { toast("El almacenamiento del navegador está lleno."); return false; } },
+};
+const Local = { content: LS.get("kotoba.content", {}), over: LS.get("kotoba.local", {}), files: LS.get("kotoba.files", {}), dirty: LS.get("kotoba.dirty", false), subs: [] };
+function effective(path) { const o = Local.over[path]; if (o) return o.x ? undefined : o.d; return Local.content[path]; }
+function colDocs(col) {
+  const seg = col.split("/").length + 1; const paths = new Set();
+  for (const p of Object.keys(Local.content)) if (p.startsWith(col + "/") && p.split("/").length === seg) paths.add(p);
+  for (const p of Object.keys(Local.over)) if (p.startsWith(col + "/") && p.split("/").length === seg) paths.add(p);
+  return [...paths].map(p => [p.split("/").pop(), effective(p)]).filter(x => x[1] !== undefined);
+}
+let notifyT; function notify() { clearTimeout(notifyT); notifyT = setTimeout(() => Local.subs.forEach(f => f()), 0); }
+function deepMerge(a, b) { const o = { ...a }; for (const [k, v] of Object.entries(b)) o[k] = v && typeof v === "object" && !Array.isArray(v) && a[k] && typeof a[k] === "object" && !Array.isArray(a[k]) ? deepMerge(a[k], v) : v; return o; }
+function localWrite(path, data, mode) {
+  Local.over[path] = mode === "delete" ? { x: 1, t: Date.now() } : { d: mode === "update" ? deepMerge(effective(path) || {}, data) : data, t: Date.now() };
+  LS.set("kotoba.local", Local.over); Local.dirty = true; LS.set("kotoba.dirty", true); scheduleSync(); notify();
+}
+const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const localDb = {
+  doc(path) { return { id: path.split("/").pop(), path,
+    get: async () => { const d = effective(path); return { exists: d !== undefined, data: () => d }; },
+    set: async d => localWrite(path, d, "set"), update: async d => localWrite(path, d, "update"), delete: async () => localWrite(path, null, "delete"),
+    onSnapshot(fn) { const f = () => { const d = effective(path); fn({ exists: d !== undefined, data: () => d }); }; Local.subs.push(f); setTimeout(f, 0); return () => { Local.subs = Local.subs.filter(x => x !== f); }; } }; },
+  collection(col) { return { path: col, doc: id => localDb.doc(col + "/" + (id || newId())),
+    onSnapshot(fn) { const f = () => fn({ docs: colDocs(col).map(([id, d]) => ({ id, exists: true, data: () => d })) }); Local.subs.push(f); setTimeout(f, 0); return () => { Local.subs = Local.subs.filter(x => x !== f); }; } }; },
+};
+
+async function loadPackFiles(manual) {
+  try {
+    const idx = await (await fetch("paquetes/index.json", { cache: "no-cache" })).json();
+    let fresh = 0;
+    for (const f of idx.files || []) {
+      const name = f.file || f, ver = f.version || 1;
+      if (Local.files[name] === ver) continue;
+      const data = await (await fetch("paquetes/" + name, { cache: "no-cache" })).json();
+      for (const col of ["kanji", "words", "packs", "cards"]) for (const [id, d] of Object.entries(data[col] || {})) Local.content[col + "/" + id] = d;
+      Local.files[name] = ver; fresh++;
+    }
+    if (fresh) { LS.set("kotoba.content", Local.content); LS.set("kotoba.files", Local.files); notify(); toast(fresh === 1 ? "Llegó un archivo de paquetes nuevo." : "Llegaron " + fresh + " archivos de paquetes nuevos."); }
+    else if (manual) toast("No hay paquetes nuevos.");
+  } catch { if (manual) toast("Sin conexión: usas los paquetes que ya descargaste."); }
+}
+
+const Sync = { cfg: LS.get("kotoba.sync", null), state: "off", last: LS.get("kotoba.lastSync", 0), err: "" };
+function b64enc(str) { const b = new TextEncoder().encode(str); let s = ""; for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode(...b.subarray(i, i + 0x8000)); return btoa(s); }
+function b64dec(s) { const bin = atob(s.replace(/\s/g, "")); return new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0))); }
+const gh = (path, opts = {}) => fetch("https://api.github.com/repos/" + Sync.cfg.repo + path, { ...opts, cache: "no-store", headers: { Authorization: "Bearer " + Sync.cfg.token, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" } });
+const ghError = st => st === 401 ? "La clave de GitHub no es válida o venció." : st === 403 ? "La clave no tiene permiso para escribir en ese repositorio." : st === 404 ? "No encuentro ese repositorio. Revisa el nombre usuario/repositorio." : "GitHub respondió con un error (" + st + ").";
+let syncing = null, syncT;
+function scheduleSync(ms = 15000) { if (!Sync.cfg) return; clearTimeout(syncT); syncT = setTimeout(() => syncNow(), ms); }
+function syncNow(loud) {
+  if (!Sync.cfg) { if (loud) toast("Configura la sincronización en Progreso."); return Promise.resolve(); }
+  if (syncing) return syncing;
+  if (!navigator.onLine) { Sync.state = "offline"; renderSync(); if (loud) toast("Sin conexión: se guardó en este dispositivo."); return Promise.resolve(); }
+  syncing = (async () => {
+    Sync.state = "syncing"; renderSync();
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const r = await gh("/contents/progreso.json"); let sha = null, remote = {};
+      if (r.status === 200) {
+        const j = await r.json(); sha = j.sha;
+        const text = j.content ? b64dec(j.content) : b64dec((await (await gh("/git/blobs/" + sha)).json()).content);
+        remote = JSON.parse(text).docs || {};
+        let changed = false;
+        for (const [p, rv] of Object.entries(remote)) { const l = Local.over[p]; if (!l || (rv.t || 0) > (l.t || 0)) { Local.over[p] = rv; changed = true; } }
+        if (changed) { LS.set("kotoba.local", Local.over); notify(); }
+      } else if (r.status !== 404 || attempt > 0) throw new Error(ghError(r.status));
+      const needPut = sha == null || Object.entries(Local.over).some(([p, l]) => !remote[p] || (l.t || 0) > (remote[p].t || 0));
+      if (!needPut) break;
+      const body = JSON.stringify({ app: "kotoba-no-mori", v: 1, updated: Date.now(), docs: Local.over });
+      const put = await gh("/contents/progreso.json", { method: "PUT", body: JSON.stringify({ message: "Progreso " + new Date().toISOString().slice(0, 16).replace("T", " "), content: b64enc(body), ...(sha ? { sha } : {}) }) });
+      if (put.ok) break;
+      if (put.status !== 409 && put.status !== 422) throw new Error(ghError(put.status));
+      if (attempt === 2) throw new Error("Otro dispositivo estaba guardando al mismo tiempo. Inténtalo otra vez.");
+    }
+    Local.dirty = false; LS.set("kotoba.dirty", false); Sync.last = Date.now(); LS.set("kotoba.lastSync", Sync.last); Sync.state = "ok"; Sync.err = "";
+    if (loud) toast("Sincronizado.");
+  })().catch(e => { Sync.state = navigator.onLine ? "error" : "offline"; Sync.err = e.message || "No se pudo sincronizar."; if (loud) toast(Sync.err); })
+    .finally(() => { syncing = null; renderSync(); render(); });
+  return syncing;
+}
+function backupBlob() { return new Blob([JSON.stringify({ app: "kotoba-no-mori", v: 1, updated: Date.now(), docs: Local.over }, null, 1)], { type: "application/json" }); }
+function restoreBackup(text) {
+  const docs = JSON.parse(text).docs; if (!docs || typeof docs !== "object") throw new Error("formato");
+  let n = 0; for (const [p, rv] of Object.entries(docs)) { const l = Local.over[p]; if (!l || (rv.t || 0) > (l.t || 0)) { Local.over[p] = rv; n++; } }
+  LS.set("kotoba.local", Local.over); Local.dirty = true; LS.set("kotoba.dirty", true); scheduleSync(1000); notify(); return n;
+}
+function syncPanel() {
+  const f = V.syncForm || (V.syncForm = { repo: Sync.cfg?.repo || "", token: "" });
+  const when = Sync.last ? new Date(Sync.last).toLocaleString("es", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "nunca";
+  return h("div", { class: "panel" }, h("h3", {}, "Sincronización y respaldo"),
+    Sync.cfg ? [
+      h("p", { class: "small" }, "Tu progreso se guarda en este dispositivo y se copia a ", h("b", { class: "mono" }, Sync.cfg.repo), ". Última sincronización: ", when, "."),
+      Sync.err ? h("p", { class: "small", style: "color:var(--bad)" }, Sync.err) : null,
+      h("div", { class: "grid2" }, h("button", { class: "btn primary", type: "button", onclick: () => syncNow(true) }, "Sincronizar ahora"),
+        h("button", { class: "btn", type: "button", onclick: () => { Sync.cfg = null; LS.set("kotoba.sync", null); Sync.state = "off"; toast("Sincronización desactivada en este dispositivo."); render(); } }, "Desconectar"))]
+    : [
+      h("p", { class: "small muted" }, "Sin esto, el progreso vive solo en este dispositivo. Con tu repositorio privado y una clave de GitHub, celular y laptop quedan iguales."),
+      h("label", {}, "Repositorio de progreso (usuario/repositorio)", h("input", { type: "text", id: "sy-repo", value: f.repo, placeholder: "tu-usuario/kotoba-progreso", autocomplete: "off", oninput: e => { f.repo = e.target.value.trim(); } })),
+      h("label", {}, "Clave de GitHub (token)", h("input", { type: "password", id: "sy-token", value: f.token, placeholder: "github_pat_…", autocomplete: "off", oninput: e => { f.token = e.target.value.trim(); } })),
+      h("button", { class: "btn primary", type: "button", onclick: async () => {
+        if (!/^[\w.-]+\/[\w.-]+$/.test(f.repo) || !f.token) { toast("Completa el repositorio (usuario/repositorio) y la clave."); return; }
+        Sync.cfg = { repo: f.repo, token: f.token }; LS.set("kotoba.sync", Sync.cfg); f.token = ""; await syncNow(true); } }, "Conectar y sincronizar")],
+    h("div", { class: "divider" }),
+    h("div", { class: "grid2" },
+      h("button", { class: "btn", type: "button", onclick: () => { const a = document.createElement("a"); a.href = URL.createObjectURL(backupBlob()); a.download = "kotoba-respaldo-" + dayKey() + ".json"; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000); } }, "Descargar respaldo"),
+      h("label", { class: "btn", style: "flex-direction:row;color:var(--ink);font-size:15px" }, "Restaurar respaldo", h("input", { type: "file", accept: "application/json,.json", hidden: true, onchange: async e => { const file = e.target.files[0]; if (!file) return; try { const n = restoreBackup(await file.text()); toast("Respaldo cargado: " + n + " registros actualizados."); } catch { toast("Ese archivo no es un respaldo de Kotoba no Mori."); } e.target.value = ""; } }))),
+    h("button", { class: "btn sm ghost", type: "button", style: "align-self:flex-start", onclick: () => loadPackFiles(true) }, "Buscar paquetes nuevos"));
+}
+
+/* ---------- SRS (SM-2 simplificado) ---------- */
+function schedule(c, g, now = Date.now()) {
+  let { interval = 0, ease = 2.5, reps = 0, lapses = 0 } = c; let due;
+  if (g === 0) { if (reps > 0) lapses++; reps = 0; interval = 0; ease = Math.max(1.3, ease - 0.2); due = now + 10 * 60e3; }
+  else {
+    if (reps === 0) interval = g === 3 ? 4 : 1;
+    else if (reps === 1) interval = g === 1 ? 2 : g === 2 ? 3 : 6;
+    else interval = Math.max(interval + 1, Math.round(interval * (g === 1 ? 1.2 : g === 2 ? ease : ease * 1.35)));
+    if (g === 1) ease = Math.max(1.3, ease - 0.15);
+    if (g === 3) ease += 0.15;
+    reps++; due = dayStart(now) + interval * DAY + 3 * 3600e3;
+  }
+  return { ...c, interval, ease: Math.round(ease * 100) / 100, reps, lapses, due, last: now };
+}
+const isDue = c => c.due != null && c.due <= Date.now();
+function todayStats() { return S.stats.get(dayKey()) || { reviews: 0, correct: 0, newSeen: 0 }; }
+function newLeftToday() { return Math.max(0, (S.config.newPerDay || 10) - (todayStats().newSeen || 0)); }
+function queueCounts() {
+  let due = 0, fresh = 0; for (const c of S.cards.values()) { if (c.due == null) fresh++; else if (isDue(c)) due++; }
+  return { due, fresh, newToday: Math.min(fresh, newLeftToday()) };
+}
+let statTimer = null;
+function bumpStats(d) {
+  const k = dayKey(); const cur = { reviews: 0, correct: 0, newSeen: 0, ...(S.stats.get(k) || {}) };
+  for (const [f, v] of Object.entries(d)) cur[f] = (cur[f] || 0) + v;
+  S.stats.set(k, cur);
+  clearTimeout(statTimer); statTimer = setTimeout(() => save("stats/" + k, { ...S.stats.get(k) }), 2500);
+}
+function cardTarget(id, c) { return c.kind === "k" ? S.kanji.get(c.ref) : S.words.get(c.ref); }
+
+/* ---------- navegación ---------- */
+const VIEWS = [
+  { id: "hoy", jp: "今", label: "Hoy" },
+  { id: "repasar", jp: "復", label: "Repasar" },
+  { id: "grafo", jp: "網", label: "Grafo" },
+  { id: "paquetes", jp: "曲", label: "Paquetes" },
+  { id: "progreso", jp: "歩", label: "Progreso" },
+];
+let view = (location.hash || "").slice(1) || store("kotoba.view") || "hoy";
+if (![...VIEWS.map(v => v.id), "diagnostico", "registro"].includes(view)) view = "hoy";
+let V = { packId: null, graph: store("kotoba.graph") || null, search: "", packForm: null, wordForm: null };
+function go(v, opts = {}) { view = v; Object.assign(V, opts); store("kotoba.view", v === "diagnostico" || v === "registro" ? "hoy" : v); render(); window.scrollTo(0, 0); }
+
+function renderTabs() {
+  const q = queueCounts();
+  const tabs = $("#tabs"); tabs.replaceChildren(...VIEWS.map(v => h("button", { type: "button", "aria-current": (view === v.id || (view === "diagnostico" && v.id === "progreso") || (view === "registro" && v.id === "hoy")) ? "page" : null, onclick: () => go(v.id, v.id === "paquetes" ? { packId: null } : {}) },
+    h("b", { "aria-hidden": "true" }, v.jp), v.label,
+    v.id === "repasar" && (q.due + q.newToday) > 0 ? h("span", { class: "badge" }, q.due + q.newToday) : null)));
+}
+function renderSync() {
+  const el = $("#sync"); const st = Sync.state;
+  const [cls, txt] = !Sync.cfg ? ["", "Solo en este dispositivo"] : st === "ok" ? ["ok", Local.dirty ? "Cambios por subir" : "Sincronizado"] : st === "syncing" ? ["", "Sincronizando…"] : st === "offline" ? ["", "Sin conexión · guardado aquí"] : st === "error" ? ["bad", "Error al sincronizar"] : ["", "Guardado aquí"];
+  el.replaceChildren(h("span", { class: "dot " + cls }), h("span", {}, txt));
+  el.onclick = () => Sync.cfg ? syncNow(true) : go("progreso");
+}
+
+let rq = 0;
+function render() {
+  cancelAnimationFrame(rq);
+  rq = requestAnimationFrame(() => {
+    const act = document.activeElement; const fid = act && act.id && $("#main").contains(act) ? act.id : null;
+    const sel = fid && "selectionStart" in act ? [act.selectionStart, act.selectionEnd] : null;
+    renderTabs(); renderSync();
+    const fn = { hoy: viewHoy, repasar: viewRepasar, grafo: viewGrafo, paquetes: viewPaquetes, progreso: viewProgreso, diagnostico: viewDiag, registro: viewRegistro }[view];
+    $("#main").replaceChildren(fn());
+    if (fid) { const el = document.getElementById(fid); if (el) { el.focus({ preventScroll: true }); if (sel) try { el.setSelectionRange(...sel); } catch {} } }
+  });
+}
+const loading = () => S.conn === "loading" || (S.conn === "ok" && !S.loaded.has("cards"));
+
+/* ---------- HOY ---------- */
+const PHASES = [
+  { n: 0, name: "Base y diagnóstico", from: "2026-10-01", to: "2026-11-30", goal: "Kana sólido, 100 kanji N5, prueba diagnóstica" },
+  { n: 1, name: "Hacia N4", from: "2026-12-01", to: "2027-03-31", goal: "Genki II · 300 kanji" },
+  { n: 2, name: "Hacia N3", from: "2027-04-01", to: "2027-07-31", goal: "Quartet · 650 kanji · JLPT N3 en julio" },
+  { n: 3, name: "Hacia N2", from: "2027-08-01", to: "2027-12-31", goal: "Shin Kanzen Master · 1.000 kanji · JLPT N2 en diciembre" },
+  { n: 4, name: "Consolidar y japonés académico", from: "2028-01-01", to: "2028-07-31", goal: "Neurociencia/BCI en japonés · N2 de respaldo en julio" },
+];
+const parseD = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d).getTime(); };
+function currentPhase(t = Date.now()) { return PHASES.find(p => t >= parseD(p.from) && t <= parseD(p.to) + DAY - 1) || (t < parseD(PHASES[0].from) ? PHASES[0] : PHASES[4]); }
+const DAY_PLANS = {
+  free: { title: "Día libre · si hay ganas, bloque largo", lines: [["Repaso", "Tarjetas pendientes"], ["Libro", "Lección de gramática del día"], ["Menú", "Preestudio de un paquete de la semana"], ["Real", "Escuchar o leer ese contenido"], ["Escribir", "5 frases o un microcuento"]] },
+  commute: { title: "Día de maestría · aprovecha los traslados", lines: [["Ida", "Repaso en modo traslado (tarjetas grandes y audio)"], ["Vuelta", "Escuchar el audio del paquete actual"], ["Noche", "Opcional: 10 tarjetas nuevas"]] },
+  weekend: { title: "Fin de semana · inmersión con el menú", lines: [["Repaso", "Tarjetas pendientes"], ["Menú", "Uno o dos paquetes del fin de semana: preestudio y luego disfrutar sin pausas"], ["Gramática", "La lección del libro que toque"], ["Escritura", "Un cuento corto de terror en japonés"]] },
+};
+function dayPlan(t = Date.now()) { const d = new Date(t).getDay(); return d === 2 || d === 4 ? DAY_PLANS.commute : d === 0 || d === 6 ? DAY_PLANS.weekend : DAY_PLANS.free; }
+const JP_DOW = "日月火水木金土";
+function jpDate(t = Date.now()) { const d = new Date(t); return d.getFullYear() + "年" + (d.getMonth() + 1) + "月" + d.getDate() + "日（" + JP_DOW[d.getDay()] + "）"; }
+function streak() { let n = 0; let t = Date.now(); if (!(S.stats.get(dayKey(t))?.reviews > 0)) t -= DAY; while (S.stats.get(dayKey(t))?.reviews > 0) { n++; t -= DAY; } return n; }
+
+function emptyNoDb() {
+  return h("div", { class: "panel empty" }, h("div", { class: "glyph", "aria-hidden": "true" }, "森"),
+    h("p", {}, "Esta vista no puede guardar tu progreso. Abre la app desde tu cuenta de claude.ai (computador o celular) para que se sincronice."));
+}
+function viewHoy() {
+  const q = queueCounts(); const ph = currentPhase(); const plan = dayPlan();
+  const isCommute = plan === DAY_PLANS.commute;
+  const menu = weekMenu(weekKey()); const todayLog = S.logs.get(dayKey()); const isWeekend = [0, 6].includes(new Date().getDay());
+  const nK = [...S.cards.values()].filter(c => c.kind === "k").length, nW = [...S.cards.values()].filter(c => c.kind === "w").length;
+  const st = todayStats();
+  return h("div", { class: "stack v-grid" },
+    h("div", { class: "section" }, h("p", { class: "today-date" }, jpDate()), h("h1", {}, isCommute ? "Hoy toca japonés en movimiento" : "Tu sesión de hoy")),
+    S.conn === "none" ? emptyNoDb() : null,
+    h("div", { class: "panel" },
+      h("div", { class: "grid2" },
+        h("div", { class: "stat" }, h("span", {}, "Pendientes"), h("div", { class: "big-num" }, loading() ? "–" : q.due)),
+        h("div", { class: "stat" }, h("span", {}, "Nuevas para hoy"), h("div", { class: "big-num" }, loading() ? "–" : q.newToday))),
+      h("div", { class: "row small muted" }, h("span", {}, "Repasadas hoy: ", h("b", { class: "mono" }, st.reviews || 0)), h("span", {}, "· Racha: ", h("b", { class: "mono" }, streak()), " días")),
+      h("div", { class: "grid2" },
+        h("button", { class: "btn " + (isCommute ? "" : "primary"), type: "button", disabled: (q.due + q.newToday) === 0, onclick: () => startSession("normal") }, "Repasar ahora"),
+        h("button", { class: "btn " + (isCommute ? "primary" : ""), type: "button", disabled: (q.due + q.newToday) === 0, onclick: () => startSession("traslado") }, "Modo traslado"))),
+    S.diag.size === 0 && S.loaded.has("diag") ? h("div", { class: "panel" }, h("h2", {}, "Empieza por la prueba diagnóstica"), h("p", { class: "muted small" }, "Unos 10 minutos: kana, kanji, vocabulario y gramática. Con el resultado ajusto el punto de partida del plan."), h("button", { class: "btn primary", type: "button", onclick: () => { D = null; go("diagnostico"); } }, "Hacer la prueba")) : null,
+    h("div", { class: "panel" }, h("div", { class: "row" }, h("h3", {}, "Menú de la semana"), h("span", { class: "chip plain mono", style: "margin-left:auto" }, weekKey())),
+      menu.length ? h("div", { class: "stack tight" }, menu.map(([id, p]) => packRow(id, p, isWeekend))) : h("p", { class: "small muted" }, "Todavía no hay paquetes para esta semana. Pídeme el menú en el chat del proyecto o crea uno en Paquetes."),
+      h("p", { class: "small muted" }, "Es un menú: elige lo que te apetezca según el ánimo del día. Los fines de semana traen material de sobra.")),
+    h("div", { class: "panel" }, h("h3", {}, "Ideas para hoy"), h("h2", {}, plan.title),
+      h("div", { class: "stack tight" }, plan.lines.map(([t, l]) => h("div", { class: "plan-line" }, h("b", {}, t), h("span", {}, l))))),
+    h("div", { class: "panel" }, h("h3", {}, "Registro"),
+      todayLog ? h("p", {}, "Hoy anotaste ", h("b", { class: "mono" }, (dayMinutes(dayKey()) / 60).toFixed(1) + " h"), todayLog.packs?.length ? " y " + todayLog.packs.length + " paquete(s)." : ".") : h("p", { class: "small muted" }, "Cuando termines (o mañana temprano), anota qué estudiaste. El repaso de tarjetas se cuenta solo."),
+      h("button", { class: "btn", type: "button", onclick: () => openLog() }, todayLog ? "Editar lo de hoy" : "Registrar lo que estudié")),
+    h("div", { class: "panel" }, h("h3", {}, "Fase " + ph.n + " de 4"), h("h2", {}, ph.name), h("p", { class: "small muted" }, ph.goal),
+      h("div", { class: "phase-bar", "aria-hidden": "true" }, PHASES.map(p => h("div", { class: p.n < ph.n ? "done" : p.n === ph.n ? "now" : "" }))),
+      h("p", { class: "small" }, "En tu repaso: ", h("b", { class: "mono" }, nK), " kanji y ", h("b", { class: "mono" }, nW), " palabras.")));
+}
+
+/* ---------- REPASAR ---------- */
+let R = null;
+function startSession(mode) {
+  const now = Date.now();
+  const due = [...S.cards.entries()].filter(([, c]) => c.due != null && c.due <= now).sort((a, b) => a[1].due - b[1].due).map(x => x[0]);
+  const news = [...S.cards.entries()].filter(([, c]) => c.due == null).sort((a, b) => (a[1].order ?? 0) - (b[1].order ?? 0)).slice(0, newLeftToday()).map(x => x[0]);
+  let queue = [...due, ...news]; if (mode === "traslado") queue = queue.slice(0, 25);
+  R = { queue, i: 0, revealed: false, mode, done: 0, again: 0, start: now, shownAt: now, total: queue.length };
+  go("repasar");
+}
+function grade(g) {
+  const id = R.queue[R.i]; const c = S.cards.get(id); if (!c) { R.i++; render(); return; }
+  const wasNew = c.due == null; const nc = schedule(c, g);
+  S.cards.set(id, nc); R.done++;
+  if (g === 0) { R.queue.push(id); R.again++; }
+  R.i++; R.revealed = false;
+  const ms = Math.min(60e3, Date.now() - (R.shownAt || Date.now())); R.shownAt = Date.now();
+  bumpStats({ reviews: 1, correct: g > 0 ? 1 : 0, newSeen: wasNew ? 1 : 0, ms });
+  save("cards/" + id, nc); render();
+}
+function reveal() { R.revealed = true; const id = R.queue[R.i]; const c = S.cards.get(id); const t = c && cardTarget(id, c);
+  if (R.mode === "traslado" && t) speak(c.kind === "w" ? (t.kana || t.jp) : (t.kun?.[0] || t.on?.[0] || t.char)); render(); }
+
+function decompItem(ch) {
+  const k = S.kanji.get(kid(ch));
+  const comps = (k?.components || []).map(c => { const kc = S.kanji.get(kid(c)); return c + (kc ? "（" + kc.meaning + "）" : ""); });
+  return h("div", { class: "decomp-item" },
+    h("div", { class: "k", role: "button", tabindex: "0", title: "Ver en el grafo", onclick: () => go("grafo", { graph: { t: "k", id: kid(ch) } }) }, ch),
+    h("div", { class: "stack tight" },
+      h("div", {}, h("b", {}, k ? k.meaning : "sin datos todavía"), k?.on?.length || k?.kun?.length ? h("span", { class: "small muted" }, "  " + [...(k.on || []), ...(k.kun || [])].join(" · ")) : null),
+      comps.length ? h("div", { class: "formula" }, ch + " = " + comps.join(" + ")) : null,
+      k?.phonetic ? h("div", { class: "small" }, h("span", { class: "chip ki" }, "fonético"), " ", k.phonetic, " aporta el sonido") : null,
+      k?.etym ? h("p", { class: "small muted" }, k.etym) : null));
+}
+function sentenceEl(sent, word) {
+  if (!sent?.jp) return null; const parts = word ? sent.jp.split(word) : [sent.jp];
+  const kids = []; parts.forEach((p, i) => { kids.push(p); if (i < parts.length - 1) kids.push(h("mark", {}, word)); });
+  return h("p", { class: "sentence" }, kids);
+}
+function nextLabels(c) { return [0, 1, 2, 3].map(g => { if (g === 0) return "10 min"; const n = schedule(c, g); return fmtInt(n.interval); }); }
+
+function viewRepasar() {
+  if (loading()) return h("div", { class: "panel empty" }, h("span", { class: "spin" }), "Cargando tus tarjetas…");
+  if (S.conn === "none") return emptyNoDb();
+  if (!R || R.i >= R.queue.length) {
+    const q = queueCounts();
+    const finished = R && R.done > 0;
+    return h("div", { class: "stack v-narrow" },
+      h("h1", {}, finished ? "Sesión terminada" : "Repaso"),
+      finished ? h("div", { class: "panel" }, h("div", { class: "grid2" },
+        h("div", { class: "stat" }, h("span", {}, "Tarjetas"), h("div", { class: "big-num" }, R.done)),
+        h("div", { class: "stat" }, h("span", {}, "Minutos"), h("div", { class: "big-num" }, Math.max(1, Math.round((Date.now() - R.start) / 60e3))))),
+        h("p", { class: "small muted" }, R.again ? "Las " + R.again + " que marcaste «Otra vez» vuelven en 10 minutos." : "Sin fallos. Buen ritmo.")) : null,
+      h("div", { class: "panel" },
+        q.due + q.newToday > 0 ? [h("p", {}, "Tienes ", h("b", { class: "mono" }, q.due), " pendientes y ", h("b", { class: "mono" }, q.newToday), " nuevas disponibles hoy."),
+          h("div", { class: "grid2" }, h("button", { class: "btn primary", type: "button", onclick: () => startSession("normal") }, "Empezar"), h("button", { class: "btn", type: "button", onclick: () => startSession("traslado") }, "Modo traslado"))]
+          : S.cards.size === 0 ? [h("p", {}, "Aún no hay tarjetas. Abre un paquete y toca «Agregar al repaso».") , h("button", { class: "btn primary", type: "button", onclick: () => go("paquetes", { packId: null }) }, "Ver paquetes")]
+          : [h("p", {}, "Nada pendiente por ahora."), h("p", { class: "small muted" }, q.fresh > 0 ? "Ya viste tus " + (S.config.newPerDay || 10) + " nuevas de hoy; quedan " + q.fresh + " en espera. Puedes subir el límite en Progreso." : "Agrega un paquete nuevo para seguir sumando vocabulario.")]),
+      h("div", { class: "panel" }, h("h3", {}, "Cómo funciona"), h("p", { class: "small muted" }, "Cada palabra aparece dentro de una frase y con sus kanji desarmados en componentes. Los kanji nuevos se presentan antes que las palabras que los usan. Si fallas, vuelve en 10 minutos; si aciertas, el intervalo crece: 1 día, 3 días, una semana, un mes.")));
+  }
+  const id = R.queue[R.i]; const c = S.cards.get(id); const t = c && cardTarget(id, c);
+  if (!c || !t) { R.i++; return viewRepasar(); }
+  const pct = Math.round(100 * Math.min(R.i, R.total) / Math.max(1, R.total));
+  const labels = nextLabels(c); const isNew = c.due == null;
+  let face, back;
+  if (c.kind === "k") {
+    face = h("div", { class: "face" }, h("div", { class: "glyph" }, t.char), !R.revealed ? h("p", { class: "muted small" }, "¿Qué significa y de qué piezas está hecho?") : null);
+    back = R.revealed ? h("div", { class: "stack" },
+      h("div", { class: "face" }, h("div", { class: "meaning" }, t.meaning), h("div", { class: "row", style: "justify-content:center" }, h("span", { class: "reading" }, [...(t.on || []), ...(t.kun || [])].join(" · ")), speakBtn((t.kun?.[0] || t.on?.[0] || t.char).replace(/[.\-]/g, ""), t.char))),
+      h("div", { class: "decomp" }, decompItem(t.char)),
+      wordsWithKanji(t.char).length ? h("div", { class: "stack tight" }, h("h3", {}, "Aparece en"), h("div", { class: "row" }, wordsWithKanji(t.char).slice(0, 4).map(([, w]) => h("span", { class: "chip plain" }, w.jp + " " + w.es)))) : null) : null;
+  } else {
+    face = h("div", { class: "face" }, h("div", { class: "word-glyph" }, t.jp), sentenceEl(t.sentence, t.jp));
+    back = R.revealed ? h("div", { class: "stack" },
+      h("div", { class: "face" },
+        h("div", { class: "row", style: "justify-content:center" }, h("span", { class: "reading" }, t.kana), speakBtn(t.kana || t.jp, t.jp)),
+        h("div", { class: "meaning" }, t.es), t.literal ? h("div", { class: "literal" }, "Literal: " + t.literal) : null,
+        t.sentence?.jp ? h("div", { class: "stack tight", style: "align-items:center" }, h("div", { class: "row", style: "justify-content:center" }, h("span", { class: "small" }, t.sentence.kana || ""), speakBtn(t.sentence.kana || t.sentence.jp, "frase")), h("p", { class: "small muted" }, t.sentence.es || "")) : null),
+      (t.kanji || []).length ? h("div", { class: "decomp" }, t.kanji.map(decompItem)) : null) : null;
+  }
+  return h("div", { class: "stack v-narrow " + (R.mode === "traslado" ? "traslado" : "") },
+    h("div", { class: "row small muted" }, h("span", {}, R.mode === "traslado" ? "Modo traslado" : "Repaso"), h("span", { class: "mono", style: "margin-left:auto" }, R.i + 1 + " / " + R.queue.length),
+      h("button", { class: "btn sm ghost", type: "button", onclick: () => { R = { ...R, i: R.queue.length }; render(); } }, "Terminar")),
+    h("div", { class: "progress-line", "aria-hidden": "true" }, h("i", { style: "width:" + pct + "%" })),
+    h("div", { class: "card" },
+      h("div", { class: "row kind" }, h("span", { class: "chip " + (c.kind === "k" ? "ki" : "") }, c.kind === "k" ? "Kanji" : "Palabra"), isNew ? h("span", { class: "chip ok" }, "Nueva") : null),
+      face, back),
+    !R.revealed ? h("button", { class: "btn primary block", type: "button", style: "min-height:56px", onclick: reveal }, "Mostrar respuesta")
+      : h("div", { class: "grades" }, ["Otra vez", "Difícil", "Bien", "Fácil"].map((l, g) => h("button", { class: "btn g" + g, type: "button", onclick: () => grade(g) }, l, h("small", {}, labels[g])))),
+    h("p", { class: "kbd-hint small muted", style: "text-align:center" }, R.revealed ? "Teclado: 1 Otra vez · 2 Difícil · 3 Bien · 4 Fácil" : "Teclado: espacio para mostrar la respuesta"));
+}
+function wordsWithKanji(ch) { return [...S.words.entries()].filter(([, w]) => (w.kanji || []).includes(ch)); }
+
+document.addEventListener("keydown", e => {
+  if (view !== "repasar" || !R || R.i >= R.queue.length || e.target.closest("input,textarea,select")) return;
+  if (!R.revealed && (e.key === " " || e.key === "Enter")) { e.preventDefault(); reveal(); }
+  else if (R.revealed && ["1", "2", "3", "4"].includes(e.key)) { e.preventDefault(); grade(+e.key - 1); }
+});
+/* ---------- GRAFO ---------- */
+function defaultGraph() { const first = S.kanji.has(kid("日")) ? kid("日") : [...S.kanji.keys()][0]; return first ? { t: "k", id: first } : null; }
+function graphData(g) {
+  const kn = ch => { const kk = S.kanji.get(kid(ch)); return { t: "k", id: kid(ch), label: ch, sub: kk?.meaning || "" }; };
+  const wn = ([id, w]) => ({ t: "w", id, label: w.jp, sub: w.es });
+  if (g.t === "k") {
+    const k = S.kanji.get(g.id); if (!k) return null;
+    const children = [...S.kanji.entries()].filter(([, o]) => (o.components || []).includes(k.char)).slice(0, 8).map(([id, o]) => ({ t: "k", id, label: o.char, sub: o.meaning }));
+    return { title: k.char, k, center: { t: "k", id: g.id, label: k.char, sub: k.meaning },
+      bands: [
+        { key: "comp", where: "above", label: "Piezas que lo forman", nodes: (k.components || []).slice(0, 6).map(kn) },
+        { key: "child", where: "below", label: "Kanji que lo contienen", nodes: children },
+        { key: "word", where: "below", label: "Palabras que lo usan", nodes: wordsWithKanji(k.char).slice(0, 8).map(wn) },
+      ] };
+  }
+  const w = S.words.get(g.id); if (!w) return null;
+  const ks = (w.kanji || []).slice(0, 6);
+  const rel = [...S.words.entries()].filter(([id, o]) => id !== g.id && (o.kanji || []).some(c => ks.includes(c))).slice(0, 8);
+  return { title: w.jp, w, center: { t: "w", id: g.id, label: w.jp, sub: w.es },
+    bands: [
+      { key: "comp", where: "above", label: "Sus kanji", nodes: ks.map(kn) },
+      { key: "word", where: "below", label: "Palabras con los mismos kanji", nodes: rel.map(wn) },
+    ] };
+}
+function graphSvg(gd) {
+  const W = 360, col = { comp: "var(--ai)", child: "var(--ki)", word: "var(--muted)" };
+  const KR = 25, KROW = 84, WROW = 62, LABEL = 22;
+  let y = 14; const placed = []; const labels = [];
+  const layout = (band) => {
+    if (!band.nodes.length) return;
+    labels.push([band.label, y + 10, col[band.key]]); y += LABEL;
+    const isW = band.nodes[0].t === "w"; const per = isW ? 2 : 4;
+    for (let r = 0; r < band.nodes.length; r += per) {
+      const row = band.nodes.slice(r, r + per); const cw = W / row.length;
+      const cy = y + (isW ? 22 : KR + 2);
+      row.forEach((n, i) => placed.push({ ...n, x: cw * i + cw / 2, y: cy, band: band.key, edge: band.edges && r === 0 }));
+      y += isW ? WROW : KROW;
+    }
+    y += 6;
+  };
+  const above = gd.bands.filter(b => b.where === "above" && b.nodes.length), below = gd.bands.filter(b => b.where === "below" && b.nodes.length);
+  if (above.length) above[above.length - 1].edges = true; if (below.length) below[0].edges = true;
+  above.forEach(layout);
+  const cy = y + 46; const center = { ...gd.center, x: W / 2, y: cy, isCenter: true }; y = cy + 62;
+  below.forEach(layout);
+  const H = Math.max(y + 4, cy + 70);
+  const svg = s("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Relaciones de " + gd.title });
+  // bandas de fondo
+  // aristas: curvas suaves desde el centro
+  for (const n of placed.filter(n => n.edge)) {
+    const fromY = n.y < center.y ? center.y - 40 : center.y + 40; const toY = n.y < center.y ? n.y + (n.t === "k" ? KR : 18) : n.y - (n.t === "k" ? KR : 18);
+    const my = (fromY + toY) / 2;
+    svg.append(s("path", { d: `M${center.x},${fromY} C${center.x},${my} ${n.x},${my} ${n.x},${toY}`, fill: "none", stroke: col[n.band], "stroke-width": 1.6, "stroke-opacity": 0.55, "stroke-dasharray": n.band === "child" ? "5 4" : null }));
+  }
+  for (const [t, ly, c] of labels) svg.append(s("text", { x: 12, y: ly, "font-size": 11, "font-weight": 700, "letter-spacing": "0.06em", fill: c, stroke: "var(--surface)", "stroke-width": 5, "paint-order": "stroke", "font-family": "Zen Kaku Gothic New, sans-serif" }, t.toUpperCase()));
+  const go2 = n => { V.graph = { t: n.t, id: n.id }; store("kotoba.graph", V.graph); render(); };
+  const trunc = (t, n) => (t || "").length > n ? t.slice(0, n - 1) + "…" : (t || "");
+  for (const n of [...placed, center]) {
+    const g = s("g", { class: "node", tabindex: n.isCenter ? null : "0", role: n.isCenter ? null : "button", "aria-label": n.label + ", " + n.sub,
+      onclick: () => { if (!n.isCenter) go2(n); }, onkeydown: e => { if (e.key === "Enter" && !n.isCenter) go2(n); } });
+    if (n.isCenter) {
+      const isK = n.t === "k"; const w = isK ? 80 : Math.min(300, Math.max(120, n.label.length * 30 + 32));
+      g.append(s("rect", { x: n.x - w / 2, y: n.y - 40, width: w, height: 80, rx: isK ? 40 : 14, fill: "var(--ai)" }),
+        s("text", { x: n.x, y: n.y + (isK ? 15 : 11), "text-anchor": "middle", "font-family": "Shippori Mincho, serif", "font-weight": 800, "font-size": isK ? 44 : 30, fill: "var(--surface)" }, n.label));
+    } else if (n.t === "k") {
+      g.append(s("circle", { cx: n.x, cy: n.y, r: KR, fill: "var(--surface)", stroke: col[n.band], "stroke-width": 2 }),
+        s("text", { x: n.x, y: n.y + 9, "text-anchor": "middle", "font-family": "Shippori Mincho, serif", "font-weight": 800, "font-size": 26, fill: "var(--ink)" }, n.label),
+        s("text", { x: n.x, y: n.y + KR + 16, "text-anchor": "middle", "font-size": 12, fill: "var(--muted)", "font-family": "Zen Kaku Gothic New, sans-serif" }, trunc(n.sub, 13)));
+    } else {
+      const w = 164, hh = 44;
+      g.append(s("rect", { x: n.x - w / 2, y: n.y - hh / 2, width: w, height: hh, rx: 8, fill: "var(--surface)", stroke: "var(--line)", "stroke-width": 1.5 }),
+        s("text", { x: n.x, y: n.y - 1, "text-anchor": "middle", "font-family": "Shippori Mincho, serif", "font-weight": 600, "font-size": 18, fill: "var(--ink)" }, trunc(n.label, 8)),
+        s("text", { x: n.x, y: n.y + 15, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)", "font-family": "Zen Kaku Gothic New, sans-serif" }, trunc(n.sub, 22)));
+    }
+    svg.append(g);
+  }
+  return svg;
+}
+function searchAll(q) {
+  q = q.trim().toLowerCase(); if (!q) return [];
+  const out = [];
+  for (const [id, k] of S.kanji) if (k.char === q || (k.meaning || "").toLowerCase().includes(q)) out.push({ t: "k", id, label: k.char, sub: k.meaning });
+  for (const [id, w] of S.words) if ((w.jp || "").includes(q) || (w.kana || "").includes(q) || (w.es || "").toLowerCase().includes(q)) out.push({ t: "w", id, label: w.jp, sub: w.kana + " · " + w.es });
+  return out.slice(0, 12);
+}
+function viewGrafo() {
+  if (loading()) return h("div", { class: "panel empty" }, h("span", { class: "spin" }), "Cargando el grafo…");
+  if (S.conn === "none") return emptyNoDb();
+  const g = V.graph && (V.graph.t === "k" ? S.kanji.has(V.graph.id) : S.words.has(V.graph.id)) ? V.graph : defaultGraph();
+  if (!g) return h("div", { class: "panel empty" }, h("div", { class: "glyph" }, "網"), h("p", {}, "El grafo aparece cuando hay kanji y palabras cargados."));
+  const gd = graphData(g); const res = searchAll(V.search);
+  const inSrs = new Set([...S.cards.values()].filter(c => c.kind === "k").map(c => c.ref));
+  const allK = [...S.kanji.entries()].sort((a, b) => (a[1].type === "componente") - (b[1].type === "componente"));
+  return h("div", { class: "stack v-grafo" },
+    h("h1", {}, "Grafo de kanji y palabras"),
+    h("label", {}, "Buscar kanji, palabra o significado", h("input", { type: "text", id: "g-search", value: V.search, placeholder: "日, にほん, sol…", autocomplete: "off", oninput: e => { V.search = e.target.value; render(); } })),
+    res.length ? h("div", { class: "results" }, res.map(r => h("button", { class: "result", type: "button", onclick: () => { V.graph = { t: r.t, id: r.id }; V.search = ""; store("kotoba.graph", V.graph); render(); } }, h("b", {}, r.label), h("span", { class: "small muted" }, r.sub)))) : null,
+    h("div", { class: "graph-box" }, graphSvg(gd),
+      h("div", { class: "legend" }, "Toca cualquier kanji o palabra para ponerlo al centro.")),
+    h("div", { class: "panel g-detail" },
+      gd.k ? [h("div", { class: "row" }, h("h2", {}, gd.k.char + " · " + gd.k.meaning), gd.k.type === "componente" ? h("span", { class: "chip plain" }, "componente") : null), h("div", { class: "decomp" }, decompItem(gd.k.char))]
+        : [h("div", { class: "row" }, h("h2", { style: "font-family:var(--f-display)" }, gd.w.jp), speakBtn(gd.w.kana || gd.w.jp, gd.w.jp)), h("p", {}, h("span", { class: "reading" }, gd.w.kana), " · ", h("b", {}, gd.w.es)), gd.w.literal ? h("p", { class: "literal" }, "Literal: " + gd.w.literal) : null, sentenceEl(gd.w.sentence, gd.w.jp), gd.w.sentence?.es ? h("p", { class: "small muted" }, gd.w.sentence.es) : null]),
+    kanjiBrowser());
+}
+
+function kanjiGroups(mode) {
+  const all = [...S.kanji.entries()];
+  const kan = all.filter(([, k]) => k.type !== "componente"), comps = all.filter(([, k]) => k.type === "componente");
+  if (mode === "estado") {
+    const st = id => { const c = S.cards.get("k-" + id); if (!c) return 3; if (c.due == null) return 2; return (c.interval || 0) >= 21 ? 0 : 1; };
+    return [...["Firmes", "Aprendiendo", "Nuevos en tu repaso", "Fuera del repaso"].map((n, i) => [n, kan.filter(([id]) => st(id) === i)]), ["Piezas sueltas", comps]].filter(g => g[1].length);
+  }
+  if (mode === "paquete") {
+    const out = [], seen = new Set();
+    for (const [, p] of [...S.packs.entries()].sort((a, b) => (b[1].created || 0) - (a[1].created || 0))) {
+      const chars = new Set((p.words || []).flatMap(w => S.words.get(w)?.kanji || []));
+      const list = kan.filter(([, k]) => chars.has(k.char)); list.forEach(([id]) => seen.add(id));
+      if (list.length) out.push([p.title, list]);
+    }
+    const rest = kan.filter(([id]) => !seen.has(id)); if (rest.length) out.push(["Sin paquete", rest]);
+    return out;
+  }
+  const fam = new Map();
+  for (const e of kan) for (const c of e[1].components || []) { if (!fam.has(c)) fam.set(c, []); fam.get(c).push(e); }
+  const out = [], used = new Set();
+  for (const [c, list] of [...fam.entries()].sort((a, b) => b[1].length - a[1].length)) {
+    const head = S.kanji.get(kid(c)); const self = head && head.type !== "componente" ? [[kid(c), head]] : [];
+    const members = [...self, ...list]; if (members.length < 2) continue;
+    out.push([c + "  " + (head?.meaning || ""), members]); members.forEach(([id]) => used.add(id));
+  }
+  const rest = kan.filter(([id]) => !used.has(id)); if (rest.length) out.push(["Sin familia todavía", rest]);
+  if (comps.length) out.push(["Piezas sueltas", comps]);
+  return out;
+}
+function kanjiBrowser() {
+  const mode = V.kgroup || store("kotoba.kgroup") || "pieza"; const q = (V.kfilter || "").trim().toLowerCase();
+  const inSrs = new Set([...S.cards.values()].filter(c => c.kind === "k").map(c => c.ref));
+  const groups = kanjiGroups(mode).map(([n, l]) => [n, q ? l.filter(([, k]) => k.char === q || (k.meaning || "").toLowerCase().includes(q)) : l]).filter(g => g[1].length);
+  const total = [...S.kanji.values()].filter(k => k.type !== "componente").length;
+  const pick = id => { V.graph = { t: "k", id }; store("kotoba.graph", V.graph); render(); window.scrollTo(0, 0); };
+  return h("div", { class: "section g-all" },
+    h("div", { class: "row" }, h("h3", {}, "Todos los kanji (" + total + ")")),
+    h("div", { class: "steps", role: "group", "aria-label": "Agrupar kanji" }, [["pieza", "Por pieza"], ["estado", "Por estado"], ["paquete", "Por paquete"]].map(([k, l]) => h("button", { class: "btn " + (mode === k ? "on" : ""), type: "button", "aria-pressed": mode === k ? "true" : "false", onclick: () => { V.kgroup = k; store("kotoba.kgroup", k); render(); } }, l))),
+    h("input", { type: "text", id: "k-filter", value: V.kfilter || "", placeholder: "Filtrar por significado: agua, ver…", autocomplete: "off", oninput: e => { V.kfilter = e.target.value; render(); } }),
+    groups.length ? groups.map(([name, list], gi) => { const key = mode + "|" + name; const open = q ? true : (V.kopen?.[key] ?? gi < 3); return h("details", { class: "kgroup", open: open ? true : null, ontoggle: e => { V.kopen = { ...(V.kopen || {}), [key]: e.target.open }; } },
+      h("summary", {}, h("span", { class: "kg-name" }, name), h("span", { class: "chip plain mono" }, list.length)),
+      h("div", { class: "kanji-strip" }, list.map(([id, k]) => h("button", { type: "button", class: "ktile " + (inSrs.has(id) ? "inSrs " : "") + (k.type === "componente" ? "comp" : ""), "aria-label": k.char + " " + (k.meaning || ""), onclick: () => pick(id) },
+        h("b", {}, k.char), h("small", {}, k.meaning || "—"))))); }) : h("p", { class: "small muted" }, "Ningún kanji coincide con ese filtro."),
+    h("p", { class: "small muted" }, "Borde azul: ya está en tu repaso. Borde punteado: pieza que no se estudia sola. Un kanji puede aparecer en varias familias si tiene varias piezas."));
+}
+/* ---------- PAQUETES ---------- */
+const PACK_TYPES = { cancion: "Canción", episodio: "Episodio", capitulo: "Capítulo", texto: "Texto" };
+const PACK_STEPS = [["preestudio", "1 · Preestudio"], ["listo", "2 · Listo para disfrutar"], ["disfrutado", "3 · Disfrutado"]];
+function packProgress(p) { const ids = p.words || []; const inS = ids.filter(id => S.cards.has("w-" + id)).length; const mature = ids.filter(id => (S.cards.get("w-" + id)?.interval || 0) >= 7).length; return { total: ids.length, inS, mature }; }
+function packChips(p) { const pr = packProgress(p); return [h("span", { class: "chip ki" }, PACK_TYPES[p.type] || p.type), h("span", { class: "chip plain" }, (PACK_STEPS.find(x => x[0] === p.status) || PACK_STEPS[0])[1].replace(/^\d · /, "")), h("span", { class: "chip plain mono" }, pr.mature + "/" + pr.total + " firmes")]; }
+
+function weekMenu(wk) { return [...S.packs.entries()].filter(([, p]) => p.week === wk).sort((a, b) => (a[1].slot === "finde") - (b[1].slot === "finde") || (a[1].created || 0) - (b[1].created || 0)); }
+function packRow(id, p, hl) { return h("button", { class: "pack", type: "button", style: hl && p.slot === "finde" ? "border-color:var(--ki)" : null, onclick: () => go("paquetes", { packId: id }) },
+  h("div", { class: "row" }, h("h2", {}, p.title), p.slot === "finde" ? h("span", { class: "chip ki" }, "Fin de semana") : null), p.source ? h("p", { class: "small muted" }, p.source) : null, h("div", { class: "meta" }, packChips(p))); }
+async function addPackToSrs(pid) {
+  const p = S.packs.get(pid); if (!p) return;
+  let order = Date.now(); let added = 0;
+  for (const wid of p.words || []) {
+    const w = S.words.get(wid); if (!w) continue;
+    for (const ch of w.kanji || []) {
+      const k = S.kanji.get(kid(ch)); const cid = "k-" + kid(ch);
+      if (k && k.type !== "componente" && !S.cards.has(cid)) { const c = { kind: "k", ref: kid(ch), due: null, order: order++, created: Date.now() }; S.cards.set(cid, c); save("cards/" + cid, c); added++; }
+    }
+    const cid = "w-" + wid;
+    if (!S.cards.has(cid)) { const c = { kind: "w", ref: wid, due: null, order: order++, created: Date.now() }; S.cards.set(cid, c); save("cards/" + cid, c); added++; }
+  }
+  save("packs/" + pid, { updated: Date.now() }, "update");
+  toast(added ? added + " tarjetas nuevas en tu repaso." : "Todo este paquete ya estaba en tu repaso.");
+  render();
+}
+function viewPaquetes() {
+  if (loading()) return h("div", { class: "panel empty" }, h("span", { class: "spin" }), "Cargando paquetes…");
+  if (S.conn === "none") return emptyNoDb();
+  if (V.packForm) return packForm();
+  if (V.packId && S.packs.has(V.packId)) return packDetail(V.packId);
+  const packs = [...S.packs.entries()].sort((a, b) => (b[1].updated || b[1].created || 0) - (a[1].updated || a[1].created || 0));
+  return h("div", { class: "stack v-wide" },
+    h("h1", {}, "Paquetes de preestudio"),
+    h("p", { class: "muted small" }, "Antes de escuchar una canción o ver un episodio, estudia su vocabulario y gramática aquí. Después lo disfrutas sin pausar."),
+    h("button", { class: "btn primary", type: "button", onclick: () => { V.packForm = { type: "cancion", title: "", source: "", url: "", text: "" }; render(); } }, "Nuevo paquete"),
+    packs.length ? (() => { const wk = weekKey(), nx = weekKey(Date.now() + 7 * DAY);
+      const groups = [["Esta semana", packs.filter(([, p]) => p.week === wk)], ["Próxima semana", packs.filter(([, p]) => p.week === nx)], ["Otros y anteriores", packs.filter(([, p]) => p.week !== wk && p.week !== nx)]].filter(g => g[1].length);
+      return h("div", { class: "stack" }, groups.map(([t, list]) => h("div", { class: "section" }, h("h3", {}, t), h("div", { class: "stack tight pack-list" }, list.map(([id, p]) => packRow(id, p, true)))))); })()
+      : h("div", { class: "panel empty" }, h("div", { class: "glyph" }, "曲"), h("p", {}, "Todavía no hay paquetes. Crea uno con la canción, el episodio o el capítulo que quieras disfrutar.")));
+}
+function packDetail(pid) {
+  const p = S.packs.get(pid); const pr = packProgress(p);
+  const words = (p.words || []).map(id => [id, S.words.get(id)]).filter(x => x[1]);
+  return h("div", { class: "stack v-narrow" },
+    h("button", { class: "btn sm ghost", type: "button", style: "align-self:flex-start", onclick: () => go("paquetes", { packId: null }) }, "← Paquetes"),
+    h("div", { class: "section" }, h("div", { class: "meta row" }, packChips(p)), h("h1", {}, p.title), p.source ? h("p", { class: "muted" }, p.source) : null,
+      p.url ? h("a", { class: "btn sm", href: p.url, target: "_blank", rel: "noopener" }, "Abrir el contenido original ↗") : null),
+    p.summary ? h("div", { class: "panel" }, h("h3", {}, "De qué trata"), h("p", {}, p.summary)) : null,
+    (p.reading || []).length ? h("div", { class: "panel" }, h("div", { class: "row" }, h("h2", {}, "Lectura"), h("button", { class: "btn sm", type: "button", style: "margin-left:auto", onclick: () => { V.showTr = !V.showTr; render(); } }, V.showTr ? "Ocultar traducción" : "Ver traducción")),
+      h("p", { class: "small muted" }, "Primero estudia el vocabulario. Después lee de corrido y escucha cada línea; la traducción solo si te trabas."),
+      h("div", { class: "stack tight" }, p.reading.map(l => h("div", { class: "gram" }, h("div", { class: "row", style: "flex-wrap:nowrap;align-items:flex-start" }, h("span", { style: "font-size:19px;line-height:1.7;flex:1;min-width:0" }, l.jp), speakBtn(l.kana || l.jp, "línea")), V.showTr ? h("p", { class: "small muted" }, l.es) : null)))) : null,
+    h("div", { class: "steps", role: "group", "aria-label": "Estado del paquete" }, PACK_STEPS.map(([k, l]) => h("button", { class: "btn " + (p.status === k ? "on" : ""), type: "button", "aria-pressed": p.status === k ? "true" : "false", onclick: () => { S.packs.set(pid, { ...p, status: k, updated: Date.now() }); save("packs/" + pid, { status: k, updated: Date.now() }, "update"); render(); } }, l))),
+    h("div", { class: "panel" },
+      h("div", { class: "row" }, h("h2", {}, "Vocabulario"), h("span", { class: "small muted mono", style: "margin-left:auto" }, pr.inS + "/" + pr.total + " en repaso")),
+      words.length ? h("div", { class: "vocab" }, words.map(([id, w]) => h("div", { class: "vocab-row" },
+        h("span", { class: "jp", role: "button", tabindex: "0", style: "cursor:pointer", onclick: () => go("grafo", { graph: { t: "w", id } }) }, w.jp),
+        h("div", { class: "es" }, h("div", { class: "small", style: "color:var(--ai)" }, w.kana), h("div", {}, w.es), w.literal ? h("div", { class: "small literal" }, w.literal) : null),
+        speakBtn(w.kana || w.jp, w.jp)))) : h("p", { class: "muted small" }, "Sin palabras todavía."),
+      h("button", { class: "btn primary", type: "button", disabled: !words.length, onclick: () => addPackToSrs(pid) }, pr.inS >= pr.total && pr.total ? "Ya está en tu repaso" : "Agregar al repaso"),
+      h("button", { class: "btn", type: "button", onclick: () => { V.wordForm = { pid, jp: "", kana: "", es: "", literal: "", sjp: "", ses: "" }; render(); } }, "Agregar una palabra"),
+      V.wordForm && V.wordForm.pid === pid ? wordForm() : null),
+    (p.grammar || []).length ? h("div", { class: "panel" }, h("h2", {}, "Gramática que aparece"),
+      p.grammar.map(gm => h("div", { class: "gram" }, h("b", {}, gm.point), h("p", { class: "small" }, gm.explanation), gm.example?.jp ? h("div", { class: "row" }, h("span", { style: "font-size:17px" }, gm.example.jp), speakBtn(gm.example.jp, "ejemplo")) : null, gm.example?.es ? h("p", { class: "small muted" }, gm.example.es) : null))) : null,
+    p.notes ? h("div", { class: "panel" }, h("h3", {}, "Notas"), h("p", { class: "small" }, p.notes)) : null,
+    h("button", { class: "btn sm ghost", type: "button", style: "align-self:flex-start;color:var(--bad)", onclick: () => { V.confirmDel = V.confirmDel === pid ? null : pid; render(); } }, "Borrar paquete"),
+    V.confirmDel === pid ? h("div", { class: "panel" }, h("p", {}, "¿Borrar «" + p.title + "»? Las palabras y tarjetas se quedan en tu repaso."), h("div", { class: "grid2" }, h("button", { class: "btn", type: "button", onclick: () => { V.confirmDel = null; render(); } }, "Cancelar"), h("button", { class: "btn primary", type: "button", style: "background:var(--bad);border-color:var(--bad)", onclick: () => { S.packs.delete(pid); del("packs/" + pid); V.confirmDel = null; go("paquetes", { packId: null }); } }, "Borrar"))) : null);
+}
+
+const AI_RULES = `Eres profesor de japonés de Max, hispanohablante (nivel N5, meta N2). Max aprende entendiendo el porqué: etimología de cada kanji, sus componentes y el componente fonético cuando existe. Escribe todo en español.
+Reglas: no copies letras de canciones ni guiones; las frases de ejemplo son tuyas, cortas y naturales, y usan la palabra tal cual. "literal" es la traducción pieza por pieza (por ejemplo 電車 → "electricidad + vehículo"). Para cada kanji da meaning (1-3 palabras), on (katakana), kun (hiragana), components (piezas visibles, como caracteres; usa la forma de radical si corresponde, p. ej. 氵, 亻, 扌, 言), phonetic (el componente que da el sonido, o null) y etym (una frase sobre por qué el kanji significa eso; si no hay certeza etimológica, da una mnemotecnia y dilo).`;
+async function aiPack(f) {
+  const prompt = AI_RULES + `
+
+Prepara un paquete de preestudio para: ${PACK_TYPES[f.type]} «${f.title}»${f.source ? " (" + f.source + ")" : ""}.
+${f.text ? "Material que Max pegó (úsalo para elegir el vocabulario exacto, no lo reproduzcas):\n" + f.text.slice(0, 6000) : "No hay texto: elige el vocabulario que con más probabilidad aparece, según lo que sepas de la obra. Si no conoces la obra, dilo en summary y elige vocabulario del tema."}
+
+Responde solo con JSON:
+{"summary":"2-3 frases sobre de qué trata y qué escuchar","words":[{"jp":"…","kana":"…","es":"…","literal":"…","sentence":{"jp":"…","kana":"…","es":"…"}}],"kanji":[{"char":"…","meaning":"…","on":["…"],"kun":["…"],"components":["…"],"phonetic":null,"etym":"…"}],"components":[{"char":"…","meaning":"…"}],"grammar":[{"point":"…","explanation":"…","example":{"jp":"…","es":"…"}}]}
+Entre 12 y 20 palabras útiles (prioriza las que se repiten), todos los kanji de esas palabras en "kanji", las piezas que no sean kanji comunes en "components", y 3 a 5 puntos de gramática explicados en el momento en que aparecen.`;
+  return sample.json(prompt, { modelTier: "complex" });
+}
+async function aiWord(jp, hint) {
+  const prompt = AI_RULES + `
+
+Prepara la ficha de la palabra «${jp}»${hint ? " (pista de Max: " + hint + ")" : ""}.
+Responde solo con JSON: {"word":{"jp":"…","kana":"…","es":"…","literal":"…","sentence":{"jp":"…","kana":"…","es":"…"}},"kanji":[{"char":"…","meaning":"…","on":[],"kun":[],"components":[],"phonetic":null,"etym":"…"}],"components":[{"char":"…","meaning":"…"}]}`;
+  return sample.json(prompt, { modelTier: "default" });
+}
+function mergeKanji(list, comps) {
+  for (const c of comps || []) { if (!c?.char) continue; const id = kid(c.char); if (!S.kanji.has(id)) { const d = { char: c.char, type: "componente", meaning: c.meaning || "", components: [], on: [], kun: [] }; S.kanji.set(id, d); save("kanji/" + id, d); } }
+  for (const k of list || []) {
+    if (!k?.char) continue; const id = kid(k.char); const cur = S.kanji.get(id);
+    if (cur && cur.type === "kanji" && cur.meaning && cur.meaning !== "(sin completar)") continue;
+    const d = { char: k.char, type: "kanji", meaning: k.meaning || "", on: k.on || [], kun: k.kun || [], components: (k.components || []).filter(c => c && c !== k.char), phonetic: k.phonetic || null, etym: k.etym || "" };
+    S.kanji.set(id, d); save("kanji/" + id, d);
+    for (const c of d.components) { const cid = kid(c); if (!S.kanji.has(cid)) { const cd = { char: c, type: "componente", meaning: "", components: [], on: [], kun: [] }; S.kanji.set(cid, cd); save("kanji/" + cid, cd); } }
+  }
+}
+function saveWord(w, pid) {
+  const existing = [...S.words.entries()].find(([, o]) => o.jp === w.jp && o.kana === w.kana);
+  const id = existing ? existing[0] : db.collection("words").doc().id;
+  const packs = [...new Set([...(existing?.[1].packs || []), ...(pid ? [pid] : [])])];
+  const d = { jp: w.jp, kana: w.kana || "", es: w.es || "", literal: w.literal || "", kanji: kanjiOf(w.jp), sentence: { jp: w.sentence?.jp || "", kana: w.sentence?.kana || "", es: w.sentence?.es || "" }, packs, created: existing?.[1].created || Date.now() };
+  for (const ch of d.kanji) if (!S.kanji.has(kid(ch))) { const kd = { char: ch, type: "kanji", meaning: "(sin completar)", components: [], on: [], kun: [] }; S.kanji.set(kid(ch), kd); save("kanji/" + kid(ch), kd); }
+  S.words.set(id, d); save("words/" + id, d); return id;
+}
+function packForm() {
+  const f = V.packForm; const bind = k => e => { f[k] = e.target.value; };
+  const busy = f.busy;
+  return h("div", { class: "stack v-narrow" },
+    h("button", { class: "btn sm ghost", type: "button", style: "align-self:flex-start", onclick: () => { V.packForm = null; render(); } }, "← Cancelar"),
+    h("h1", {}, "Nuevo paquete"),
+    h("div", { class: "panel" },
+      h("label", {}, "Tipo", h("select", { id: "pf-type", onchange: e => { f.type = e.target.value; } }, Object.entries(PACK_TYPES).map(([k, l]) => h("option", { value: k, selected: f.type === k ? true : null }, l)))),
+      h("label", {}, "¿Para cuándo?", h("select", { id: "pf-when", onchange: e => { f.when = e.target.value; } }, [["0-finde", "Esta semana · fin de semana"], ["0-semana", "Esta semana · entre semana"], ["1-finde", "Próxima semana · fin de semana"], ["1-semana", "Próxima semana · entre semana"]].map(([k, l]) => h("option", { value: k, selected: (f.when || "0-finde") === k ? true : null }, l)))),
+      h("label", {}, "Título", h("input", { type: "text", id: "pf-title", value: f.title, placeholder: "Lemon, Frieren ep. 1, Harry Potter cap. 1…", oninput: bind("title") })),
+      h("label", {}, "Autor, serie o libro (opcional)", h("input", { type: "text", id: "pf-source", value: f.source, placeholder: "Kenshi Yonezu", oninput: bind("source") })),
+      h("label", {}, "Link para escucharlo o verlo (opcional)", h("input", { type: "url", id: "pf-url", value: f.url, placeholder: "https://…", oninput: bind("url") })),
+      h("label", {}, "Letra, guion o lista de palabras (opcional)", h("textarea", { id: "pf-text", placeholder: "Si pegas el texto, el vocabulario sale exacto. Solo se usa para preparar el paquete; no se guarda.", oninput: bind("text") }, f.text))),
+    f.error ? h("p", { class: "small", style: "color:var(--bad)" }, f.error) : null,
+    sample ? h("button", { class: "btn primary", type: "button", disabled: busy, onclick: () => createPack(true) }, busy ? [h("span", { class: "spin" }), " Preparando vocabulario y gramática…"] : "Generar con Claude") : h("p", { class: "small muted" }, "Para un paquete completo, mándame el texto con la plantilla y lo dejo en tu carpeta de paquetes. Aquí puedes crear uno simple y agregar palabras a mano."),
+    h("button", { class: "btn", type: "button", disabled: busy, onclick: () => createPack(false) }, "Crear vacío y agregar palabras a mano"));
+}
+async function createPack(withAi) {
+  const f = V.packForm; f.title = (f.title || "").trim();
+  if (!f.title) { f.error = "Ponle un título al paquete."; render(); return; }
+  f.error = null; const pid = db.collection("packs").doc().id;
+  let data = { summary: "", words: [], grammar: [] };
+  if (withAi) {
+    f.busy = true; render();
+    try { const r = await aiPack(f); if (!r || !Array.isArray(r.words)) throw { code: "invalid_json" }; data = r; }
+    catch (e) { f.busy = false; f.error = e?.code === "not_granted" ? "No diste permiso para usar Claude desde la app. Puedes crearlo a mano." : e?.code === "rate_limited" ? "Demasiadas solicitudes seguidas. Espera un minuto e inténtalo de nuevo." : "No pude generar el paquete (" + (e?.code || "error") + "). Inténtalo de nuevo o créalo a mano."; render(); return; }
+  }
+  mergeKanji(data.kanji, data.components);
+  const wordIds = (data.words || []).filter(w => w?.jp).map(w => saveWord(w, pid));
+  const p = { title: f.title, type: f.type, source: f.source || "", url: /^https?:\/\//.test(f.url || "") ? f.url : "", summary: data.summary || "", words: wordIds, grammar: (data.grammar || []).filter(g => g?.point), status: "preestudio", week: weekKey(Date.now() + (+(f.when || "0-finde")[0]) * 7 * DAY), slot: (f.when || "0-finde").slice(2), created: Date.now(), updated: Date.now(), notes: "" };
+  S.packs.set(pid, p); save("packs/" + pid, p);
+  V.packForm = null; go("paquetes", { packId: pid });
+}
+function wordForm() {
+  const f = V.wordForm; const bind = k => e => { f[k] = e.target.value; };
+  return h("div", { class: "stack tight", style: "border-top:1px solid var(--line);padding-top:12px" },
+    h("label", {}, "Palabra en japonés", h("input", { type: "text", id: "wf-jp", class: "jp-input", value: f.jp, oninput: bind("jp"), placeholder: "電車" })),
+    sample ? h("button", { class: "btn sm", type: "button", disabled: f.busy, onclick: async () => {
+      if (!f.jp.trim()) { toast("Escribe la palabra primero."); return; }
+      f.busy = true; render();
+      try { const r = await aiWord(f.jp.trim(), f.es); const w = r.word || {}; Object.assign(f, { kana: w.kana || f.kana, es: w.es || f.es, literal: w.literal || f.literal, sjp: w.sentence?.jp || f.sjp, skana: w.sentence?.kana || "", ses: w.sentence?.es || f.ses, aiKanji: r.kanji, aiComps: r.components }); }
+      catch (e) { toast("No pude completar la ficha (" + (e?.code || "error") + ")."); }
+      f.busy = false; render(); } }, f.busy ? [h("span", { class: "spin" }), " Completando…"] : "Completar el resto con Claude") : null,
+    h("label", {}, "Lectura en kana", h("input", { type: "text", id: "wf-kana", value: f.kana, oninput: bind("kana"), placeholder: "でんしゃ" })),
+    h("label", {}, "Significado", h("input", { type: "text", id: "wf-es", value: f.es, oninput: bind("es"), placeholder: "tren" })),
+    h("label", {}, "Literal (opcional)", h("input", { type: "text", id: "wf-lit", value: f.literal, oninput: bind("literal"), placeholder: "electricidad + vehículo" })),
+    h("label", {}, "Frase de ejemplo", h("input", { type: "text", id: "wf-sjp", value: f.sjp, oninput: bind("sjp"), placeholder: "電車で学校に行きます。" })),
+    h("label", {}, "Traducción de la frase", h("input", { type: "text", id: "wf-ses", value: f.ses, oninput: bind("ses"), placeholder: "Voy a la escuela en tren." })),
+    h("div", { class: "grid2" }, h("button", { class: "btn", type: "button", onclick: () => { V.wordForm = null; render(); } }, "Cancelar"),
+      h("button", { class: "btn primary", type: "button", onclick: () => {
+        if (!f.jp.trim() || !f.es.trim()) { toast("Necesito al menos la palabra y su significado."); return; }
+        if (f.aiKanji) mergeKanji(f.aiKanji, f.aiComps);
+        const id = saveWord({ jp: f.jp.trim(), kana: f.kana.trim(), es: f.es.trim(), literal: f.literal.trim(), sentence: { jp: f.sjp.trim(), kana: f.skana || "", es: f.ses.trim() } }, f.pid);
+        const p = S.packs.get(f.pid); if (p && !(p.words || []).includes(id)) { const words = [...(p.words || []), id]; S.packs.set(f.pid, { ...p, words }); save("packs/" + f.pid, { words, updated: Date.now() }, "update"); }
+        V.wordForm = null; toast("Palabra agregada al paquete."); render(); } }, "Guardar palabra")));
+}
+
+/* ---------- PROGRESO ---------- */
+const LOG_CATS = [["paquete", "Preestudio de paquete"], ["gramatica", "Gramática y libro"], ["lectura", "Lectura"], ["escucha", "Escucha (anime, canciones)"], ["escritura", "Escritura"], ["tutor", "Tutor o conversación"], ["otro", "Otro"]];
+const TARGET_H = 24;
+const srsMin = k => Math.round((S.stats.get(k)?.ms || 0) / 60e3);
+function dayMinutes(k) { const l = S.logs.get(k); return Object.values(l?.items || {}).reduce((a, b) => a + (+b || 0), 0) + srsMin(k); }
+function weekDays(t = Date.now()) { const m = weekMonday(t); return Array.from({ length: 7 }, (_, i) => dayKey(m + i * DAY + 3600e3)); }
+function weekSummary(t = Date.now()) {
+  const days = weekDays(t); const cats = { srs: 0 }; let notes = [];
+  for (const k of days) { cats.srs += srsMin(k); const l = S.logs.get(k); if (!l) continue; for (const [c, v] of Object.entries(l.items || {})) cats[c] = (cats[c] || 0) + (+v || 0); if (l.note) notes.push([k, l.note]); }
+  const total = Object.values(cats).reduce((a, b) => a + b, 0);
+  return { days, cats, total, notes };
+}
+let L = null;
+function openLog(k = dayKey()) { const cur = S.logs.get(k); L = { k, items: { ...(cur?.items || {}) }, packs: [...(cur?.packs || [])], note: cur?.note || "", saved: !!cur }; go("registro"); }
+function viewRegistro() {
+  if (loading()) return h("div", { class: "panel empty" }, h("span", { class: "spin" }), "Cargando…");
+  if (S.conn === "none") return emptyNoDb();
+  if (!L) openLog();
+  const dayOpts = [0, 1, 2].map(n => dayKey(Date.now() - n * DAY));
+  const wkPacks = [...S.packs.entries()].filter(([id, p]) => p.week === weekKey(parseD(L.k)) || L.packs.includes(id) || p.status !== "disfrutado").slice(0, 12);
+  const st = S.stats.get(L.k);
+  const total = Object.values(L.items).reduce((a, b) => a + (+b || 0), 0) + srsMin(L.k);
+  const step = (c, d) => { L.items[c] = Math.max(0, (+L.items[c] || 0) + d); if (!L.items[c]) delete L.items[c]; render(); };
+  return h("div", { class: "stack v-narrow" },
+    h("button", { class: "btn sm ghost", type: "button", style: "align-self:flex-start", onclick: () => { L = null; go("hoy"); } }, "← Hoy"),
+    h("div", { class: "section" }, h("h1", {}, "¿Qué estudiaste?"), h("p", { class: "small muted" }, "Anótalo cuando termines, o al día siguiente. No hace falta avisar antes: el menú de la próxima semana se arma con lo que registres aquí.")),
+    h("div", { class: "steps", role: "group", "aria-label": "Día" }, dayOpts.map((k, i) => h("button", { class: "btn " + (L.k === k ? "on" : ""), type: "button", "aria-pressed": L.k === k ? "true" : "false", onclick: () => openLog(k) }, ["Hoy", "Ayer", "Anteayer"][i] + " · " + JP_DOW[new Date(parseD(k)).getDay()]))),
+    h("div", { class: "panel" },
+      h("div", { class: "row" }, h("b", {}, "Repaso de tarjetas"), h("span", { class: "chip ok", style: "margin-left:auto" }, "automático")),
+      h("p", { class: "small muted" }, (st?.reviews || 0) + " tarjetas · " + srsMin(L.k) + " min")),
+    h("div", { class: "panel" }, h("h3", {}, "Tiempo por actividad"),
+      h("div", { class: "stack tight" }, LOG_CATS.map(([c, l]) => h("div", { class: "logrow" }, h("span", {}, l),
+        h("button", { class: "btn sm", type: "button", "aria-label": "Restar 15 minutos a " + l, onclick: () => step(c, -15) }, "−"),
+        h("span", { class: "mono min" }, (L.items[c] || 0) + " min"),
+        h("button", { class: "btn sm", type: "button", "aria-label": "Sumar 15 minutos a " + l, onclick: () => step(c, 15) }, "+")))),
+      h("div", { class: "row" }, h("b", {}, "Total del día"), h("span", { class: "mono", style: "margin-left:auto" }, (total / 60).toFixed(1) + " h"))),
+    wkPacks.length ? h("div", { class: "panel" }, h("h3", {}, "Paquetes que trabajaste"),
+      h("div", { class: "row" }, wkPacks.map(([id, p]) => h("button", { class: "btn sm " + (L.packs.includes(id) ? "on-chip" : ""), type: "button", "aria-pressed": L.packs.includes(id) ? "true" : "false", onclick: () => { L.packs = L.packs.includes(id) ? L.packs.filter(x => x !== id) : [...L.packs, id]; render(); } }, p.title)))) : null,
+    h("div", { class: "panel" }, h("label", {}, "Nota (opcional)", h("textarea", { id: "log-note", placeholder: "Qué te gustó, qué costó, qué quieres más la próxima semana.", oninput: e => { L.note = e.target.value; } }, L.note))),
+    h("button", { class: "btn primary block", type: "button", onclick: () => {
+      const doc = { items: L.items, packs: L.packs, note: (L.note || "").trim(), updated: Date.now() };
+      S.logs.set(L.k, doc); save("logs/" + L.k, doc);
+      for (const id of L.packs) { const p = S.packs.get(id); if (p) { S.packs.set(id, { ...p, updated: Date.now() }); save("packs/" + id, { updated: Date.now() }, "update"); } }
+      toast("Día guardado."); L = null; go("hoy"); } }, "Guardar el día"));
+}
+function hoursChart() {
+  const now = Date.now(); const mons = Array.from({ length: 8 }, (_, i) => weekMonday(now) - (7 - i) * 7 * DAY);
+  const vals = mons.map(m => weekSummary(m + 3600e3).total / 60);
+  const labels = mons.map(m => weekKey(m + 3600e3).slice(-3));
+  const W = 340, H = 150, L = 26, B = 22, T = 10; const max = Math.max(30, ...vals); const sy = v => T + (H - T - B) * (1 - v / max); const bw = (W - L) / 8 - 8;
+  return s("svg", { class: "chart", viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Horas por semana, últimas 8 semanas" },
+    [0, 12, 24].map(v => [s("line", { x1: L, x2: W, y1: sy(v), y2: sy(v), stroke: "var(--line)", "stroke-dasharray": v === 24 ? "4 3" : null }), s("text", { x: L - 4, y: sy(v) + 3, "text-anchor": "end" }, v)]),
+    vals.map((v, i) => { const x = L + 4 + i * ((W - L) / 8); return [s("rect", { x, y: sy(v), width: bw, height: Math.max(0, sy(0) - sy(v)), rx: 3, fill: i === 7 ? "var(--ki)" : "var(--ai)" }), s("text", { x: x + bw / 2, y: H - 6, "text-anchor": "middle" }, labels[i])]; }));
+}
+function reviewsChart() {
+  const days = Array.from({ length: 28 }, (_, i) => dayKey(Date.now() - (27 - i) * DAY)); const vals = days.map(k => S.stats.get(k)?.reviews || 0);
+  const W = 340, H = 110, L = 26, B = 18, T = 8; const max = Math.max(20, ...vals); const sy = v => T + (H - T - B) * (1 - v / max); const bw = (W - L) / 28 - 2;
+  return s("svg", { class: "chart", viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Tarjetas repasadas por día, últimos 28 días" },
+    [0, max].map(v => [s("line", { x1: L, x2: W, y1: sy(v), y2: sy(v), stroke: "var(--line)" }), s("text", { x: L - 4, y: sy(v) + 3, "text-anchor": "end" }, v)]),
+    vals.map((v, i) => s("rect", { x: L + 1 + i * ((W - L) / 28), y: sy(v), width: bw, height: Math.max(v ? 2 : 0, sy(0) - sy(v)), rx: 1.5, fill: i === 27 ? "var(--ki)" : "var(--ai)" })),
+    s("text", { x: L, y: H - 4 }, "hace 4 semanas"), s("text", { x: W, y: H - 4, "text-anchor": "end" }, "hoy"));
+}
+function viewProgreso() {
+  if (loading()) return h("div", { class: "panel empty" }, h("span", { class: "spin" }), "Cargando progreso…");
+  if (S.conn === "none") return emptyNoDb();
+  const wk = weekKey(); const ws = weekSummary(); const total = ws.total / 60;
+  const catName = Object.fromEntries([["srs", "Repaso de tarjetas"], ...LOG_CATS]);
+  const cards = [...S.cards.values()]; const kCards = cards.filter(c => c.kind === "k"), wCards = cards.filter(c => c.kind === "w");
+  const firm = a => a.filter(c => (c.interval || 0) >= 21).length;
+  const ph = currentPhase(); const target = { 0: 100, 1: 300, 2: 650, 3: 1000, 4: 1000 }[ph.n];
+  const n3 = Math.ceil((parseD("2027-07-04") - dayStart(Date.now())) / DAY), n2 = Math.ceil((parseD("2027-12-05") - dayStart(Date.now())) / DAY);
+  const diags = [...S.diag.values()].sort((a, b) => b.date - a.date);
+  return h("div", { class: "stack v-grid" },
+    h("h1", {}, "Progreso"),
+    h("div", { class: "countdown" },
+      h("div", { class: "panel stat" }, h("span", {}, "JLPT N3 · 4 jul 2027"), h("div", { class: "big-num" }, n3), h("span", {}, "días")),
+      h("div", { class: "panel stat" }, h("span", {}, "JLPT N2 · 5 dic 2027"), h("div", { class: "big-num" }, n2), h("span", {}, "días"))),
+    h("div", { class: "panel" }, h("h3", {}, "Kanji y vocabulario"),
+      h("div", { class: "grid2" },
+        h("div", { class: "stat" }, h("span", {}, "Kanji en repaso / firmes"), h("div", { class: "big-num" }, kCards.length + " / " + firm(kCards))),
+        h("div", { class: "stat" }, h("span", {}, "Palabras en repaso / firmes"), h("div", { class: "big-num" }, wCards.length + " / " + firm(wCards)))),
+      h("p", { class: "small muted" }, "Meta de la fase " + ph.n + ": " + target + " kanji. «Firme» = intervalo de 3 semanas o más."),
+      h("div", { class: "meter", "aria-hidden": "true" }, h("i", { style: "width:" + Math.min(100, 100 * kCards.length / target) + "%" }))),
+    h("div", { class: "panel" }, h("div", { class: "row" }, h("h2", {}, "Esta semana"), h("span", { class: "chip plain mono", style: "margin-left:auto" }, wk)),
+      h("div", { class: "stack tight" }, Object.entries(ws.cats).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([c, v]) => h("div", { class: "row small" }, h("span", {}, catName[c] || c), h("span", { class: "mono", style: "margin-left:auto" }, (v / 60).toFixed(1) + " h"))),
+        ws.total === 0 ? h("p", { class: "small muted" }, "Nada registrado todavía esta semana.") : null),
+      h("div", { class: "row" }, h("b", {}, "Total"), h("span", { class: "mono", style: "margin-left:auto" }, total.toFixed(1) + " / " + TARGET_H + " h")),
+      h("div", { class: "meter", "aria-hidden": "true" }, h("i", { style: "width:" + Math.min(100, 100 * total / TARGET_H) + "%" })),
+      h("p", { class: "small muted" }, "La meta de 24 h es una referencia, no una obligación: hay semanas de más y de menos."),
+      ws.notes.length ? h("div", { class: "stack tight" }, h("h3", {}, "Tus notas"), ws.notes.map(([k, n]) => h("p", { class: "small" }, h("b", { class: "mono" }, JP_DOW[new Date(parseD(k)).getDay()] + " "), n))) : null,
+      h("button", { class: "btn", type: "button", onclick: () => openLog() }, "Registrar un día")),
+    h("div", { class: "panel" }, h("h3", {}, "Horas por semana"), hoursChart(), h("p", { class: "small muted" }, "Línea punteada: meta de 24 h. En amarillo, la semana actual.")),
+    h("div", { class: "panel" }, h("h3", {}, "Tarjetas por día"), reviewsChart()),
+    h("div", { class: "panel" }, h("div", { class: "row" }, h("h2", {}, "Prueba diagnóstica"), h("button", { class: "btn sm", type: "button", style: "margin-left:auto", onclick: () => { D = null; go("diagnostico"); } }, diags.length ? "Repetir" : "Hacer la prueba")),
+      diags.length ? diags.slice(0, 3).map(d => h("div", { class: "stack tight" }, h("p", { class: "small muted" }, new Date(d.date).toLocaleDateString("es", { day: "numeric", month: "long", year: "numeric" }) + " · " + d.estimate), scoreRows(d.scores))) : h("p", { class: "small muted" }, "Repítela cada 2 o 3 meses para ver el avance por área.")),
+    h("div", { class: "panel" }, h("h3", {}, "Fases del plan"),
+      h("div", { class: "timeline" }, PHASES.map((p, i) => h("div", { class: "tl " + (p.n < ph.n ? "done" : p.n === ph.n ? "now" : "") }, h("div", { class: "rail" }, h("i"), i < PHASES.length - 1 ? h("span") : null),
+        h("div", { class: "body" }, h("b", {}, "Fase " + p.n + " · " + p.name), h("p", { class: "small muted" }, fmtRange(p) + " · " + p.goal)))))),
+    syncPanel(),
+    h("div", { class: "panel" }, h("h3", {}, "Ajustes"),
+      h("label", {}, "Tarjetas nuevas por día", h("input", { type: "number", id: "cfg-new", min: "0", max: "60", value: S.config.newPerDay ?? 10, onchange: e => { const n = Math.max(0, Math.min(60, Math.round(+e.target.value || 0))); S.config.newPerDay = n; save("config/main", { ...S.config }); toast("Ahora verás " + n + " nuevas por día."); render(); } })),
+      h("p", { class: "small muted" }, "10 al día ≈ 300 al mes. Sube a 15-20 cuando el repaso diario baje de 15 minutos.")));
+}
+const MONTHS = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+function fmtRange(p) { const a = new Date(parseD(p.from)), b = new Date(parseD(p.to)); return MONTHS[a.getMonth()] + " " + a.getFullYear() + " – " + MONTHS[b.getMonth()] + " " + b.getFullYear(); }
+
+/* ---------- DIAGNÓSTICO ---------- */
+const HIRA = "あa いi うu えe おo かka きki くku けke こko さsa しshi すsu せse そso たta ちchi つtsu てte とto なna にni ぬnu ねne のno はha ひhi ふfu へhe ほho まma みmi むmu めme もmo やya ゆyu よyo らra りri るru れre ろro わwa をwo んn".split(" ").map(x => [x[0], x.slice(1)]);
+const KATA = "アa イi ウu エe オo カka キki クku ケke コko サsa シshi スsu セse ソso タta チchi ツtsu テte トto ナna ニni ヌnu ネne ノno ハha ヒhi フfu ヘhe ホho マma ミmi ムmu メme モmo ヤya ユyu ヨyo ラra リri ルru レre ロro ワwa ヲwo ンn".split(" ").map(x => [x[0], x.slice(1)]);
+const DK = [["日", "sol, día"], ["月", "luna, mes"], ["水", "agua"], ["火", "fuego"], ["木", "árbol"], ["人", "persona"], ["山", "montaña"], ["学", "estudiar"], ["見", "ver"], ["食", "comer"], ["話", "hablar"], ["時", "hora, tiempo"], ["間", "intervalo"], ["電", "electricidad"], ["語", "idioma, palabra"], ["休", "descansar"], ["読", "leer"], ["先", "antes, previo"]];
+const DV = [["agua", "みず"], ["gato", "ねこ"], ["libro", "ほん"], ["escuela", "がっこう"], ["mañana (día siguiente)", "あした"], ["comer", "たべる"], ["grande", "おおきい"], ["tren", "でんしゃ"], ["amigo", "ともだち"], ["hoy", "きょう"], ["beber", "のむ"], ["caro, alto", "たかい"], ["ver", "みる"], ["tiempo atmosférico", "てんき"], ["dinero", "おかね"], ["comprar", "かう"]];
+const DG = [
+  ["わたし＿学生です。", ["は", "を", "に", "で"], "は", "Tema de la oración"],
+  ["パン＿食べます。", ["を", "が", "に", "へ"], "を", "Objeto directo"],
+  ["あした 東京＿行きます。", ["に", "を", "で", "の"], "に", "Destino"],
+  ["図書館＿本を読みます。", ["で", "に", "を", "は"], "で", "Lugar de la acción"],
+  ["「食べる」のて形は…", ["食べて", "食べって", "食べいて", "食べんで"], "食べて", "Forma て (ichidan)"],
+  ["「飲む」のて形は…", ["飲んで", "飲みて", "飲って", "飲いて"], "飲んで", "Forma て (godan)"],
+  ["きのう 映画を＿。(vi, cortés)", ["見ました", "見ます", "見ません", "見るでした"], "見ました", "Pasado cortés"],
+  ["この かばんは＿。(no es cara)", ["高くないです", "高いじゃないです", "高いないです", "高くでした"], "高くないです", "Negación de adjetivo い"],
+  ["今、雨が ふって＿。", ["います", "あります", "ます", "です"], "います", "～ている (acción en curso)"],
+  ["日本に 行った＿が あります。", ["こと", "もの", "ところ", "とき"], "こと", "～たことがある (experiencia, N4)"],
+  ["日本語が 話せる ように＿たいです。", ["なり", "し", "あり", "い"], "なり", "～ようになる (N4)"],
+  ["雨＿ふったら、行きません。", ["が", "を", "で", "に"], "が", "～たら condicional (N4)"],
+];
+let D = null;
+function buildDiag() {
+  const mk = (pool, n, ask, ans, key) => shuffle(pool).slice(0, n).map(item => { const correct = ans(item); const others = shuffle(pool.filter(x => ans(x) !== correct)).slice(0, 3).map(ans); return { sec: key, ask: ask(item), opts: shuffle([correct, ...others]), correct }; });
+  return [
+    ...mk(HIRA, 8, x => x[0], x => x[1], "Hiragana"),
+    ...mk(KATA, 8, x => x[0], x => x[1], "Katakana"),
+    ...mk(DK, 8, x => x[0], x => x[1], "Kanji"),
+    ...mk(DV, 8, x => ({ text: x[0] }), x => x[1], "Vocabulario"),
+    ...DG.map(([q, o, c, t]) => ({ sec: "Gramática", ask: { text: q, note: t }, opts: shuffle(o), correct: c })),
+  ];
+}
+function scoreRows(scores) { return h("div", { class: "stack tight" }, Object.entries(scores).map(([k, v]) => h("div", { class: "score-row" }, h("span", {}, k), h("div", { class: "meter" }, h("i", { style: "width:" + v + "%;background:" + (v >= 80 ? "var(--ok)" : v >= 50 ? "var(--ki)" : "var(--bad)") })), h("span", { class: "mono small" }, v + "%")))); }
+function estimate(sc) {
+  if (sc.Hiragana < 80 || sc.Katakana < 70) return "Antes que nada: afianzar kana (1-2 semanas)";
+  if (sc.Kanji < 50 || sc.Vocabulario < 50) return "N5 inicial: kana ok, falta base de kanji y vocabulario";
+  if (sc["Gramática"] < 60) return "N5 medio: buen vocabulario, la gramática básica necesita trabajo";
+  if (sc["Gramática"] < 85) return "N5 sólido: listo para empezar Genki II pronto";
+  return "N5 completo, rozando N4: puedes saltar a la fase 1";
+}
+function viewDiag() {
+  if (!D) D = { qs: buildDiag(), i: 0, answers: [], picked: null };
+  if (D.i >= D.qs.length) {
+    const secs = {}; D.qs.forEach((q, i) => { secs[q.sec] = secs[q.sec] || [0, 0]; secs[q.sec][1]++; if (D.answers[i] === q.correct) secs[q.sec][0]++; });
+    const scores = Object.fromEntries(Object.entries(secs).map(([k, [a, b]]) => [k, Math.round(100 * a / b)]));
+    const est = estimate(scores);
+    if (!D.saved && db) { D.saved = true; const id = "d" + Date.now(); const doc = { date: Date.now(), scores, estimate: est, missed: D.qs.filter((q, i) => D.answers[i] !== q.correct).map(q => (q.ask.text || q.ask) + " → " + q.correct).slice(0, 40) }; S.diag.set(id, doc); save("diagnostic/" + id, doc); }
+    const missed = D.qs.map((q, i) => [q, D.answers[i]]).filter(([q, a]) => a !== q.correct);
+    return h("div", { class: "stack v-narrow" }, h("h1", {}, "Resultado"),
+      h("div", { class: "panel" }, h("h2", {}, est), scoreRows(scores)),
+      missed.length ? h("div", { class: "panel" }, h("h3", {}, "Para repasar"), h("div", { class: "stack tight" }, missed.map(([q, a]) => h("p", { class: "small" }, h("b", { style: "font-family:var(--f-display);font-size:17px" }, q.ask.text || q.ask), " → ", h("span", { style: "color:var(--ok)" }, q.correct), h("span", { class: "muted" }, "  (marcaste " + (a || "—") + ")"))))) : null,
+      h("p", { class: "small muted" }, "El resultado queda guardado en Progreso. Con esto ajusto el punto de partida del plan."),
+      h("button", { class: "btn primary", type: "button", onclick: () => { D = null; go("hoy"); } }, "Volver a Hoy"));
+  }
+  const q = D.qs[D.i]; const secIdx = D.qs.filter(x => x.sec === q.sec).indexOf(q) + 1, secN = D.qs.filter(x => x.sec === q.sec).length;
+  const answered = D.picked != null;
+  return h("div", { class: "stack v-narrow" },
+    h("div", { class: "row small muted" }, h("span", {}, "Prueba diagnóstica · " + q.sec + " " + secIdx + "/" + secN), h("span", { class: "mono", style: "margin-left:auto" }, D.i + 1 + "/" + D.qs.length)),
+    h("div", { class: "progress-line" }, h("i", { style: "width:" + (100 * D.i / D.qs.length) + "%" })),
+    h("div", { class: "card", style: "min-height:0" },
+      typeof q.ask === "string" ? h("div", { class: "q-glyph" }, q.ask) : h("div", { class: "stack tight", style: "align-items:center" }, h("p", { class: "q-text" }, q.ask.text), q.ask.note ? h("span", { class: "chip plain" }, q.ask.note) : null),
+      h("p", { class: "small muted", style: "text-align:center" }, q.sec === "Hiragana" || q.sec === "Katakana" ? "¿Cómo se lee?" : q.sec === "Kanji" ? "¿Qué significa?" : q.sec === "Vocabulario" ? "¿Cómo se dice en japonés?" : "Elige la opción correcta"),
+      h("div", { class: "options" }, q.opts.map(o => h("button", { class: "btn " + (answered ? (o === q.correct ? "right" : o === D.picked ? "wrong" : "") : ""), type: "button", disabled: answered && o !== q.correct && o !== D.picked, style: q.sec === "Kanji" ? "font-size:15px" : null,
+        onclick: () => { if (answered) return; D.picked = o; D.answers[D.i] = o; render(); } }, o)))),
+    answered ? h("button", { class: "btn primary block", type: "button", onclick: () => { D.i++; D.picked = null; render(); } }, D.i + 1 < D.qs.length ? "Siguiente" : "Ver resultado")
+      : h("button", { class: "btn ghost block", type: "button", onclick: () => { D.answers[D.i] = null; D.i++; render(); } }, "No sé, siguiente"),
+    h("button", { class: "btn sm ghost", type: "button", style: "align-self:center", onclick: () => { D = null; go("hoy"); } }, "Salir de la prueba"));
+}
+
+/* ---------- arranque ---------- */
+async function boot() {
+  db = localDb; S.conn = "ok";
+  for (const [key, path] of Object.entries(COLS)) {
+    db.collection(path).onSnapshot(snap => {
+      const m = new Map(); snap.docs.forEach(d => m.set(d.id, d.data()));
+      S[key] = m; S.loaded.add(key); render();
+    });
+  }
+  db.doc("config/main").onSnapshot(d => { if (d.exists) S.config = { ...S.config, ...d.data() }; render(); });
+  render();
+  loadPackFiles(); if (Sync.cfg) syncNow();
+  window.addEventListener("online", () => { loadPackFiles(); syncNow(); });
+  window.addEventListener("offline", () => { if (Sync.cfg) { Sync.state = "offline"; renderSync(); } });
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { loadPackFiles(); if (Sync.cfg) syncNow(); } else if (Local.dirty && Sync.cfg) syncNow(); });
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+}
+try { speechSynthesis.getVoices(); } catch {}
+boot();
+</script>
+</body>
+</html>

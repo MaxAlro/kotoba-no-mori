@@ -1,0 +1,2831 @@
+{
+ "week": "2026-W43",
+ "title": "Semana del 19 al 25 de octubre de 2026",
+ "kanji": {
+  "k2e8d": {
+   "char": "⺍",
+   "components": [],
+   "etym": "Forma simplificada; en 学 viene de unas manos que enseñan.",
+   "kun": [],
+   "meaning": "brillo / manos",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k4e00": {
+   "char": "一",
+   "components": [],
+   "etym": "Una sola línea.",
+   "kun": [
+    "ひと.つ"
+   ],
+   "meaning": "uno",
+   "on": [
+    "イチ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k4e0a": {
+   "char": "上",
+   "components": [
+    "一"
+   ],
+   "etym": "Una marca por encima de la línea 一.",
+   "kun": [
+    "うえ",
+    "あ.がる"
+   ],
+   "meaning": "arriba",
+   "on": [
+    "ジョウ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k4e0b": {
+   "char": "下",
+   "components": [
+    "一"
+   ],
+   "etym": "Una marca por debajo de la línea 一.",
+   "kun": [
+    "した",
+    "さ.がる"
+   ],
+   "meaning": "abajo",
+   "on": [
+    "カ",
+    "ゲ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k4e16": {
+   "char": "世",
+   "components": [],
+   "etym": "Kanji de 'mundo' (よ, セ).",
+   "kun": [],
+   "meaning": "generación, mundo",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k4e2d": {
+   "char": "中",
+   "components": [
+    "口"
+   ],
+   "etym": "Una flecha que atraviesa el centro de un blanco 口.",
+   "kun": [
+    "なか"
+   ],
+   "meaning": "dentro, centro",
+   "on": [
+    "チュウ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k4e8c": {
+   "char": "二",
+   "components": [],
+   "etym": "Dos líneas.",
+   "kun": [
+    "ふた.つ"
+   ],
+   "meaning": "dos",
+   "on": [
+    "ニ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k4ea0": {
+   "char": "亠",
+   "components": [],
+   "etym": "Una tapa o techo simple.",
+   "kun": [],
+   "meaning": "tapa",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k4eba": {
+   "char": "人",
+   "components": [],
+   "etym": "Pictograma de una persona de perfil caminando.",
+   "kun": [
+    "ひと"
+   ],
+   "meaning": "persona",
+   "on": [
+    "ジン",
+    "ニン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k4ebb": {
+   "char": "亻",
+   "components": [],
+   "etym": "Así se escribe 人 cuando va a la izquierda de otro kanji.",
+   "kun": [],
+   "meaning": "persona (forma lateral)",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k4eca": {
+   "char": "今",
+   "components": [],
+   "etym": "Mnemotecnia: un techo que cubre una sola marca: lo que está aquí, ahora.",
+   "kun": [
+    "いま"
+   ],
+   "meaning": "ahora",
+   "on": [
+    "コン",
+    "キン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k4f11": {
+   "char": "休",
+   "components": [
+    "亻",
+    "木"
+   ],
+   "etym": "Una persona 亻 apoyada en un árbol 木.",
+   "kun": [
+    "やす.む"
+   ],
+   "meaning": "descansar",
+   "on": [
+    "キュウ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k4f55": {
+   "char": "何",
+   "components": [
+    "亻",
+    "可"
+   ],
+   "etym": "Persona 亻 + 可 (カ), que da el sonido.",
+   "kun": [
+    "なに",
+    "なん"
+   ],
+   "meaning": "qué",
+   "on": [
+    "カ"
+   ],
+   "phonetic": "可",
+   "type": "kanji"
+  },
+  "k513f": {
+   "char": "儿",
+   "components": [],
+   "etym": "Las piernas de una persona caminando.",
+   "kun": [],
+   "meaning": "piernas",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k5148": {
+   "char": "先",
+   "components": [
+    "儿"
+   ],
+   "etym": "Un pie que va por delante de la persona 儿: ir primero.",
+   "kun": [
+    "さき"
+   ],
+   "meaning": "antes, adelante",
+   "on": [
+    "セン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k5196": {
+   "char": "冖",
+   "components": [],
+   "etym": "Un paño que cubre algo.",
+   "kun": [],
+   "meaning": "cubierta",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k529b": {
+   "char": "力",
+   "components": [],
+   "etym": "Un brazo flexionado (o un arado) haciendo fuerza.",
+   "kun": [
+    "ちから"
+   ],
+   "meaning": "fuerza",
+   "on": [
+    "リョク",
+    "リキ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k5341": {
+   "char": "十",
+   "components": [],
+   "etym": "Una cruz: antiguamente un nudo en una cuerda marcaba la decena.",
+   "kun": [
+    "とお"
+   ],
+   "meaning": "diez",
+   "on": [
+    "ジュウ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k535c": {
+   "char": "卜",
+   "components": [],
+   "etym": "La grieta en un caparazón de tortuga que se usaba para adivinar.",
+   "kun": [],
+   "meaning": "adivinación",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k53e3": {
+   "char": "口",
+   "components": [],
+   "etym": "Pictograma de una boca abierta.",
+   "kun": [
+    "くち"
+   ],
+   "meaning": "boca",
+   "on": [
+    "コウ",
+    "ク"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k53ef": {
+   "char": "可",
+   "components": [],
+   "etym": "Kanji de 'posible' (カ); en 何 aporta el sonido カ.",
+   "kun": [],
+   "meaning": "posible",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k543e": {
+   "char": "吾",
+   "components": [],
+   "etym": "Palabra antigua para 'yo'; en 語 aporta el sonido ゴ.",
+   "kun": [],
+   "meaning": "yo (antiguo)",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k571f": {
+   "char": "土",
+   "components": [],
+   "etym": "Un montículo de tierra sobre el suelo.",
+   "kun": [
+    "つち"
+   ],
+   "meaning": "tierra, suelo",
+   "on": [
+    "ド",
+    "ト"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k58f2": {
+   "char": "売",
+   "components": [],
+   "etym": "Kanji de 'vender' (うる); en 読 aporta el sonido.",
+   "kun": [],
+   "meaning": "vender",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k5915": {
+   "char": "夕",
+   "components": [],
+   "etym": "Media luna: la luna 月 que apenas aparece al atardecer.",
+   "kun": [
+    "ゆう"
+   ],
+   "meaning": "tarde, atardecer",
+   "on": [
+    "セキ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k5916": {
+   "char": "外",
+   "components": [
+    "夕",
+    "卜"
+   ],
+   "etym": "Adivinar 卜 al atardecer 夕, fuera de lo normal; de ahí 'afuera'.",
+   "kun": [
+    "そと"
+   ],
+   "meaning": "afuera",
+   "on": [
+    "ガイ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k591c": {
+   "char": "夜",
+   "components": [
+    "亠",
+    "亻",
+    "夕"
+   ],
+   "etym": "Una persona 亻 bajo techo 亠 cuando ya cayó la tarde 夕.",
+   "kun": [
+    "よる"
+   ],
+   "meaning": "noche",
+   "on": [
+    "ヤ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k5927": {
+   "char": "大",
+   "components": [],
+   "etym": "Una persona con brazos y piernas abiertos: ocupar mucho espacio.",
+   "kun": [
+    "おお.きい"
+   ],
+   "meaning": "grande",
+   "on": [
+    "ダイ",
+    "タイ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k5973": {
+   "char": "女",
+   "components": [],
+   "etym": "Una figura arrodillada con los brazos cruzados.",
+   "kun": [
+    "おんな"
+   ],
+   "meaning": "mujer",
+   "on": [
+    "ジョ",
+    "ニョ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k597d": {
+   "char": "好",
+   "components": [
+    "女",
+    "子"
+   ],
+   "etym": "Una mujer 女 con su niño 子: el cariño más claro.",
+   "kun": [
+    "す.き"
+   ],
+   "meaning": "gustar",
+   "on": [
+    "コウ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k5b50": {
+   "char": "子",
+   "components": [],
+   "etym": "Un bebé envuelto, con los brazos abiertos.",
+   "kun": [
+    "こ"
+   ],
+   "meaning": "niño",
+   "on": [
+    "シ",
+    "ス"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k5b57": {
+   "char": "字",
+   "components": [
+    "宀",
+    "子"
+   ],
+   "etym": "Un niño 子 bajo el techo 宀 de la casa (aprendiendo letras). 子 (シ) aporta el sonido ジ.",
+   "kun": [
+    "あざ"
+   ],
+   "meaning": "letra, carácter",
+   "on": [
+    "ジ"
+   ],
+   "phonetic": "子",
+   "type": "kanji"
+  },
+  "k5b66": {
+   "char": "学",
+   "components": [
+    "⺍",
+    "冖",
+    "子"
+   ],
+   "etym": "Unas manos ⺍ que guían a un niño 子 bajo un techo 冖: una escuela.",
+   "kun": [
+    "まな.ぶ"
+   ],
+   "meaning": "estudiar",
+   "on": [
+    "ガク"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k5b80": {
+   "char": "宀",
+   "components": [],
+   "etym": "Dibujo del techo de una casa.",
+   "kun": [],
+   "meaning": "techo",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k5b89": {
+   "char": "安",
+   "components": [
+    "宀",
+    "女"
+   ],
+   "etym": "Una mujer 女 bajo el techo 宀: la casa en paz. De 'tranquilo' a 'barato' (sin preocupación por el precio).",
+   "kun": [
+    "やす.い"
+   ],
+   "meaning": "tranquilo, barato",
+   "on": [
+    "アン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k5bfa": {
+   "char": "寺",
+   "components": [],
+   "etym": "Kanji de 'templo' (てら, ジ); en 時 aporta el sonido ジ.",
+   "kun": [],
+   "meaning": "templo",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k5c0f": {
+   "char": "小",
+   "components": [],
+   "etym": "Tres trazos pequeños: algo que se divide en trocitos.",
+   "kun": [
+    "ちい.さい"
+   ],
+   "meaning": "pequeño",
+   "on": [
+    "ショウ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k5c3a": {
+   "char": "尺",
+   "components": [],
+   "etym": "Una mano midiendo con los dedos.",
+   "kun": [],
+   "meaning": "medida",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k5c71": {
+   "char": "山",
+   "components": [],
+   "etym": "Pictograma de tres picos.",
+   "kun": [
+    "やま"
+   ],
+   "meaning": "montaña",
+   "on": [
+    "サン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k5ddd": {
+   "char": "川",
+   "components": [],
+   "etym": "Pictograma de agua que corre entre dos orillas.",
+   "kun": [
+    "かわ"
+   ],
+   "meaning": "río",
+   "on": [
+    "セン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k624b": {
+   "char": "手",
+   "components": [],
+   "etym": "Pictograma de una mano con sus dedos.",
+   "kun": [
+    "て"
+   ],
+   "meaning": "mano",
+   "on": [
+    "シュ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k65e5": {
+   "char": "日",
+   "components": [],
+   "etym": "Pictograma del sol: un círculo con un punto, que se volvió cuadrado al escribirse con pincel.",
+   "kun": [
+    "ひ",
+    "か"
+   ],
+   "meaning": "sol, día",
+   "on": [
+    "ニチ",
+    "ジツ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k660e": {
+   "char": "明",
+   "components": [
+    "日",
+    "月"
+   ],
+   "etym": "El sol 日 y la luna 月 juntos: lo más luminoso.",
+   "kun": [
+    "あか.るい",
+    "あ.ける"
+   ],
+   "meaning": "brillante, claro",
+   "on": [
+    "メイ",
+    "ミョウ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k6642": {
+   "char": "時",
+   "components": [
+    "日",
+    "寺"
+   ],
+   "etym": "El sol 日 marca la hora; 寺 (ジ) aporta el sonido.",
+   "kun": [
+    "とき"
+   ],
+   "meaning": "hora, tiempo",
+   "on": [
+    "ジ"
+   ],
+   "phonetic": "寺",
+   "type": "kanji"
+  },
+  "k66dc": {
+   "char": "曜",
+   "components": [
+    "日",
+    "翟"
+   ],
+   "etym": "El sol 日 y el brillo 翟: los días de la semana llevan nombre de astros (sol, luna, fuego, agua…).",
+   "kun": [],
+   "meaning": "día de la semana",
+   "on": [
+    "ヨウ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k6708": {
+   "char": "月",
+   "components": [],
+   "etym": "Pictograma de la luna creciente. Un mes = una vuelta de la luna.",
+   "kun": [
+    "つき"
+   ],
+   "meaning": "luna, mes",
+   "on": [
+    "ゲツ",
+    "ガツ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k6728": {
+   "char": "木",
+   "components": [],
+   "etym": "Pictograma de un árbol: tronco, ramas y raíces.",
+   "kun": [
+    "き"
+   ],
+   "meaning": "árbol, madera",
+   "on": [
+    "モク",
+    "ボク"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k672c": {
+   "char": "本",
+   "components": [
+    "木",
+    "一"
+   ],
+   "etym": "Una marca 一 en la raíz del árbol 木: el origen. De 'origen' pasó a 'libro'.",
+   "kun": [
+    "もと"
+   ],
+   "meaning": "libro, origen",
+   "on": [
+    "ホン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k6765": {
+   "char": "来",
+   "components": [],
+   "etym": "Pictograma de una planta de trigo; la tradición decía que el trigo 'vino' del cielo.",
+   "kun": [
+    "く.る"
+   ],
+   "meaning": "venir",
+   "on": [
+    "ライ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k6797": {
+   "char": "林",
+   "components": [
+    "木"
+   ],
+   "etym": "Dos árboles 木: una arboleda.",
+   "kun": [
+    "はやし"
+   ],
+   "meaning": "arboleda",
+   "on": [
+    "リン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k68ee": {
+   "char": "森",
+   "components": [
+    "林",
+    "木"
+   ],
+   "etym": "Tres árboles 木: un bosque espeso. Es el logo de esta app.",
+   "kun": [
+    "もり"
+   ],
+   "meaning": "bosque",
+   "on": [
+    "シン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k6b20": {
+   "char": "欠",
+   "components": [],
+   "etym": "Persona con la boca abierta, bostezando o bebiendo.",
+   "kun": [],
+   "meaning": "boca abierta",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k6c34": {
+   "char": "水",
+   "components": [],
+   "etym": "Pictograma de una corriente de agua con gotas a los lados.",
+   "kun": [
+    "みず"
+   ],
+   "meaning": "agua",
+   "on": [
+    "スイ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k6c35": {
+   "char": "氵",
+   "components": [],
+   "etym": "Tres gotas: así se escribe 水 a la izquierda.",
+   "kun": [],
+   "meaning": "agua (forma lateral)",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k6f22": {
+   "char": "漢",
+   "components": [
+    "氵"
+   ],
+   "etym": "Nombre de un río chino (por eso 氵), que dio nombre a la dinastía Han. 漢字 = letras de los Han.",
+   "kun": [],
+   "meaning": "China (dinastía Han)",
+   "on": [
+    "カン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k706b": {
+   "char": "火",
+   "components": [],
+   "etym": "Pictograma de llamas que suben.",
+   "kun": [
+    "ひ"
+   ],
+   "meaning": "fuego",
+   "on": [
+    "カ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k751f": {
+   "char": "生",
+   "components": [],
+   "etym": "Un brote que sale de la tierra: nacer, vivir. En 先生 'el que nació antes'.",
+   "kun": [
+    "い.きる",
+    "う.まれる"
+   ],
+   "meaning": "vida, nacer",
+   "on": [
+    "セイ",
+    "ショウ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k7530": {
+   "char": "田",
+   "components": [],
+   "etym": "Pictograma de un campo dividido en parcelas.",
+   "kun": [
+    "た"
+   ],
+   "meaning": "arrozal",
+   "on": [
+    "デン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k7537": {
+   "char": "男",
+   "components": [
+    "田",
+    "力"
+   ],
+   "etym": "Fuerza 力 en el arrozal 田: quien hacía el trabajo pesado en el campo.",
+   "kun": [
+    "おとこ"
+   ],
+   "meaning": "hombre",
+   "on": [
+    "ダン",
+    "ナン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k76ee": {
+   "char": "目",
+   "components": [],
+   "etym": "Pictograma de un ojo, girado en vertical.",
+   "kun": [
+    "め"
+   ],
+   "meaning": "ojo",
+   "on": [
+    "モク"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k7acb": {
+   "char": "立",
+   "components": [],
+   "etym": "Una persona de pie sobre el suelo.",
+   "kun": [],
+   "meaning": "ponerse de pie",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k7fdf": {
+   "char": "翟",
+   "components": [],
+   "etym": "Plumas brillantes; en 曜 sugiere el brillo de los astros.",
+   "kun": [],
+   "meaning": "plumas de faisán",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k8033": {
+   "char": "耳",
+   "components": [],
+   "etym": "Pictograma de una oreja.",
+   "kun": [
+    "みみ"
+   ],
+   "meaning": "oreja",
+   "on": [
+    "ジ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k805e": {
+   "char": "聞",
+   "components": [
+    "門",
+    "耳"
+   ],
+   "etym": "Una oreja 耳 pegada al portón 門. 門 (モン) también aporta el sonido モン.",
+   "kun": [
+    "き.く"
+   ],
+   "meaning": "oír, preguntar",
+   "on": [
+    "ブン",
+    "モン"
+   ],
+   "phonetic": "門",
+   "type": "kanji"
+  },
+  "k820c": {
+   "char": "舌",
+   "components": [],
+   "etym": "La lengua saliendo de la boca 口.",
+   "kun": [],
+   "meaning": "lengua",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k8279": {
+   "char": "艹",
+   "components": [],
+   "etym": "Brotes de hierba; aparece arriba en kanji de plantas.",
+   "kun": [],
+   "meaning": "hierba",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k8449": {
+   "char": "葉",
+   "components": [
+    "艹",
+    "世",
+    "木"
+   ],
+   "etym": "Hierba 艹 sobre un árbol 木, generación 世 tras generación de hojas. En 言葉 (ことば, palabra): 'hojas de lo que se dice'.",
+   "kun": [
+    "は"
+   ],
+   "meaning": "hoja",
+   "on": [
+    "ヨウ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k884c": {
+   "char": "行",
+   "components": [],
+   "etym": "Pictograma de un cruce de caminos.",
+   "kun": [
+    "い.く"
+   ],
+   "meaning": "ir",
+   "on": [
+    "コウ",
+    "ギョウ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k898b": {
+   "char": "見",
+   "components": [
+    "目",
+    "儿"
+   ],
+   "etym": "Un ojo 目 sobre unas piernas 儿: una persona que es puro mirar.",
+   "kun": [
+    "み.る"
+   ],
+   "meaning": "ver",
+   "on": [
+    "ケン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k8a00": {
+   "char": "言",
+   "components": [],
+   "etym": "Palabras (líneas) que salen de una boca 口. Es la pieza de casi todo kanji de hablar o leer.",
+   "kun": [
+    "い.う",
+    "こと"
+   ],
+   "meaning": "decir",
+   "on": [
+    "ゲン",
+    "ゴン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k8a71": {
+   "char": "話",
+   "components": [
+    "言",
+    "舌"
+   ],
+   "etym": "Decir 言 con la lengua 舌.",
+   "kun": [
+    "はな.す",
+    "はなし"
+   ],
+   "meaning": "hablar, historia",
+   "on": [
+    "ワ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k8a9e": {
+   "char": "語",
+   "components": [
+    "言",
+    "吾"
+   ],
+   "etym": "Decir 言 + 吾 (ゴ), que da el sonido. 日本語 = idioma de Japón.",
+   "kun": [
+    "かた.る"
+   ],
+   "meaning": "idioma, palabra",
+   "on": [
+    "ゴ"
+   ],
+   "phonetic": "吾",
+   "type": "kanji"
+  },
+  "k8aad": {
+   "char": "読",
+   "components": [
+    "言",
+    "売"
+   ],
+   "etym": "Decir 言 en voz alta lo escrito. 売 venía de un carácter antiguo que se leía トク, de ahí ドク.",
+   "kun": [
+    "よ.む"
+   ],
+   "meaning": "leer",
+   "on": [
+    "ドク"
+   ],
+   "phonetic": "売",
+   "type": "kanji"
+  },
+  "k8eca": {
+   "char": "車",
+   "components": [],
+   "etym": "Un carro visto desde arriba: el eje y las dos ruedas.",
+   "kun": [
+    "くるま"
+   ],
+   "meaning": "vehículo",
+   "on": [
+    "シャ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k91d1": {
+   "char": "金",
+   "components": [],
+   "etym": "Mnemotecnia: pepitas de metal enterradas bajo un techo de tierra. Por eso también 'dinero' (お金).",
+   "kun": [
+    "かね"
+   ],
+   "meaning": "oro, metal, dinero",
+   "on": [
+    "キン",
+    "コン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k9580": {
+   "char": "門",
+   "components": [],
+   "etym": "Pictograma de un portón de dos hojas.",
+   "kun": [
+    "かど"
+   ],
+   "meaning": "portón",
+   "on": [
+    "モン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k9593": {
+   "char": "間",
+   "components": [
+    "門",
+    "日"
+   ],
+   "etym": "El sol 日 que se ve por la rendija de un portón 門: el espacio entre dos cosas.",
+   "kun": [
+    "あいだ",
+    "ま"
+   ],
+   "meaning": "intervalo, espacio",
+   "on": [
+    "カン",
+    "ケン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k96e8": {
+   "char": "雨",
+   "components": [],
+   "etym": "Gotas que caen de una nube bajo el cielo.",
+   "kun": [
+    "あめ"
+   ],
+   "meaning": "lluvia",
+   "on": [
+    "ウ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k96fb": {
+   "char": "電",
+   "components": [
+    "雨"
+   ],
+   "etym": "Lluvia 雨 con un rayo que cae: electricidad. 電車 = vehículo eléctrico.",
+   "kun": [],
+   "meaning": "electricidad",
+   "on": [
+    "デン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k97f3": {
+   "char": "音",
+   "components": [
+    "立",
+    "日"
+   ],
+   "etym": "Mnemotecnia (no etimología segura): algo que se levanta 立 sobre el día 日 y se oye.",
+   "kun": [
+    "おと"
+   ],
+   "meaning": "sonido",
+   "on": [
+    "オン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k98df": {
+   "char": "食",
+   "components": [],
+   "etym": "Una tapa sobre un cuenco lleno de comida.",
+   "kun": [
+    "た.べる"
+   ],
+   "meaning": "comer",
+   "on": [
+    "ショク"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k98f2": {
+   "char": "飲",
+   "components": [
+    "食",
+    "欠"
+   ],
+   "etym": "Comida 食 (a la izquierda, comprimida) y una persona con la boca abierta 欠.",
+   "kun": [
+    "の.む"
+   ],
+   "meaning": "beber",
+   "on": [
+    "イン"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  },
+  "k99ac": {
+   "char": "馬",
+   "components": [],
+   "etym": "Dibujo de un caballo con su crin y patas.",
+   "kun": [],
+   "meaning": "caballo",
+   "on": [],
+   "phonetic": null,
+   "type": "componente"
+  },
+  "k99c5": {
+   "char": "駅",
+   "components": [
+    "馬",
+    "尺"
+   ],
+   "etym": "Caballo 馬: las estaciones eran postas donde se cambiaba de caballo.",
+   "kun": [],
+   "meaning": "estación",
+   "on": [
+    "エキ"
+   ],
+   "phonetic": null,
+   "type": "kanji"
+  }
+ },
+ "words": {
+  "w-ame": {
+   "created": 1792742718000,
+   "es": "lluvia",
+   "jp": "雨",
+   "kana": "あめ",
+   "kanji": [
+    "雨"
+   ],
+   "literal": "",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "Hoy llueve.",
+    "jp": "今日は 雨です。",
+    "kana": "きょうは あめです。"
+   }
+  },
+  "w-ashita": {
+   "created": 1792742718000,
+   "es": "mañana (el día siguiente)",
+   "jp": "明日",
+   "kana": "あした",
+   "kanji": [
+    "明",
+    "日"
+   ],
+   "literal": "brillante + día: «el día que amanece». Lectura especial: se lee entero あした, no pieza por pieza",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "Mañana es día libre.",
+    "jp": "明日は 休みです。",
+    "kana": "あしたは やすみです。"
+   }
+  },
+  "w-chiisai": {
+   "created": 1792742718000,
+   "es": "pequeño",
+   "jp": "小さい",
+   "kana": "ちいさい",
+   "kanji": [
+    "小"
+   ],
+   "literal": "",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "Hay un niño pequeño.",
+    "jp": "小さい 子が います。",
+    "kana": "ちいさい こが います。"
+   }
+  },
+  "w-daigaku": {
+   "created": 1792742718000,
+   "es": "universidad",
+   "jp": "大学",
+   "kana": "だいがく",
+   "kanji": [
+    "大",
+    "学"
+   ],
+   "literal": "grande + estudio",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "Voy a la universidad.",
+    "jp": "大学に 行きます。",
+    "kana": "だいがくに いきます。"
+   }
+  },
+  "w-densha": {
+   "created": 1792742718000,
+   "es": "tren",
+   "jp": "電車",
+   "kana": "でんしゃ",
+   "kanji": [
+    "電",
+    "車"
+   ],
+   "literal": "electricidad + vehículo",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "Voy a la universidad en tren.",
+    "jp": "電車で 大学に 行きます。",
+    "kana": "でんしゃで だいがくに いきます。"
+   }
+  },
+  "w-doyoubi": {
+   "created": 1792742718000,
+   "es": "sábado",
+   "jp": "土曜日",
+   "kana": "どようび",
+   "kanji": [
+    "土",
+    "曜",
+    "日"
+   ],
+   "literal": "tierra + astro + día",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "El sábado estudio japonés.",
+    "jp": "土曜日に 日本語を べんきょうします。",
+    "kana": "どようびに にほんごを べんきょうします。"
+   }
+  },
+  "w-eki": {
+   "created": 1792742718000,
+   "es": "estación",
+   "jp": "駅",
+   "kana": "えき",
+   "kanji": [
+    "駅"
+   ],
+   "literal": "caballo + medida: antiguas postas de caballos",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "Me bajo en la siguiente estación.",
+    "jp": "つぎの 駅で おります。",
+    "kana": "つぎの えきで おります。"
+   }
+  },
+  "w-gakusei": {
+   "created": 1792742718000,
+   "es": "estudiante",
+   "jp": "学生",
+   "kana": "がくせい",
+   "kanji": [
+    "学",
+    "生"
+   ],
+   "literal": "estudiar + vida",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Soy estudiante.",
+    "jp": "わたしは 学生です。",
+    "kana": "わたしは がくせいです。"
+   }
+  },
+  "w-getsuyoubi": {
+   "created": 1792742718000,
+   "es": "lunes",
+   "jp": "月曜日",
+   "kana": "げつようび",
+   "kanji": [
+    "月",
+    "曜",
+    "日"
+   ],
+   "literal": "luna + astro + día",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "El lunes voy a la escuela.",
+    "jp": "月曜日に 学校に 行きます。",
+    "kana": "げつようびに がっこうに いきます。"
+   }
+  },
+  "w-hanashi": {
+   "created": 1792742718000,
+   "es": "historia, conversación",
+   "jp": "話",
+   "kana": "はなし",
+   "kanji": [
+    "話"
+   ],
+   "literal": "",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Contemos historias de miedo.",
+    "jp": "こわい 話を しましょう。",
+    "kana": "こわい はなしを しましょう。"
+   }
+  },
+  "w-hanasu": {
+   "created": 1792742718000,
+   "es": "hablar",
+   "jp": "話す",
+   "kana": "はなす",
+   "kanji": [
+    "話"
+   ],
+   "literal": "",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Hablo en japonés.",
+    "jp": "日本語で 話します。",
+    "kana": "にほんごで はなします。"
+   }
+  },
+  "w-hito": {
+   "created": 1792742718000,
+   "es": "persona",
+   "jp": "人",
+   "kana": "ひと",
+   "kanji": [
+    "人"
+   ],
+   "literal": "",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "¿Quién es esa persona?",
+    "jp": "あの 人は だれですか。",
+    "kana": "あの ひとは だれですか。"
+   }
+  },
+  "w-hitori": {
+   "created": 1792742718000,
+   "es": "una persona; solo",
+   "jp": "一人",
+   "kana": "ひとり",
+   "kanji": [
+    "一",
+    "人"
+   ],
+   "literal": "uno + persona. 一人で = «por mí mismo, solo»",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "Voy solo.",
+    "jp": "わたしは 一人で 行きます。",
+    "kana": "わたしは ひとりで いきます。"
+   }
+  },
+  "w-hon": {
+   "created": 1792742718000,
+   "es": "libro",
+   "jp": "本",
+   "kana": "ほん",
+   "kanji": [
+    "本"
+   ],
+   "literal": "origen",
+   "packs": [
+    "p-naturaleza",
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Leo un libro.",
+    "jp": "本を 読みます。",
+    "kana": "ほんを よみます。"
+   }
+  },
+  "w-iku": {
+   "created": 1792742718000,
+   "es": "ir",
+   "jp": "行く",
+   "kana": "いく",
+   "kanji": [
+    "行"
+   ],
+   "literal": "",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Voy a Japón.",
+    "jp": "日本に 行きます。",
+    "kana": "にほんに いきます。"
+   }
+  },
+  "w-iu": {
+   "created": 1792742718000,
+   "es": "decir",
+   "jp": "言う",
+   "kana": "いう",
+   "kanji": [
+    "言"
+   ],
+   "literal": "",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "Dijo «gracias».",
+    "jp": "「ありがとう」と 言いました。",
+    "kana": "「ありがとう」と いいました。"
+   }
+  },
+  "w-jikan": {
+   "created": 1792742718000,
+   "es": "tiempo (duración)",
+   "jp": "時間",
+   "kana": "じかん",
+   "kanji": [
+    "時",
+    "間"
+   ],
+   "literal": "hora + intervalo",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "No tengo tiempo.",
+    "jp": "時間が ありません。",
+    "kana": "じかんが ありません。"
+   }
+  },
+  "w-juuniji": {
+   "created": 1792742718000,
+   "es": "las doce",
+   "jp": "十二時",
+   "kana": "じゅうにじ",
+   "kanji": [
+    "十",
+    "二",
+    "時"
+   ],
+   "literal": "diez + dos + hora",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "Eran las doce.",
+    "jp": "十二時でした。",
+    "kana": "じゅうにじでした。"
+   }
+  },
+  "w-kanji": {
+   "created": 1792742718000,
+   "es": "kanji",
+   "jp": "漢字",
+   "kana": "かんじ",
+   "kanji": [
+    "漢",
+    "字"
+   ],
+   "literal": "Han + letra: «letras de los Han (China)»",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Los kanji son interesantes.",
+    "jp": "漢字は おもしろいです。",
+    "kana": "かんじは おもしろいです。"
+   }
+  },
+  "w-kawa": {
+   "created": 1792742718000,
+   "es": "río",
+   "jp": "川",
+   "kana": "かわ",
+   "kanji": [
+    "川"
+   ],
+   "literal": "",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "El agua del río está fría.",
+    "jp": "川の 水は つめたいです。",
+    "kana": "かわの みずは つめたいです。"
+   }
+  },
+  "w-kayoubi": {
+   "created": 1792742718000,
+   "es": "martes",
+   "jp": "火曜日",
+   "kana": "かようび",
+   "kanji": [
+    "火",
+    "曜",
+    "日"
+   ],
+   "literal": "fuego + astro + día",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "El martes es día de universidad.",
+    "jp": "火曜日は 大学の 日です。",
+    "kana": "かようびは だいがくの ひです。"
+   }
+  },
+  "w-ki": {
+   "created": 1792742718000,
+   "es": "árbol",
+   "jp": "木",
+   "kana": "き",
+   "kanji": [
+    "木"
+   ],
+   "literal": "",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "Descanso bajo un árbol grande.",
+    "jp": "大きい 木の 下で 休みます。",
+    "kana": "おおきい きの したで やすみます。"
+   }
+  },
+  "w-kiku": {
+   "created": 1792742718000,
+   "es": "oír; preguntar",
+   "jp": "聞く",
+   "kana": "きく",
+   "kanji": [
+    "聞"
+   ],
+   "literal": "",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "«¿Qué hora es?», preguntó la niña.",
+    "jp": "「何時ですか」と 女の子が 聞きました。",
+    "kana": "「なんじですか」と おんなのこが ききました。"
+   }
+  },
+  "w-kodomo": {
+   "created": 1792742718000,
+   "es": "niño, niños",
+   "jp": "子ども",
+   "kana": "こども",
+   "kanji": [
+    "子"
+   ],
+   "literal": "niño + (ども, plural)",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Los niños están jugando afuera.",
+    "jp": "子どもが 外で あそんでいます。",
+    "kana": "こどもが そとで あそんでいます。"
+   }
+  },
+  "w-kotoba": {
+   "created": 1792742718000,
+   "es": "palabra, lenguaje",
+   "jp": "言葉",
+   "kana": "ことば",
+   "kanji": [
+    "言",
+    "葉"
+   ],
+   "literal": "decir + hojas: «las hojas de lo que se dice»",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Esta palabra es difícil.",
+    "jp": "この 言葉は むずかしいです。",
+    "kana": "この ことばは むずかしいです。"
+   }
+  },
+  "w-kuchi": {
+   "created": 1792742718000,
+   "es": "boca",
+   "jp": "口",
+   "kana": "くち",
+   "kanji": [
+    "口"
+   ],
+   "literal": "",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "La boca de la niña llegaba hasta las orejas.",
+    "jp": "女の子の 口は 耳まで ありました。",
+    "kana": "おんなのこの くちは みみまで ありました。"
+   }
+  },
+  "w-kuru": {
+   "created": 1792742718000,
+   "es": "venir",
+   "jp": "来る",
+   "kana": "くる",
+   "kanji": [
+    "来"
+   ],
+   "literal": "",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Viene un amigo.",
+    "jp": "ともだちが 来ます。",
+    "kana": "ともだちが きます。"
+   }
+  },
+  "w-kyou": {
+   "created": 1792742718000,
+   "es": "hoy",
+   "jp": "今日",
+   "kana": "きょう",
+   "kanji": [
+    "今",
+    "日"
+   ],
+   "literal": "ahora + día. Lectura especial: la palabra japonesa きょう ya existía y se le pusieron estos kanji por su significado",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "¿Qué día es hoy?",
+    "jp": "今日は 何曜日ですか。",
+    "kana": "きょうは なんようびですか。"
+   }
+  },
+  "w-me": {
+   "created": 1792742718000,
+   "es": "ojo",
+   "jp": "目",
+   "kana": "め",
+   "kanji": [
+    "目"
+   ],
+   "literal": "",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Cierra los ojos, por favor.",
+    "jp": "目を とじて ください。",
+    "kana": "めを とじて ください。"
+   }
+  },
+  "w-mimi": {
+   "created": 1792742718000,
+   "es": "oreja",
+   "jp": "耳",
+   "kana": "みみ",
+   "kanji": [
+    "耳"
+   ],
+   "literal": "",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "Me duele el oído.",
+    "jp": "耳が いたいです。",
+    "kana": "みみが いたいです。"
+   }
+  },
+  "w-miru": {
+   "created": 1792742718000,
+   "es": "ver, mirar",
+   "jp": "見る",
+   "kana": "みる",
+   "kanji": [
+    "見"
+   ],
+   "literal": "",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "Miré el reloj.",
+    "jp": "とけいを 見ました。",
+    "kana": "とけいを みました。"
+   }
+  },
+  "w-mizu": {
+   "created": 1792742718000,
+   "es": "agua",
+   "jp": "水",
+   "kana": "みず",
+   "kanji": [
+    "水"
+   ],
+   "literal": "",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "Bebo agua.",
+    "jp": "水を 飲みます。",
+    "kana": "みずを のみます。"
+   }
+  },
+  "w-mori": {
+   "created": 1792742718000,
+   "es": "bosque",
+   "jp": "森",
+   "kana": "もり",
+   "kanji": [
+    "森"
+   ],
+   "literal": "tres árboles",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "Dentro del bosque está oscuro.",
+    "jp": "森の 中は くらいです。",
+    "kana": "もりの なかは くらいです。"
+   }
+  },
+  "w-naka": {
+   "created": 1792742718000,
+   "es": "dentro",
+   "jp": "中",
+   "kana": "なか",
+   "kanji": [
+    "中"
+   ],
+   "literal": "",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "En el tren no había nadie.",
+    "jp": "電車の 中には だれも いませんでした。",
+    "kana": "でんしゃの なかには だれも いませんでした。"
+   }
+  },
+  "w-nanji": {
+   "created": 1792742718000,
+   "es": "¿qué hora?",
+   "jp": "何時",
+   "kana": "なんじ",
+   "kanji": [
+    "何",
+    "時"
+   ],
+   "literal": "qué + hora",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "¿Qué hora es ahora?",
+    "jp": "今 何時ですか。",
+    "kana": "いま なんじですか。"
+   }
+  },
+  "w-nihon": {
+   "created": 1792742718000,
+   "es": "Japón",
+   "jp": "日本",
+   "kana": "にほん",
+   "kanji": [
+    "日",
+    "本"
+   ],
+   "literal": "sol + origen: «el origen del sol»",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "Quiero ir a Japón.",
+    "jp": "日本に 行きたいです。",
+    "kana": "にほんに いきたいです。"
+   }
+  },
+  "w-nihongo": {
+   "created": 1792742718000,
+   "es": "japonés (idioma)",
+   "jp": "日本語",
+   "kana": "にほんご",
+   "kanji": [
+    "日",
+    "本",
+    "語"
+   ],
+   "literal": "Japón + idioma",
+   "packs": [
+    "p-naturaleza",
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Habla en japonés, por favor.",
+    "jp": "日本語で 話して ください。",
+    "kana": "にほんごで はなして ください。"
+   }
+  },
+  "w-nomu": {
+   "created": 1792742718000,
+   "es": "beber",
+   "jp": "飲む",
+   "kana": "のむ",
+   "kanji": [
+    "飲"
+   ],
+   "literal": "",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Bebo café.",
+    "jp": "コーヒーを 飲みます。",
+    "kana": "コーヒーを のみます。"
+   }
+  },
+  "w-okane": {
+   "created": 1792742718000,
+   "es": "dinero",
+   "jp": "お金",
+   "kana": "おかね",
+   "kanji": [
+    "金"
+   ],
+   "literal": "(honorífico お) + metal",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "No tengo dinero.",
+    "jp": "お金が ありません。",
+    "kana": "おかねが ありません。"
+   }
+  },
+  "w-onnanohito": {
+   "created": 1792742718000,
+   "es": "mujer",
+   "jp": "女の人",
+   "kana": "おんなのひと",
+   "kanji": [
+    "女",
+    "人"
+   ],
+   "literal": "mujer + de + persona",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Hablé con una mujer.",
+    "jp": "女の人と 話しました。",
+    "kana": "おんなのひとと はなしました。"
+   }
+  },
+  "w-onnanoko": {
+   "created": 1792742718000,
+   "es": "niña",
+   "jp": "女の子",
+   "kana": "おんなのこ",
+   "kanji": [
+    "女",
+    "子"
+   ],
+   "literal": "mujer + de + niño",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "En la siguiente estación subió una niña.",
+    "jp": "つぎの 駅で、女の子が のりました。",
+    "kana": "つぎの えきで、おんなのこが のりました。"
+   }
+  },
+  "w-ookii": {
+   "created": 1792742718000,
+   "es": "grande",
+   "jp": "大きい",
+   "kana": "おおきい",
+   "kanji": [
+    "大"
+   ],
+   "literal": "",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "Se ve una montaña grande.",
+    "jp": "大きい 山が 見えます。",
+    "kana": "おおきい やまが みえます。"
+   }
+  },
+  "w-oto": {
+   "created": 1792742718000,
+   "es": "sonido",
+   "jp": "音",
+   "kana": "おと",
+   "kanji": [
+    "音"
+   ],
+   "literal": "",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "Solo se oía el sonido del tren.",
+    "jp": "電車の 音だけが 聞こえました。",
+    "kana": "でんしゃの おとだけが きこえました。"
+   }
+  },
+  "w-otokonohito": {
+   "created": 1792742718000,
+   "es": "hombre",
+   "jp": "男の人",
+   "kana": "おとこのひと",
+   "kanji": [
+    "男",
+    "人"
+   ],
+   "literal": "hombre + de + persona",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Un hombre está leyendo un libro.",
+    "jp": "男の人が 本を 読んでいます。",
+    "kana": "おとこのひとが ほんを よんでいます。"
+   }
+  },
+  "w-sensei": {
+   "created": 1792742718000,
+   "es": "profesor",
+   "jp": "先生",
+   "kana": "せんせい",
+   "kanji": [
+    "先",
+    "生"
+   ],
+   "literal": "antes + nacer: «el que nació antes»",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Le pregunto al profesor.",
+    "jp": "先生に 聞きます。",
+    "kana": "せんせいに ききます。"
+   }
+  },
+  "w-shita": {
+   "created": 1792742718000,
+   "es": "abajo, debajo",
+   "jp": "下",
+   "kana": "した",
+   "kanji": [
+    "下"
+   ],
+   "literal": "",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "Hay un gato debajo de la mesa.",
+    "jp": "つくえの 下に ねこが います。",
+    "kana": "つくえの したに ねこが います。"
+   }
+  },
+  "w-soto": {
+   "created": 1792742718000,
+   "es": "afuera",
+   "jp": "外",
+   "kana": "そと",
+   "kanji": [
+    "外"
+   ],
+   "literal": "",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "Afuera estaba completamente oscuro.",
+    "jp": "外は まっくらでした。",
+    "kana": "そとは まっくらでした。"
+   }
+  },
+  "w-suki": {
+   "created": 1792742718000,
+   "es": "que gusta",
+   "jp": "好き",
+   "kana": "すき",
+   "kanji": [
+    "好"
+   ],
+   "literal": "",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Me gustan las historias de miedo.",
+    "jp": "こわい 話が 好きです。",
+    "kana": "こわい はなしが すきです。"
+   }
+  },
+  "w-taberu": {
+   "created": 1792742718000,
+   "es": "comer",
+   "jp": "食べる",
+   "kana": "たべる",
+   "kanji": [
+    "食"
+   ],
+   "literal": "",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Como sushi.",
+    "jp": "すしを 食べます。",
+    "kana": "すしを たべます。"
+   }
+  },
+  "w-te": {
+   "created": 1792742718000,
+   "es": "mano",
+   "jp": "手",
+   "kana": "て",
+   "kanji": [
+    "手"
+   ],
+   "literal": "",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Levanta la mano, por favor.",
+    "jp": "手を あげて ください。",
+    "kana": "てを あげて ください。"
+   }
+  },
+  "w-ue": {
+   "created": 1792742718000,
+   "es": "arriba, encima",
+   "jp": "上",
+   "kana": "うえ",
+   "kanji": [
+    "上"
+   ],
+   "literal": "",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "Mira hacia arriba, por favor.",
+    "jp": "上を 見て ください。",
+    "kana": "うえを みて ください。"
+   }
+  },
+  "w-yama": {
+   "created": 1792742718000,
+   "es": "montaña",
+   "jp": "山",
+   "kana": "やま",
+   "kanji": [
+    "山"
+   ],
+   "literal": "",
+   "packs": [
+    "p-naturaleza"
+   ],
+   "sentence": {
+    "es": "Está lloviendo en la montaña.",
+    "jp": "山に 雨が ふっています。",
+    "kana": "やまに あめが ふっています。"
+   }
+  },
+  "w-yasui": {
+   "created": 1792742718000,
+   "es": "barato",
+   "jp": "安い",
+   "kana": "やすい",
+   "kanji": [
+    "安"
+   ],
+   "literal": "tranquilo (sin preocupación por el precio)",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Este libro es barato.",
+    "jp": "この 本は 安いです。",
+    "kana": "この ほんは やすいです。"
+   }
+  },
+  "w-yasumu": {
+   "created": 1792742718000,
+   "es": "descansar",
+   "jp": "休む",
+   "kana": "やすむ",
+   "kanji": [
+    "休"
+   ],
+   "literal": "",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "El domingo descanso en casa.",
+    "jp": "日曜日は うちで 休みます。",
+    "kana": "にちようびは うちで やすみます。"
+   }
+  },
+  "w-yomu": {
+   "created": 1792742718000,
+   "es": "leer",
+   "jp": "読む",
+   "kana": "よむ",
+   "kanji": [
+    "読"
+   ],
+   "literal": "",
+   "packs": [
+    "p-personas"
+   ],
+   "sentence": {
+    "es": "Leo un libro en japonés todos los días.",
+    "jp": "まいにち 日本語の 本を 読みます。",
+    "kana": "まいにち にほんごの ほんを よみます。"
+   }
+  },
+  "w-yoru": {
+   "created": 1792742718000,
+   "es": "noche",
+   "jp": "夜",
+   "kana": "よる",
+   "kanji": [
+    "夜"
+   ],
+   "literal": "",
+   "packs": [
+    "p-noche"
+   ],
+   "sentence": {
+    "es": "De noche, me subí al tren solo.",
+    "jp": "夜、わたしは 一人で 電車に のりました。",
+    "kana": "よる、わたしは ひとりで でんしゃに のりました。"
+   }
+  }
+ },
+ "packs": {
+  "p-naturaleza": {
+   "created": 1792742718000,
+   "grammar": [
+    {
+     "example": {
+      "es": "Mañana es día libre.",
+      "jp": "明日は 休みです。"
+     },
+     "explanation": "No es una irregularidad al azar: las palabras きょう y あした ya existían en japonés antes de que llegaran los kanji, y se escribieron con los kanji del significado (ahora+día, brillante+día). Se leen enteras, no por piezas. Hay pocas y casi todas son palabras muy comunes.",
+     "point": "Lecturas especiales (今日, 明日)"
+    },
+    {
+     "example": {
+      "es": "El lunes voy a la escuela.",
+      "jp": "月曜日に 学校に 行きます。"
+     },
+     "explanation": "Los días de la semana y las horas llevan に para decir cuándo pasa algo. Palabras relativas como 今日 o 明日 no lo llevan.",
+     "point": "tiempo + に"
+    },
+    {
+     "example": {
+      "es": "Dentro del bosque está oscuro.",
+      "jp": "森の 中は くらいです。"
+     },
+     "explanation": "の une dos sustantivos: B de A. 木の 下 = el debajo del árbol = bajo el árbol. 森の 中 = dentro del bosque.",
+     "point": "A の B"
+    },
+    {
+     "example": {
+      "es": "Quiero ir a Japón.",
+      "jp": "日本に 行きたいです。"
+     },
+     "explanation": "Quita ます y agrega たいです para decir que quieres hacer algo: 行きます → 行きたいです.",
+     "point": "verbo ます → たいです (querer)"
+    }
+   ],
+   "notes": "",
+   "slot": "semana",
+   "source": "Kanji N5: el sol, la luna y los días de la semana",
+   "status": "preestudio",
+   "summary": "Los días de la semana en japonés se nombran por astros y elementos (luna, fuego, agua, árbol, metal, tierra, sol). Con esos siete kanji ya lees el calendario. Aquí además ves cómo 木 crece hasta 林 y 森.",
+   "title": "Naturaleza y tiempo · kanji base",
+   "type": "texto",
+   "updated": 1792742718002,
+   "url": "",
+   "week": "2026-W43",
+   "words": [
+    "w-nihon",
+    "w-nihongo",
+    "w-getsuyoubi",
+    "w-kayoubi",
+    "w-doyoubi",
+    "w-mizu",
+    "w-ki",
+    "w-okane",
+    "w-yama",
+    "w-kawa",
+    "w-ame",
+    "w-ashita",
+    "w-kyou",
+    "w-jikan",
+    "w-mori",
+    "w-hon",
+    "w-ookii",
+    "w-chiisai",
+    "w-ue",
+    "w-shita",
+    "w-daigaku"
+   ]
+  },
+  "p-noche": {
+   "created": 1792742718000,
+   "grammar": [
+    {
+     "example": {
+      "es": "En el tren no había nadie.",
+      "jp": "電車の 中には だれも いませんでした。"
+     },
+     "explanation": "だれ (quién) + も (también/ni) con verbo negativo significa «nadie». Mismo patrón: なにも ～ない = nada.",
+     "point": "だれも + verbo negativo = nadie"
+    },
+    {
+     "example": {
+      "es": "La boca de la niña llegaba hasta las orejas.",
+      "jp": "女の子の 口は 耳まで ありました。"
+     },
+     "explanation": "いる es para seres vivos que se mueven (personas, animales); ある para cosas. Por eso «no había nadie» usa いませんでした. En «la boca llegaba hasta las orejas» se usa ありました porque habla de la boca como cosa: ahí está lo inquietante.",
+     "point": "いる / ある: existir"
+    },
+    {
+     "example": {
+      "es": "Preguntó «¿qué hora es?».",
+      "jp": "「何時ですか」と 聞きました。"
+     },
+     "explanation": "と marca lo que se dice o se pregunta, como las comillas. Va antes del verbo de decir.",
+     "point": "「…」と 言う / 聞く: citar"
+    },
+    {
+     "example": {
+      "es": "Al volver a mirar, la niña no estaba.",
+      "jp": "もう一度 見ると、女の子は いませんでした。"
+     },
+     "explanation": "Con el verbo en forma de diccionario, と indica que algo pasa justo después y de forma natural: al mirar, descubrí… Muy usado en cuentos de terror para el giro final.",
+     "point": "verbo + と = «al hacer X»"
+    },
+    {
+     "example": {
+      "es": "Solo se oía el sonido del tren.",
+      "jp": "電車の 音だけが 聞こえました。"
+     },
+     "explanation": "Va detrás del sustantivo que limita.",
+     "point": "だけ = solo"
+    }
+   ],
+   "notes": "Reto de escritura: cambia el lugar (una escuela de noche, un ascensor) y cuenta tu versión en 5 frases usando だれも, いる/ある y と.",
+   "reading": [
+    {
+     "es": "De noche, me subí solo al tren.",
+     "jp": "夜、わたしは 一人で 電車に のりました。",
+     "kana": "よる、わたしは ひとりで でんしゃに のりました。"
+    },
+    {
+     "es": "En el tren no había nadie.",
+     "jp": "電車の 中には だれも いませんでした。",
+     "kana": "でんしゃの なかには だれも いませんでした。"
+    },
+    {
+     "es": "Afuera estaba completamente oscuro.",
+     "jp": "外は まっくらでした。",
+     "kana": "そとは まっくらでした。"
+    },
+    {
+     "es": "En la siguiente estación subió una niña.",
+     "jp": "つぎの 駅で、女の子が のりました。",
+     "kana": "つぎの えきで、おんなのこが のりました。"
+    },
+    {
+     "es": "La niña se sentó frente a mí.",
+     "jp": "女の子は わたしの まえに すわりました。",
+     "kana": "おんなのこは わたしの まえに すわりました。"
+    },
+    {
+     "es": "«¿Qué hora es?», preguntó la niña.",
+     "jp": "「何時ですか」と 女の子が 聞きました。",
+     "kana": "「なんじですか」と おんなのこが ききました。"
+    },
+    {
+     "es": "Miré el reloj. Eran las doce.",
+     "jp": "とけいを 見ました。十二時でした。",
+     "kana": "とけいを みました。じゅうにじでした。"
+    },
+    {
+     "es": "Diciendo «gracias», la niña sonrió.",
+     "jp": "「ありがとう」と 言って、女の子は わらいました。",
+     "kana": "「ありがとう」と いって、おんなのこは わらいました。"
+    },
+    {
+     "es": "Pero la boca de la niña llegaba hasta las orejas.",
+     "jp": "でも、女の子の 口は 耳まで ありました。",
+     "kana": "でも、おんなのこの くちは みみまで ありました。"
+    },
+    {
+     "es": "Cuando volví a mirar, la niña ya no estaba.",
+     "jp": "もう一度 見ると、女の子は いませんでした。",
+     "kana": "もういちど みると、おんなのこは いませんでした。"
+    },
+    {
+     "es": "Solo se oía el sonido del tren.",
+     "jp": "電車の 音だけが 聞こえました。",
+     "kana": "でんしゃの おとだけが きこえました。"
+    }
+   ],
+   "slot": "finde",
+   "source": "Microcuento de terror original, nivel N5",
+   "status": "preestudio",
+   "summary": "Un viaje en tren a medianoche y una niña que pregunta la hora. Juega con la leyenda urbana de 口裂け女 (kuchisake-onna, la mujer de la boca cortada). Estudia las palabras, lee el cuento de corrido y después intenta escribir tu propia versión de 5 líneas.",
+   "title": "夜の電車 · El tren de la noche",
+   "type": "texto",
+   "updated": 1792742718003,
+   "url": "",
+   "week": "2026-W43",
+   "words": [
+    "w-yoru",
+    "w-hitori",
+    "w-densha",
+    "w-naka",
+    "w-soto",
+    "w-eki",
+    "w-onnanoko",
+    "w-nanji",
+    "w-juuniji",
+    "w-kiku",
+    "w-miru",
+    "w-iu",
+    "w-kuchi",
+    "w-mimi",
+    "w-oto"
+   ]
+  },
+  "p-personas": {
+   "created": 1792742718000,
+   "grammar": [
+    {
+     "example": {
+      "es": "Mira hacia arriba, por favor.",
+      "jp": "上を 見て ください。"
+     },
+     "explanation": "Forma て del verbo + ください para pedir algo con cortesía. 見る → 見て ください.",
+     "point": "～て ください (por favor, haz…)"
+    },
+    {
+     "example": {
+      "es": "Un hombre está leyendo un libro.",
+      "jp": "男の人が 本を 読んでいます。"
+     },
+     "explanation": "Forma て + います indica lo que está pasando ahora, como el «estar + gerundio» del español.",
+     "point": "～て います (acción en curso)"
+    },
+    {
+     "example": {
+      "es": "Me gustan las historias de miedo.",
+      "jp": "こわい 話が 好きです。"
+     },
+     "explanation": "好き es un adjetivo (な), no un verbo: lo que gusta se marca con が. Literalmente «las historias de miedo son queridas (por mí)».",
+     "point": "A が 好きです"
+    },
+    {
+     "example": {
+      "es": "Habla en japonés, por favor.",
+      "jp": "日本語で 話して ください。"
+     },
+     "explanation": "で marca con qué haces algo (日本語で, 電車で) o dónde ocurre una acción (外で あそびます).",
+     "point": "で: medio o lugar de la acción"
+    }
+   ],
+   "notes": "",
+   "slot": "finde",
+   "source": "Kanji N5: personas, cuerpo y verbos básicos",
+   "status": "preestudio",
+   "summary": "Kanji de personas y de acciones cotidianas. Fíjate en la familia de 言 (decir): 話す, 語, 読む y 言葉 comparten esa pieza, y en cómo 女 y 子 forman 好き.",
+   "title": "Personas y acciones · kanji base",
+   "type": "texto",
+   "updated": 1792742718001,
+   "url": "",
+   "week": "2026-W43",
+   "words": [
+    "w-nihongo",
+    "w-hon",
+    "w-hito",
+    "w-otokonohito",
+    "w-onnanohito",
+    "w-kodomo",
+    "w-suki",
+    "w-yasumu",
+    "w-yomu",
+    "w-hanasu",
+    "w-hanashi",
+    "w-kotoba",
+    "w-te",
+    "w-me",
+    "w-gakusei",
+    "w-sensei",
+    "w-kanji",
+    "w-yasui",
+    "w-taberu",
+    "w-nomu",
+    "w-iku",
+    "w-kuru"
+   ]
+  }
+ },
+ "cards": {
+  "k-k65e5": {
+   "kind": "k",
+   "ref": "k65e5",
+   "due": null,
+   "order": 1,
+   "created": 1792742718000
+  },
+  "k-k672c": {
+   "kind": "k",
+   "ref": "k672c",
+   "due": null,
+   "order": 2,
+   "created": 1792742718000
+  },
+  "w-w-nihon": {
+   "kind": "w",
+   "ref": "w-nihon",
+   "due": null,
+   "order": 3,
+   "created": 1792742718000
+  },
+  "k-k8a9e": {
+   "kind": "k",
+   "ref": "k8a9e",
+   "due": null,
+   "order": 4,
+   "created": 1792742718000
+  },
+  "w-w-nihongo": {
+   "kind": "w",
+   "ref": "w-nihongo",
+   "due": null,
+   "order": 5,
+   "created": 1792742718000
+  },
+  "k-k6708": {
+   "kind": "k",
+   "ref": "k6708",
+   "due": null,
+   "order": 6,
+   "created": 1792742718000
+  },
+  "k-k66dc": {
+   "kind": "k",
+   "ref": "k66dc",
+   "due": null,
+   "order": 7,
+   "created": 1792742718000
+  },
+  "w-w-getsuyoubi": {
+   "kind": "w",
+   "ref": "w-getsuyoubi",
+   "due": null,
+   "order": 8,
+   "created": 1792742718000
+  },
+  "k-k706b": {
+   "kind": "k",
+   "ref": "k706b",
+   "due": null,
+   "order": 9,
+   "created": 1792742718000
+  },
+  "w-w-kayoubi": {
+   "kind": "w",
+   "ref": "w-kayoubi",
+   "due": null,
+   "order": 10,
+   "created": 1792742718000
+  },
+  "k-k571f": {
+   "kind": "k",
+   "ref": "k571f",
+   "due": null,
+   "order": 11,
+   "created": 1792742718000
+  },
+  "w-w-doyoubi": {
+   "kind": "w",
+   "ref": "w-doyoubi",
+   "due": null,
+   "order": 12,
+   "created": 1792742718000
+  },
+  "k-k6c34": {
+   "kind": "k",
+   "ref": "k6c34",
+   "due": null,
+   "order": 13,
+   "created": 1792742718000
+  },
+  "w-w-mizu": {
+   "kind": "w",
+   "ref": "w-mizu",
+   "due": null,
+   "order": 14,
+   "created": 1792742718000
+  },
+  "k-k6728": {
+   "kind": "k",
+   "ref": "k6728",
+   "due": null,
+   "order": 15,
+   "created": 1792742718000
+  },
+  "w-w-ki": {
+   "kind": "w",
+   "ref": "w-ki",
+   "due": null,
+   "order": 16,
+   "created": 1792742718000
+  },
+  "k-k91d1": {
+   "kind": "k",
+   "ref": "k91d1",
+   "due": null,
+   "order": 17,
+   "created": 1792742718000
+  },
+  "w-w-okane": {
+   "kind": "w",
+   "ref": "w-okane",
+   "due": null,
+   "order": 18,
+   "created": 1792742718000
+  },
+  "k-k5c71": {
+   "kind": "k",
+   "ref": "k5c71",
+   "due": null,
+   "order": 19,
+   "created": 1792742718000
+  },
+  "w-w-yama": {
+   "kind": "w",
+   "ref": "w-yama",
+   "due": null,
+   "order": 20,
+   "created": 1792742718000
+  },
+  "k-k5ddd": {
+   "kind": "k",
+   "ref": "k5ddd",
+   "due": null,
+   "order": 21,
+   "created": 1792742718000
+  },
+  "w-w-kawa": {
+   "kind": "w",
+   "ref": "w-kawa",
+   "due": null,
+   "order": 22,
+   "created": 1792742718000
+  },
+  "k-k96e8": {
+   "kind": "k",
+   "ref": "k96e8",
+   "due": null,
+   "order": 23,
+   "created": 1792742718000
+  },
+  "w-w-ame": {
+   "kind": "w",
+   "ref": "w-ame",
+   "due": null,
+   "order": 24,
+   "created": 1792742718000
+  },
+  "k-k660e": {
+   "kind": "k",
+   "ref": "k660e",
+   "due": null,
+   "order": 25,
+   "created": 1792742718000
+  },
+  "w-w-ashita": {
+   "kind": "w",
+   "ref": "w-ashita",
+   "due": null,
+   "order": 26,
+   "created": 1792742718000
+  },
+  "k-k4eca": {
+   "kind": "k",
+   "ref": "k4eca",
+   "due": null,
+   "order": 27,
+   "created": 1792742718000
+  },
+  "w-w-kyou": {
+   "kind": "w",
+   "ref": "w-kyou",
+   "due": null,
+   "order": 28,
+   "created": 1792742718000
+  },
+  "k-k6642": {
+   "kind": "k",
+   "ref": "k6642",
+   "due": null,
+   "order": 29,
+   "created": 1792742718000
+  },
+  "k-k9593": {
+   "kind": "k",
+   "ref": "k9593",
+   "due": null,
+   "order": 30,
+   "created": 1792742718000
+  },
+  "w-w-jikan": {
+   "kind": "w",
+   "ref": "w-jikan",
+   "due": null,
+   "order": 31,
+   "created": 1792742718000
+  },
+  "k-k68ee": {
+   "kind": "k",
+   "ref": "k68ee",
+   "due": null,
+   "order": 32,
+   "created": 1792742718000
+  },
+  "w-w-mori": {
+   "kind": "w",
+   "ref": "w-mori",
+   "due": null,
+   "order": 33,
+   "created": 1792742718000
+  },
+  "w-w-hon": {
+   "kind": "w",
+   "ref": "w-hon",
+   "due": null,
+   "order": 34,
+   "created": 1792742718000
+  },
+  "k-k5927": {
+   "kind": "k",
+   "ref": "k5927",
+   "due": null,
+   "order": 35,
+   "created": 1792742718000
+  },
+  "w-w-ookii": {
+   "kind": "w",
+   "ref": "w-ookii",
+   "due": null,
+   "order": 36,
+   "created": 1792742718000
+  },
+  "k-k5c0f": {
+   "kind": "k",
+   "ref": "k5c0f",
+   "due": null,
+   "order": 37,
+   "created": 1792742718000
+  },
+  "w-w-chiisai": {
+   "kind": "w",
+   "ref": "w-chiisai",
+   "due": null,
+   "order": 38,
+   "created": 1792742718000
+  },
+  "k-k4e0a": {
+   "kind": "k",
+   "ref": "k4e0a",
+   "due": null,
+   "order": 39,
+   "created": 1792742718000
+  },
+  "w-w-ue": {
+   "kind": "w",
+   "ref": "w-ue",
+   "due": null,
+   "order": 40,
+   "created": 1792742718000
+  },
+  "k-k4e0b": {
+   "kind": "k",
+   "ref": "k4e0b",
+   "due": null,
+   "order": 41,
+   "created": 1792742718000
+  },
+  "w-w-shita": {
+   "kind": "w",
+   "ref": "w-shita",
+   "due": null,
+   "order": 42,
+   "created": 1792742718000
+  },
+  "k-k5b66": {
+   "kind": "k",
+   "ref": "k5b66",
+   "due": null,
+   "order": 43,
+   "created": 1792742718000
+  },
+  "w-w-daigaku": {
+   "kind": "w",
+   "ref": "w-daigaku",
+   "due": null,
+   "order": 44,
+   "created": 1792742718000
+  }
+ }
+}
