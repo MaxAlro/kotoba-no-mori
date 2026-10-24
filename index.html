@@ -817,7 +817,37 @@ function kanjiBrowser() {
 const PACK_TYPES = { cancion: "Canción", episodio: "Episodio", capitulo: "Capítulo", texto: "Texto" };
 const PACK_STEPS = [["preestudio", "1 · Preestudio"], ["listo", "2 · Listo para disfrutar"], ["disfrutado", "3 · Disfrutado"]];
 function packProgress(p) { const ids = p.words || []; const inS = ids.filter(id => S.cards.has("w-" + id)).length; const mature = ids.filter(id => (S.cards.get("w-" + id)?.interval || 0) >= 7).length; return { total: ids.length, inS, mature }; }
-function packChips(p) { const pr = packProgress(p); return [h("span", { class: "chip ki" }, PACK_TYPES[p.type] || p.type), h("span", { class: "chip plain" }, (PACK_STEPS.find(x => x[0] === p.status) || PACK_STEPS[0])[1].replace(/^\d · /, "")), h("span", { class: "chip plain mono" }, pr.mature + "/" + pr.total + " firmes")]; }
+function packChips(p) { const pr = packProgress(p); return [h("span", { class: "chip ki" }, PACK_TYPES[p.type] || p.type), h("span", { class: "chip plain" }, p.status === "estanteria" ? "Estantería" : (PACK_STEPS.find(x => x[0] === p.status) || PACK_STEPS[0])[1].replace(/^\d · /, "")), h("span", { class: "chip plain mono" }, pr.mature + "/" + pr.total + " firmes")]; }
+
+/* Estantería: obras aún difíciles. p.shelf = { frags: [{ label, words: [[jp, veces], …] }], alt }.
+   Escalera: cada fragmento debe quedar en ≥85 % de cobertura y ≤25 palabras nuevas, contando como sabidas las de los fragmentos anteriores. */
+const LADDER_MIN = 0.85, LADDER_NEW = 25;
+function knownWords() { const k = new Set(); for (const [id, w] of S.words) { const c = S.cards.get("w-" + id); if (c && ((c.reps || 0) > 0 || (c.interval || 0) > 0)) k.add(w.jp); } return k; }
+function ladder(p, known = knownWords()) {
+  const kn = new Set(known); const steps = []; let open = true, tot = 0, hit = 0;
+  for (const f of p.shelf?.frags || []) {
+    let n = 0, ok = 0; const fresh = new Set();
+    for (const [jp, c] of f.words) { n += c; if (kn.has(jp)) ok += c; else fresh.add(jp); }
+    tot += n; hit += ok;
+    const cov = n ? ok / n : 1, pass = open && cov >= LADDER_MIN && fresh.size <= LADDER_NEW;
+    steps.push({ label: f.label, cov, fresh: fresh.size, pass }); if (!pass) open = false;
+    for (const jp of fresh) kn.add(jp);
+  }
+  const reach = steps.filter(x => x.pass).length;
+  return { steps, reach, total: steps.length, cov: tot ? (hit / tot) : 0, full: steps.length > 0 && reach === steps.length };
+}
+function shelfRow(id, p) { const l = ladder(p); return h("button", { class: "pack", type: "button", onclick: () => go("paquetes", { packId: id }) },
+  h("div", { class: "row" }, h("h2", {}, p.title), l.full ? h("span", { class: "chip ok" }, "¡Desbloqueada!") : null), p.source ? h("p", { class: "small muted" }, p.source) : null,
+  h("div", { class: "meter", style: "margin:8px 0 4px", role: "img", "aria-label": "Cobertura " + Math.round(l.cov * 100) + "%" }, h("i", { style: "width:" + Math.round(l.cov * 100) + "%" })),
+  h("div", { class: "meta" }, h("span", { class: "chip plain mono" }, Math.round(l.cov * 100) + "% conocido"), h("span", { class: "chip plain mono" }, "escalera " + l.reach + "/" + l.total))); }
+function shelfPanel(p) { const l = ladder(p);
+  return h("div", { class: "panel" }, h("h2", {}, "En la estantería"),
+    h("p", { class: "small" }, l.full ? "Ya tienes escalera completa: cada fragmento queda a tu alcance si vas en orden. Pídeme que la prepare." : l.reach ? "Puedes subir " + l.reach + " de " + l.total + " fragmentos; después la escalera se corta. Espera a que crezca." : "Todavía no hay escalera: el primer fragmento ya tiene demasiadas palabras nuevas."),
+    h("p", { class: "small muted" }, "Se recalcula sola con lo que repasas. Un fragmento sube si conoces el " + Math.round(LADDER_MIN * 100) + "% de sus palabras y tiene " + LADDER_NEW + " nuevas o menos, contando lo aprendido en los anteriores."),
+    h("div", { class: "stack tight" }, l.steps.map(st => h("div", {}, h("div", { class: "row small" }, h("span", {}, st.label), h("span", { class: "mono muted", style: "margin-left:auto" }, Math.round(st.cov * 100) + "% · " + st.fresh + " nuevas"), h("span", { class: "dot " + (st.pass ? "ok" : "bad"), style: "margin-left:6px" })),
+      h("div", { class: "meter" }, h("i", { style: "width:" + Math.round(st.cov * 100) + "%;" + (st.pass ? "" : "background:var(--muted)") }))))),
+    p.shelf?.alt ? h("p", { class: "small" }, h("b", {}, "Mientras tanto: "), p.shelf.alt) : null);
+}
 
 function weekMenu(wk) { return [...S.packs.entries()].filter(([, p]) => p.week === wk).sort((a, b) => (a[1].slot === "finde") - (b[1].slot === "finde") || (a[1].created || 0) - (b[1].created || 0)); }
 function packRow(id, p, hl) { return h("button", { class: "pack", type: "button", style: hl && p.slot === "finde" ? "border-color:var(--ki)" : null, onclick: () => go("paquetes", { packId: id }) },
@@ -843,7 +873,8 @@ function viewPaquetes() {
   if (S.conn === "none") return emptyNoDb();
   if (V.packForm) return packForm();
   if (V.packId && S.packs.has(V.packId)) return packDetail(V.packId);
-  const packs = [...S.packs.entries()].sort((a, b) => (b[1].updated || b[1].created || 0) - (a[1].updated || a[1].created || 0));
+  const all = [...S.packs.entries()]; const shelf = all.filter(([, p]) => p.status === "estanteria");
+  const packs = all.filter(([, p]) => p.status !== "estanteria").sort((a, b) => (b[1].updated || b[1].created || 0) - (a[1].updated || a[1].created || 0));
   return h("div", { class: "stack v-wide" },
     h("h1", {}, "Paquetes de preestudio"),
     h("p", { class: "muted small" }, "Antes de escuchar una canción o ver un episodio, estudia su vocabulario y gramática aquí. Después lo disfrutas sin pausar."),
@@ -851,7 +882,10 @@ function viewPaquetes() {
     packs.length ? (() => { const wk = weekKey(), nx = weekKey(Date.now() + 7 * DAY);
       const groups = [["Esta semana", packs.filter(([, p]) => p.week === wk)], ["Próxima semana", packs.filter(([, p]) => p.week === nx)], ["Otros y anteriores", packs.filter(([, p]) => p.week !== wk && p.week !== nx)]].filter(g => g[1].length);
       return h("div", { class: "stack" }, groups.map(([t, list]) => h("div", { class: "section" }, h("h3", {}, t), h("div", { class: "stack tight pack-list" }, list.map(([id, p]) => packRow(id, p, true)))))); })()
-      : h("div", { class: "panel empty" }, h("div", { class: "glyph" }, "曲"), h("p", {}, "Todavía no hay paquetes. Crea uno con la canción, el episodio o el capítulo que quieras disfrutar.")));
+      : h("div", { class: "panel empty" }, h("div", { class: "glyph" }, "曲"), h("p", {}, "Todavía no hay paquetes. Crea uno con la canción, el episodio o el capítulo que quieras disfrutar.")),
+    h("div", { class: "section" }, h("h3", {}, "Estantería · por desbloquear"),
+      shelf.length ? h("div", { class: "stack tight pack-list" }, shelf.sort((a, b) => ladder(b[1]).cov - ladder(a[1]).cov).map(([id, p]) => shelfRow(id, p)))
+        : h("p", { class: "small muted" }, "Aquí quedan las obras que todavía son difíciles. Su porcentaje sube a medida que aprendes y te aviso cuando tengan escalera.")));
 }
 function packDetail(pid) {
   const p = S.packs.get(pid); const pr = packProgress(p);
@@ -860,12 +894,13 @@ function packDetail(pid) {
     h("button", { class: "btn sm ghost", type: "button", style: "align-self:flex-start", onclick: () => go("paquetes", { packId: null }) }, "← Paquetes"),
     h("div", { class: "section" }, h("div", { class: "meta row" }, packChips(p)), h("h1", {}, p.title), p.source ? h("p", { class: "muted" }, p.source) : null,
       p.url ? h("a", { class: "btn sm", href: p.url, target: "_blank", rel: "noopener" }, "Abrir el contenido original ↗") : null),
+    p.status === "estanteria" ? shelfPanel(p) : null,
     p.summary ? h("div", { class: "panel" }, h("h3", {}, "De qué trata"), h("p", {}, p.summary)) : null,
     (p.reading || []).length ? h("div", { class: "panel" }, h("div", { class: "row" }, h("h2", {}, "Lectura"), h("button", { class: "btn sm", type: "button", style: "margin-left:auto", onclick: () => { V.showTr = !V.showTr; render(); } }, V.showTr ? "Ocultar traducción" : "Ver traducción")),
       h("p", { class: "small muted" }, "Primero estudia el vocabulario. Después lee de corrido y escucha cada línea; la traducción solo si te trabas."),
       h("div", { class: "stack tight" }, p.reading.map(l => h("div", { class: "gram" }, h("div", { class: "row", style: "flex-wrap:nowrap;align-items:flex-start" }, h("span", { style: "font-size:19px;line-height:1.7;flex:1;min-width:0" }, l.jp), speakBtn(l.kana || l.jp, "línea")), V.showTr ? h("p", { class: "small muted" }, l.es) : null)))) : null,
-    h("div", { class: "steps", role: "group", "aria-label": "Estado del paquete" }, PACK_STEPS.map(([k, l]) => h("button", { class: "btn " + (p.status === k ? "on" : ""), type: "button", "aria-pressed": p.status === k ? "true" : "false", onclick: () => { S.packs.set(pid, { ...p, status: k, updated: Date.now() }); save("packs/" + pid, { status: k, updated: Date.now() }, "update"); render(); } }, l))),
-    h("div", { class: "panel" },
+    p.status === "estanteria" ? null : h("div", { class: "steps", role: "group", "aria-label": "Estado del paquete" }, PACK_STEPS.map(([k, l]) => h("button", { class: "btn " + (p.status === k ? "on" : ""), type: "button", "aria-pressed": p.status === k ? "true" : "false", onclick: () => { S.packs.set(pid, { ...p, status: k, updated: Date.now() }); save("packs/" + pid, { status: k, updated: Date.now() }, "update"); render(); } }, l))),
+    p.status === "estanteria" ? null : h("div", { class: "panel" },
       h("div", { class: "row" }, h("h2", {}, "Vocabulario"), h("span", { class: "small muted mono", style: "margin-left:auto" }, pr.inS + "/" + pr.total + " en repaso")),
       words.length ? h("div", { class: "vocab" }, words.map(([id, w]) => h("div", { class: "vocab-row" },
         h("span", { class: "jp", role: "button", tabindex: "0", style: "cursor:pointer", onclick: () => go("grafo", { graph: { t: "w", id } }) }, w.jp),
