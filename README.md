@@ -16,6 +16,12 @@ Cuando hay conexión, la app lee `paquetes/index.json` y descarga los archivos n
 
 El progreso (tarjetas, registro, diagnósticos, estado de paquetes) vive en el dispositivo. Si se configura la sincronización, se copia a `progreso.json` en el repositorio **privado** `kotoba-progreso`. Cada registro lleva su hora de cambio; al sincronizar gana el más reciente.
 
+## Cómo se usa
+
+- **Hoy**: pendientes y nuevas del repaso, los primeros pasos (prueba diagnóstica → paquete → repaso → registro), el menú de la semana (incluye los paquetes de semanas anteriores que no estén marcados «Disfrutado») y la práctica de kana.
+- **Sin romaji**: la app no muestra romaji en ningún sitio. Los kana se practican de oído (voz japonesa del dispositivo) o por equivalencia hiragana ↔ katakana si no hay voz.
+- **Paquetes**: vocabulario con kanji desarmados, gramática explicada y, en los textos libres, la lectura completa con kana y traducción opcionales.
+
 ## Instalarla
 
 - **Android (Chrome):** abrir la página → menú ⋮ → «Instalar app» o «Agregar a pantalla principal».

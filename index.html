@@ -197,6 +197,15 @@ textarea{min-height:90px;resize:vertical}
 .options button.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
 .score-row{display:grid;grid-template-columns:110px 1fr 44px;gap:10px;align-items:center;font-size:14px}
 
+.step-row{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;padding:8px 0;border-bottom:1px solid var(--line)}
+.step-row:last-child{border-bottom:none}
+.step-row i{font-style:normal;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-top:2px}
+.step-row.done i{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.step-row.now i{border-color:var(--ki);color:var(--ki);font-weight:700}
+.step-row.done b{color:var(--muted)}
+.options button.kana-opt{font-family:var(--f-display);font-size:30px;font-weight:600;min-height:64px}
+.audio-ask{border:none;background:var(--ai-soft);color:var(--ai);border-radius:14px;padding:18px 24px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;align-self:center}
+.audio-ask svg{width:44px;height:44px}
 .empty{padding:22px 16px;text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;color:var(--muted)}
 .empty .glyph{font-size:64px;color:var(--line)}
 
@@ -466,7 +475,8 @@ function bumpStats(d) {
   const k = dayKey(); const cur = { reviews: 0, correct: 0, newSeen: 0, ...(S.stats.get(k) || {}) };
   for (const [f, v] of Object.entries(d)) cur[f] = (cur[f] || 0) + v;
   S.stats.set(k, cur);
-  clearTimeout(statTimer); statTimer = setTimeout(() => save("stats/" + k, { ...S.stats.get(k) }), 2500);
+  // Se guarda de inmediato: si se esperara, el guardado de la tarjeta recargaría S.stats desde el almacenamiento y se perdería el conteo del día.
+  save("stats/" + k, { ...cur });
 }
 function cardTarget(id, c) { return c.kind === "k" ? S.kanji.get(c.ref) : S.words.get(c.ref); }
 
@@ -479,13 +489,13 @@ const VIEWS = [
   { id: "progreso", jp: "歩", label: "Progreso" },
 ];
 let view = (location.hash || "").slice(1) || store("kotoba.view") || "hoy";
-if (![...VIEWS.map(v => v.id), "diagnostico", "registro"].includes(view)) view = "hoy";
+if (![...VIEWS.map(v => v.id), "diagnostico", "registro", "kana"].includes(view)) view = "hoy";
 let V = { packId: null, graph: store("kotoba.graph") || null, search: "", packForm: null, wordForm: null };
-function go(v, opts = {}) { view = v; Object.assign(V, opts); store("kotoba.view", v === "diagnostico" || v === "registro" ? "hoy" : v); render(); window.scrollTo(0, 0); }
+function go(v, opts = {}) { view = v; Object.assign(V, opts); store("kotoba.view", v === "diagnostico" || v === "registro" || v === "kana" ? "hoy" : v); render(); window.scrollTo(0, 0); }
 
 function renderTabs() {
   const q = queueCounts();
-  const tabs = $("#tabs"); tabs.replaceChildren(...VIEWS.map(v => h("button", { type: "button", "aria-current": (view === v.id || (view === "diagnostico" && v.id === "progreso") || (view === "registro" && v.id === "hoy")) ? "page" : null, onclick: () => go(v.id, v.id === "paquetes" ? { packId: null } : {}) },
+  const tabs = $("#tabs"); tabs.replaceChildren(...VIEWS.map(v => h("button", { type: "button", "aria-current": (view === v.id || (view === "diagnostico" && v.id === "progreso") || (view === "registro" && v.id === "hoy") || (view === "kana" && v.id === "hoy")) ? "page" : null, onclick: () => go(v.id, v.id === "paquetes" ? { packId: null } : {}) },
     h("b", { "aria-hidden": "true" }, v.jp), v.label,
     v.id === "repasar" && (q.due + q.newToday) > 0 ? h("span", { class: "badge" }, q.due + q.newToday) : null)));
 }
@@ -503,7 +513,7 @@ function render() {
     const act = document.activeElement; const fid = act && act.id && $("#main").contains(act) ? act.id : null;
     const sel = fid && "selectionStart" in act ? [act.selectionStart, act.selectionEnd] : null;
     renderTabs(); renderSync();
-    const fn = { hoy: viewHoy, repasar: viewRepasar, grafo: viewGrafo, paquetes: viewPaquetes, progreso: viewProgreso, diagnostico: viewDiag, registro: viewRegistro }[view];
+    const fn = { hoy: viewHoy, repasar: viewRepasar, grafo: viewGrafo, paquetes: viewPaquetes, progreso: viewProgreso, diagnostico: viewDiag, registro: viewRegistro, kana: viewKana }[view];
     $("#main").replaceChildren(fn());
     if (fid) { const el = document.getElementById(fid); if (el) { el.focus({ preventScroll: true }); if (sel) try { el.setSelectionRange(...sel); } catch {} } }
   });
@@ -537,7 +547,9 @@ function emptyNoDb() {
 function viewHoy() {
   const q = queueCounts(); const ph = currentPhase(); const plan = dayPlan();
   const isCommute = plan === DAY_PLANS.commute;
-  const menu = weekMenu(weekKey()); const todayLog = S.logs.get(dayKey()); const isWeekend = [0, 6].includes(new Date().getDay());
+  const wk = weekKey(); const menu = weekMenu(wk); const carry = carryMenu(wk); const todayLog = S.logs.get(dayKey()); const isWeekend = [0, 6].includes(new Date().getDay());
+  const everReviewed = [...S.stats.values()].some(x => (x.reviews || 0) > 0);
+  const firstPack = [...(menu.length ? menu : carry)].sort((a, b) => (a[1].slot === "finde") - (b[1].slot === "finde"))[0];
   const nK = [...S.cards.values()].filter(c => c.kind === "k").length, nW = [...S.cards.values()].filter(c => c.kind === "w").length;
   const st = todayStats();
   return h("div", { class: "stack v-grid" },
@@ -551,12 +563,15 @@ function viewHoy() {
       h("div", { class: "grid2" },
         h("button", { class: "btn " + (isCommute ? "" : "primary"), type: "button", disabled: (q.due + q.newToday) === 0, onclick: () => startSession("normal") }, "Repasar ahora"),
         h("button", { class: "btn " + (isCommute ? "primary" : ""), type: "button", disabled: (q.due + q.newToday) === 0, onclick: () => startSession("traslado") }, "Modo traslado"))),
-    S.diag.size === 0 && S.loaded.has("diag") ? h("div", { class: "panel" }, h("h2", {}, "Empieza por la prueba diagnóstica"), h("p", { class: "muted small" }, "Unos 10 minutos: kana, kanji, vocabulario y gramática. Con el resultado ajusto el punto de partida del plan."), h("button", { class: "btn primary", type: "button", onclick: () => { D = null; go("diagnostico"); } }, "Hacer la prueba")) : null,
+    S.loaded.has("diag") && S.loaded.has("stats") && (S.diag.size === 0 || !everReviewed || S.logs.size === 0) ? startHere(everReviewed, firstPack) : null,
     h("div", { class: "panel" }, h("div", { class: "row" }, h("h3", {}, "Menú de la semana"), h("span", { class: "chip plain mono", style: "margin-left:auto" }, weekKey())),
-      menu.length ? h("div", { class: "stack tight" }, menu.map(([id, p]) => packRow(id, p, isWeekend))) : h("p", { class: "small muted" }, "Todavía no hay paquetes para esta semana. Pídeme el menú en el chat del proyecto o crea uno en Paquetes."),
+      menu.length ? h("div", { class: "stack tight" }, menu.map(([id, p]) => packRow(id, p, isWeekend))) : carry.length ? null : h("p", { class: "small muted" }, "Todavía no hay paquetes para esta semana. Pídeme el menú en el chat del proyecto o crea uno en Paquetes."),
+      carry.length ? h("div", { class: "stack tight" }, menu.length ? h("p", { class: "small muted", style: "margin-top:4px" }, "Pendientes de semanas anteriores:") : h("p", { class: "small muted" }, "Esta semana no tiene menú propio; sigue con lo que quedó pendiente:"), carry.map(([id, p]) => packRow(id, p, isWeekend, "de " + p.week.slice(5)))) : null,
       h("p", { class: "small muted" }, "Es un menú: elige lo que te apetezca según el ánimo del día. Los fines de semana traen material de sobra.")),
     h("div", { class: "panel" }, h("h3", {}, "Ideas para hoy"), h("h2", {}, plan.title),
-      h("div", { class: "stack tight" }, plan.lines.map(([t, l]) => h("div", { class: "plan-line" }, h("b", {}, t), h("span", {}, l))))),
+      h("div", { class: "stack tight" }, plan.lines.map(([t, l]) => h("div", { class: "plan-line" }, h("b", {}, t), h("span", {}, l)))),
+      h("div", { class: "divider" }),
+      h("div", { class: "row" }, h("button", { class: "btn sm", type: "button", onclick: () => { KN = null; go("kana"); } }, "Práctica de kana · 2 min"), h("span", { class: "small muted" }, "Escucha y elige el kana. Sin romaji."))),
     h("div", { class: "panel" }, h("h3", {}, "Registro"),
       todayLog ? h("p", {}, "Hoy anotaste ", h("b", { class: "mono" }, (dayMinutes(dayKey()) / 60).toFixed(1) + " h"), todayLog.packs?.length ? " y " + todayLog.packs.length + " paquete(s)." : ".") : h("p", { class: "small muted" }, "Cuando termines (o mañana temprano), anota qué estudiaste. El repaso de tarjetas se cuenta solo."),
       h("button", { class: "btn", type: "button", onclick: () => openLog() }, todayLog ? "Editar lo de hoy" : "Registrar lo que estudié")),
@@ -643,7 +658,8 @@ function viewRepasar() {
         h("div", { class: "row", style: "justify-content:center" }, h("span", { class: "reading" }, t.kana), speakBtn(t.kana || t.jp, t.jp)),
         h("div", { class: "meaning" }, t.es), t.literal ? h("div", { class: "literal" }, "Literal: " + t.literal) : null,
         t.sentence?.jp ? h("div", { class: "stack tight", style: "align-items:center" }, h("div", { class: "row", style: "justify-content:center" }, h("span", { class: "small" }, t.sentence.kana || ""), speakBtn(t.sentence.kana || t.sentence.jp, "frase")), h("p", { class: "small muted" }, t.sentence.es || "")) : null),
-      (t.kanji || []).length ? h("div", { class: "decomp" }, t.kanji.map(decompItem)) : null) : null;
+      (t.kanji || []).length ? h("div", { class: "decomp" }, t.kanji.map(decompItem)) : null,
+      relatedWords(id, t).length ? h("div", { class: "stack tight" }, h("h3", {}, "Comparte kanji con"), h("div", { class: "row" }, relatedWords(id, t).map(([, w]) => h("span", { class: "chip plain" }, w.jp + " " + w.es)))) : null) : null;
   }
   return h("div", { class: "stack v-narrow " + (R.mode === "traslado" ? "traslado" : "") },
     h("div", { class: "row small muted" }, h("span", {}, R.mode === "traslado" ? "Modo traslado" : "Repaso"), h("span", { class: "mono", style: "margin-left:auto" }, R.i + 1 + " / " + R.queue.length),
@@ -656,6 +672,7 @@ function viewRepasar() {
       : h("div", { class: "grades" }, ["Otra vez", "Difícil", "Bien", "Fácil"].map((l, g) => h("button", { class: "btn g" + g, type: "button", onclick: () => grade(g) }, l, h("small", {}, labels[g])))),
     h("p", { class: "kbd-hint small muted", style: "text-align:center" }, R.revealed ? "Teclado: 1 Otra vez · 2 Difícil · 3 Bien · 4 Fácil" : "Teclado: espacio para mostrar la respuesta"));
 }
+function relatedWords(wid, w) { const ks = w.kanji || []; if (!ks.length) return []; return [...S.words.entries()].filter(([id, o]) => id !== wid.replace(/^w-/, "") && (o.kanji || []).some(c => ks.includes(c))).slice(0, 4); }
 function wordsWithKanji(ch) { return [...S.words.entries()].filter(([, w]) => (w.kanji || []).includes(ch)); }
 
 document.addEventListener("keydown", e => {
@@ -850,8 +867,23 @@ function shelfPanel(p) { const l = ladder(p);
 }
 
 function weekMenu(wk) { return [...S.packs.entries()].filter(([, p]) => p.week === wk).sort((a, b) => (a[1].slot === "finde") - (b[1].slot === "finde") || (a[1].created || 0) - (b[1].created || 0)); }
-function packRow(id, p, hl) { return h("button", { class: "pack", type: "button", style: hl && p.slot === "finde" ? "border-color:var(--ki)" : null, onclick: () => go("paquetes", { packId: id }) },
-  h("div", { class: "row" }, h("h2", {}, p.title), p.slot === "finde" ? h("span", { class: "chip ki" }, "Fin de semana") : null), p.source ? h("p", { class: "small muted" }, p.source) : null, h("div", { class: "meta" }, packChips(p))); }
+function packRow(id, p, hl, tag) { return h("button", { class: "pack", type: "button", style: hl && p.slot === "finde" ? "border-color:var(--ki)" : null, onclick: () => go("paquetes", { packId: id }) },
+  h("div", { class: "row" }, h("h2", {}, p.title), p.slot === "finde" ? h("span", { class: "chip ki" }, "Fin de semana") : null, tag ? h("span", { class: "chip plain mono" }, tag) : null), p.source ? h("p", { class: "small muted" }, p.source) : null, h("div", { class: "meta" }, packChips(p))); }
+/* Paquetes de semanas anteriores que no se han terminado: siguen en el menú de Hoy hasta marcarlos «Disfrutado». */
+function carryMenu(wk) { return [...S.packs.entries()].filter(([, p]) => p.week && p.week < wk && p.status !== "disfrutado" && p.status !== "estanteria").sort((a, b) => (b[1].week > a[1].week) - (b[1].week < a[1].week) || (a[1].slot === "finde") - (b[1].slot === "finde") || (a[1].created || 0) - (b[1].created || 0)); }
+function startHere(everReviewed, firstPack) {
+  const steps = [
+    { done: S.diag.size > 0, t: "Prueba diagnóstica (10 min)", d: "Kana de oído, kanji, vocabulario y gramática. Marca el punto de partida.", btn: "Hacer la prueba", go: () => { D = null; go("diagnostico"); } },
+    { done: everReviewed || !!store("kotoba.openedPack"), t: "Abre un paquete y agrégalo al repaso", d: firstPack ? "Empieza por «" + firstPack[1].title + "»: lee el vocabulario, escucha cada palabra y mira sus kanji." : "Lee el vocabulario y mira cómo se arman los kanji.", btn: firstPack ? "Abrir el paquete" : "Ver paquetes", go: () => go("paquetes", { packId: firstPack ? firstPack[0] : null }) },
+    { done: everReviewed, t: "Repasa tus primeras tarjetas", d: "Unas 10 nuevas al día. Fíjate en las piezas de cada kanji antes de calificar.", btn: "Repasar", go: () => startSession("normal") },
+    { done: S.logs.size > 0, t: "Registra el día", d: "Al terminar, anota minutos y nota. Con eso se arma el menú de la semana siguiente.", btn: "Registrar", go: () => openLog() },
+  ];
+  const next = steps.findIndex(x => !x.done);
+  return h("div", { class: "panel" }, h("h3", {}, "Empieza aquí"), h("h2", {}, "Tus primeros pasos"),
+    h("div", { class: "stack tight" }, steps.map((x, i) => h("div", { class: "step-row " + (x.done ? "done" : i === next ? "now" : "") },
+      h("i", { "aria-hidden": "true" }, x.done ? "✓" : i + 1),
+      h("div", { class: "stack", style: "gap:4px" }, h("b", {}, x.t), h("span", { class: "small muted" }, x.d), !x.done ? h("button", { class: "btn sm " + (i === next ? "primary" : ""), type: "button", style: "align-self:flex-start", onclick: x.go }, x.btn) : null)))));
+}
 async function addPackToSrs(pid) {
   const p = S.packs.get(pid); if (!p) return;
   let order = Date.now(); let added = 0;
@@ -888,7 +920,7 @@ function viewPaquetes() {
         : h("p", { class: "small muted" }, "Aquí quedan las obras que todavía son difíciles. Su porcentaje sube a medida que aprendes y te aviso cuando tengan escalera.")));
 }
 function packDetail(pid) {
-  const p = S.packs.get(pid); const pr = packProgress(p);
+  const p = S.packs.get(pid); const pr = packProgress(p); if (!store("kotoba.openedPack")) store("kotoba.openedPack", true);
   const words = (p.words || []).map(id => [id, S.words.get(id)]).filter(x => x[1]);
   return h("div", { class: "stack v-narrow" },
     h("button", { class: "btn sm ghost", type: "button", style: "align-self:flex-start", onclick: () => go("paquetes", { packId: null }) }, "← Paquetes"),
@@ -896,9 +928,9 @@ function packDetail(pid) {
       p.url ? h("a", { class: "btn sm", href: p.url, target: "_blank", rel: "noopener" }, "Abrir el contenido original ↗") : null),
     p.status === "estanteria" ? shelfPanel(p) : null,
     p.summary ? h("div", { class: "panel" }, h("h3", {}, "De qué trata"), h("p", {}, p.summary)) : null,
-    (p.reading || []).length ? h("div", { class: "panel" }, h("div", { class: "row" }, h("h2", {}, "Lectura"), h("button", { class: "btn sm", type: "button", style: "margin-left:auto", onclick: () => { V.showTr = !V.showTr; render(); } }, V.showTr ? "Ocultar traducción" : "Ver traducción")),
-      h("p", { class: "small muted" }, "Primero estudia el vocabulario. Después lee de corrido y escucha cada línea; la traducción solo si te trabas."),
-      h("div", { class: "stack tight" }, p.reading.map(l => h("div", { class: "gram" }, h("div", { class: "row", style: "flex-wrap:nowrap;align-items:flex-start" }, h("span", { style: "font-size:19px;line-height:1.7;flex:1;min-width:0" }, l.jp), speakBtn(l.kana || l.jp, "línea")), V.showTr ? h("p", { class: "small muted" }, l.es) : null)))) : null,
+    (p.reading || []).length ? h("div", { class: "panel" }, h("div", { class: "row" }, h("h2", {}, "Lectura"), h("div", { class: "row", style: "margin-left:auto" }, h("button", { class: "btn sm " + (V.showKana ? "on" : ""), type: "button", "aria-pressed": V.showKana ? "true" : "false", onclick: () => { V.showKana = !V.showKana; render(); } }, "Kana"), h("button", { class: "btn sm " + (V.showTr ? "on" : ""), type: "button", "aria-pressed": V.showTr ? "true" : "false", onclick: () => { V.showTr = !V.showTr; render(); } }, "Traducción"))),
+      h("p", { class: "small muted" }, "Primero estudia el vocabulario. Después lee de corrido y escucha cada línea. La lectura en kana y la traducción solo si te trabas."),
+      h("div", { class: "stack tight" }, p.reading.map(l => h("div", { class: "gram" }, h("div", { class: "row", style: "flex-wrap:nowrap;align-items:flex-start" }, h("span", { style: "font-size:19px;line-height:1.7;flex:1;min-width:0" }, l.jp), speakBtn(l.kana || l.jp, "línea")), V.showKana && l.kana && l.kana !== l.jp ? h("p", { class: "small", style: "color:var(--ai)" }, l.kana) : null, V.showTr ? h("p", { class: "small muted" }, l.es) : null)))) : null,
     p.status === "estanteria" ? null : h("div", { class: "steps", role: "group", "aria-label": "Estado del paquete" }, PACK_STEPS.map(([k, l]) => h("button", { class: "btn " + (p.status === k ? "on" : ""), type: "button", "aria-pressed": p.status === k ? "true" : "false", onclick: () => { S.packs.set(pid, { ...p, status: k, updated: Date.now() }); save("packs/" + pid, { status: k, updated: Date.now() }, "update"); render(); } }, l))),
     p.status === "estanteria" ? null : h("div", { class: "panel" },
       h("div", { class: "row" }, h("h2", {}, "Vocabulario"), h("span", { class: "small muted mono", style: "margin-left:auto" }, pr.inS + "/" + pr.total + " en repaso")),
@@ -1118,6 +1150,7 @@ const MONTHS = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "
 function fmtRange(p) { const a = new Date(parseD(p.from)), b = new Date(parseD(p.to)); return MONTHS[a.getMonth()] + " " + a.getFullYear() + " – " + MONTHS[b.getMonth()] + " " + b.getFullYear(); }
 
 /* ---------- DIAGNÓSTICO ---------- */
+// Kana: sin romaji. Se pregunta de oído (voz japonesa) y, si el dispositivo no tiene voz, por equivalencia hiragana ↔ katakana.
 const HIRA = "あa いi うu えe おo かka きki くku けke こko さsa しshi すsu せse そso たta ちchi つtsu てte とto なna にni ぬnu ねne のno はha ひhi ふfu へhe ほho まma みmi むmu めme もmo やya ゆyu よyo らra りri るru れre ろro わwa をwo んn".split(" ").map(x => [x[0], x.slice(1)]);
 const KATA = "アa イi ウu エe オo カka キki クku ケke コko サsa シshi スsu セse ソso タta チchi ツtsu テte トto ナna ニni ヌnu ネne ノno ハha ヒhi フfu ヘhe ホho マma ミmi ムmu メme モmo ヤya ユyu ヨyo ラra リri ルru レre ロro ワwa ヲwo ンn".split(" ").map(x => [x[0], x.slice(1)]);
 const DK = [["日", "sol, día"], ["月", "luna, mes"], ["水", "agua"], ["火", "fuego"], ["木", "árbol"], ["人", "persona"], ["山", "montaña"], ["学", "estudiar"], ["見", "ver"], ["食", "comer"], ["話", "hablar"], ["時", "hora, tiempo"], ["間", "intervalo"], ["電", "electricidad"], ["語", "idioma, palabra"], ["休", "descansar"], ["読", "leer"], ["先", "antes, previo"]];
@@ -1137,11 +1170,24 @@ const DG = [
   ["雨＿ふったら、行きません。", ["が", "を", "で", "に"], "が", "～たら condicional (N4)"],
 ];
 let D = null;
+const hasJaVoice = () => { try { return speechSynthesis.getVoices().some(v => v.lang && v.lang.startsWith("ja")); } catch { return false; } };
+const KANA_SKIP = new Set(["ん", "を", "ン", "ヲ"]);
+/* Pregunta de kana sin romaji: con voz → escucha y elige el kana; sin voz → muestra el kana y elige su equivalente en el otro silabario. */
+function kanaQ(pool, other, n, key, voice) {
+  const items = shuffle(pool.filter(x => !KANA_SKIP.has(x[0]))).slice(0, n);
+  return items.map(([ch, ro]) => {
+    const wrong = shuffle(pool.filter(x => x[1] !== ro && !KANA_SKIP.has(x[0]))).slice(0, 3);
+    if (voice) return { sec: key, ask: { audio: ch, text: "🔊" }, opts: shuffle([ch, ...wrong.map(x => x[0])]), correct: ch };
+    const eq = r => other.find(x => x[1] === r)[0];
+    return { sec: key, ask: ch, opts: shuffle([eq(ro), ...wrong.map(x => eq(x[1]))]), correct: eq(ro) };
+  });
+}
 function buildDiag() {
   const mk = (pool, n, ask, ans, key) => shuffle(pool).slice(0, n).map(item => { const correct = ans(item); const others = shuffle(pool.filter(x => ans(x) !== correct)).slice(0, 3).map(ans); return { sec: key, ask: ask(item), opts: shuffle([correct, ...others]), correct }; });
+  const voice = hasJaVoice();
   return [
-    ...mk(HIRA, 8, x => x[0], x => x[1], "Hiragana"),
-    ...mk(KATA, 8, x => x[0], x => x[1], "Katakana"),
+    ...kanaQ(HIRA, KATA, 8, "Hiragana", voice),
+    ...kanaQ(KATA, HIRA, 8, "Katakana", voice),
     ...mk(DK, 8, x => x[0], x => x[1], "Kanji"),
     ...mk(DV, 8, x => ({ text: x[0] }), x => x[1], "Vocabulario"),
     ...DG.map(([q, o, c, t]) => ({ sec: "Gramática", ask: { text: q, note: t }, opts: shuffle(o), correct: c })),
@@ -1175,13 +1221,44 @@ function viewDiag() {
     h("div", { class: "row small muted" }, h("span", {}, "Prueba diagnóstica · " + q.sec + " " + secIdx + "/" + secN), h("span", { class: "mono", style: "margin-left:auto" }, D.i + 1 + "/" + D.qs.length)),
     h("div", { class: "progress-line" }, h("i", { style: "width:" + (100 * D.i / D.qs.length) + "%" })),
     h("div", { class: "card", style: "min-height:0" },
-      typeof q.ask === "string" ? h("div", { class: "q-glyph" }, q.ask) : h("div", { class: "stack tight", style: "align-items:center" }, h("p", { class: "q-text" }, q.ask.text), q.ask.note ? h("span", { class: "chip plain" }, q.ask.note) : null),
-      h("p", { class: "small muted", style: "text-align:center" }, q.sec === "Hiragana" || q.sec === "Katakana" ? "¿Cómo se lee?" : q.sec === "Kanji" ? "¿Qué significa?" : q.sec === "Vocabulario" ? "¿Cómo se dice en japonés?" : "Elige la opción correcta"),
-      h("div", { class: "options" }, q.opts.map(o => h("button", { class: "btn " + (answered ? (o === q.correct ? "right" : o === D.picked ? "wrong" : "") : ""), type: "button", disabled: answered && o !== q.correct && o !== D.picked, style: q.sec === "Kanji" ? "font-size:15px" : null,
+      typeof q.ask === "string" ? h("div", { class: "q-glyph" }, q.ask) : q.ask.audio ? audioAsk(q.ask.audio, "diag-" + D.i) : h("div", { class: "stack tight", style: "align-items:center" }, h("p", { class: "q-text" }, q.ask.text), q.ask.note ? h("span", { class: "chip plain" }, q.ask.note) : null),
+      h("p", { class: "small muted", style: "text-align:center" }, q.ask.audio ? "Escucha y elige el kana" : q.sec === "Hiragana" ? "¿Cuál es su katakana?" : q.sec === "Katakana" ? "¿Cuál es su hiragana?" : q.sec === "Kanji" ? "¿Qué significa?" : q.sec === "Vocabulario" ? "¿Cómo se dice en japonés?" : "Elige la opción correcta"),
+      h("div", { class: "options" }, q.opts.map(o => h("button", { class: "btn " + (answered ? (o === q.correct ? "right" : o === D.picked ? "wrong" : "") : "") + (q.sec === "Hiragana" || q.sec === "Katakana" ? " kana-opt" : ""), type: "button", disabled: answered && o !== q.correct && o !== D.picked, style: q.sec === "Kanji" ? "font-size:15px" : null,
         onclick: () => { if (answered) return; D.picked = o; D.answers[D.i] = o; render(); } }, o)))),
     answered ? h("button", { class: "btn primary block", type: "button", onclick: () => { D.i++; D.picked = null; render(); } }, D.i + 1 < D.qs.length ? "Siguiente" : "Ver resultado")
       : h("button", { class: "btn ghost block", type: "button", onclick: () => { D.answers[D.i] = null; D.i++; render(); } }, "No sé, siguiente"),
     h("button", { class: "btn sm ghost", type: "button", style: "align-self:center", onclick: () => { D = null; go("hoy"); } }, "Salir de la prueba"));
+}
+
+/* Botón de audio grande para preguntas de oído; suena solo al aparecer la pregunta. */
+let lastAudioKey = null;
+function audioAsk(text, key) {
+  if (key !== lastAudioKey) { lastAudioKey = key; setTimeout(() => speak(text), 150); }
+  return h("button", { class: "audio-ask", type: "button", "aria-label": "Volver a escuchar", onclick: () => speak(text) }, speakerIcon(), h("span", { class: "small" }, "Escuchar otra vez"));
+}
+
+/* ---------- PRÁCTICA DE KANA (sin romaji, no entra al SRS) ---------- */
+let KN = null;
+function viewKana() {
+  if (!KN) { const voice = hasJaVoice(); KN = { qs: shuffle([...kanaQ(HIRA, KATA, 10, "Hiragana", voice), ...kanaQ(KATA, HIRA, 10, "Katakana", voice)]), i: 0, ok: 0, picked: null, voice, start: Date.now() }; }
+  const back = h("button", { class: "btn sm ghost", type: "button", style: "align-self:flex-start", onclick: () => { KN = null; go("hoy"); } }, "← Hoy");
+  if (KN.i >= KN.qs.length) {
+    const best = store("kotoba.kanaBest") || 0; if (KN.ok > best) store("kotoba.kanaBest", KN.ok);
+    return h("div", { class: "stack v-narrow" }, back, h("h1", {}, "Práctica de kana"),
+      h("div", { class: "panel" }, h("div", { class: "grid2" }, h("div", { class: "stat" }, h("span", {}, "Aciertos"), h("div", { class: "big-num" }, KN.ok + " / " + KN.qs.length)), h("div", { class: "stat" }, h("span", {}, "Mejor marca"), h("div", { class: "big-num" }, Math.max(best, KN.ok) + " / " + KN.qs.length))),
+        h("p", { class: "small muted" }, KN.ok >= 18 ? "Kana firme. Dedica el tiempo a kanji y vocabulario." : KN.ok >= 14 ? "Casi. Repite mañana en un traslado; dos o tres rondas y queda." : "Vale la pena una ronda diaria esta semana hasta pasar de 18."),
+        h("div", { class: "grid2" }, h("button", { class: "btn primary", type: "button", onclick: () => { KN = null; render(); } }, "Otra ronda"), h("button", { class: "btn", type: "button", onclick: () => { KN = null; go("hoy"); } }, "Volver a Hoy"))));
+  }
+  const q = KN.qs[KN.i]; const answered = KN.picked != null;
+  return h("div", { class: "stack v-narrow" }, back,
+    h("div", { class: "row small muted" }, h("span", {}, "Práctica de kana · " + q.sec), h("span", { class: "mono", style: "margin-left:auto" }, KN.i + 1 + "/" + KN.qs.length + " · " + KN.ok + " ✓")),
+    h("div", { class: "progress-line" }, h("i", { style: "width:" + (100 * KN.i / KN.qs.length) + "%" })),
+    h("div", { class: "card", style: "min-height:0" },
+      typeof q.ask === "string" ? h("div", { class: "q-glyph" }, q.ask) : audioAsk(q.ask.audio, "kana-" + KN.i),
+      h("p", { class: "small muted", style: "text-align:center" }, KN.voice ? "Escucha y elige el kana" : q.sec === "Hiragana" ? "¿Cuál es su katakana?" : "¿Cuál es su hiragana?"),
+      h("div", { class: "options" }, q.opts.map(o => h("button", { class: "btn kana-opt " + (answered ? (o === q.correct ? "right" : o === KN.picked ? "wrong" : "") : ""), type: "button", disabled: answered,
+        onclick: () => { if (answered) return; KN.picked = o; if (o === q.correct) KN.ok++; render(); setTimeout(() => { KN.i++; KN.picked = null; render(); }, o === q.correct ? 450 : 1100); } }, o)))),
+    !KN.voice ? h("p", { class: "small muted", style: "text-align:center" }, "Este dispositivo no tiene voz japonesa, así que se practica por equivalencia entre silabarios.") : null);
 }
 
 /* ---------- arranque ---------- */
