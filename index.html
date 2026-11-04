@@ -316,10 +316,11 @@ function toast(msg) { document.querySelector(".toast")?.remove(); const t = h("d
 let VOICES = [];
 function loadVoices() { try { VOICES = speechSynthesis.getVoices() || []; } catch { VOICES = []; } }
 try { loadVoices(); speechSynthesis.addEventListener("voiceschanged", loadVoices); } catch {}
+const jaVoices = () => { if (!VOICES.length) loadVoices(); return VOICES.filter(v => /^ja/i.test(v.lang || "")); };
 function jaVoice() {
-  if (!VOICES.length) loadVoices();
-  const ja = VOICES.filter(v => /^ja/i.test(v.lang || ""));
+  const ja = jaVoices();
   if (!ja.length) return null;
+  const pick = store("kotoba.voiceURI"); const chosen = pick && ja.find(v => v.voiceURI === pick || v.name === pick); if (chosen) return chosen;
   const score = v => (/^ja[-_]JP$/i.test(v.lang) ? 4 : 0) + (/google|kyoko|o-?ren|otoya|hattori|nanami|keita|ayumi|ichiro|haruka|sayaka|siri/i.test(v.name || "") ? 2 : 0) + (v.localService ? 1 : 0) + (v.default ? 1 : 0);
   return [...ja].sort((a, b) => score(b) - score(a))[0];
 }
@@ -334,14 +335,14 @@ function speak(text, opts = {}) {
     const u = new SpeechSynthesisUtterance(text);
     u.voice = v; u.lang = "ja-JP"; u.rate = opts.rate ?? 0.9; u.pitch = 1; u.volume = 1;
     currentUtter = u;
-    speechSynthesis.cancel();
-    /* Tras cancel(), Android y Safari recortan el principio si se habla en seguida; un respiro evita que "お" quede en un chasquido. */
-    setTimeout(() => { try { speechSynthesis.resume(); speechSynthesis.speak(u); } catch {} }, 80);
+    /* Android y Safari recortan el principio si se habla justo tras cancel(); solo se cancela si hay algo sonando, y se deja un respiro. */
+    const busy = speechSynthesis.speaking || speechSynthesis.pending; if (busy) speechSynthesis.cancel();
+    setTimeout(() => { try { speechSynthesis.resume(); speechSynthesis.speak(u); } catch {} }, busy ? 250 : 30);
     return true;
   } catch { toast("Este navegador no tiene voz en japonés."); return false; }
 }
-/* Un kana suelto dura una fracción de segundo y se pierde: se dice dos veces, despacio y con pausa (お。お). */
-const speakKana = ch => speak(ch + "。" + ch, { rate: 0.75 });
+/* Un kana suelto dura una fracción de segundo y el motor suele comerse el arranque: pausa inicial y tres repeticiones despacio (、お。お。お). */
+const speakKana = ch => speak("、" + ch + "。" + ch + "。" + ch, { rate: 0.75 });
 const speakerIcon = () => { const svg = s("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", "aria-hidden": "true" }, s("path", { d: "M11 5 6 9H3v6h3l5 4z", fill: "currentColor" }), s("path", { d: "M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" })); return svg; };
 const speakBtn = (text, label) => h("button", { class: "speak", type: "button", "aria-label": "Escuchar " + (label || text), onclick: e => { e.stopPropagation(); speak(text); } }, speakerIcon());
 
@@ -1167,7 +1168,18 @@ function viewProgreso() {
     syncPanel(),
     h("div", { class: "panel" }, h("h3", {}, "Ajustes"),
       h("label", {}, "Tarjetas nuevas por día", h("input", { type: "number", id: "cfg-new", min: "0", max: "60", value: S.config.newPerDay ?? 10, onchange: e => { const n = Math.max(0, Math.min(60, Math.round(+e.target.value || 0))); S.config.newPerDay = n; save("config/main", { ...S.config }); toast("Ahora verás " + n + " nuevas por día."); render(); } })),
-      h("p", { class: "small muted" }, "10 al día ≈ 300 al mes. Sube a 15-20 cuando el repaso diario baje de 15 minutos.")));
+      h("p", { class: "small muted" }, "10 al día ≈ 300 al mes. Sube a 15-20 cuando el repaso diario baje de 15 minutos."),
+      voicePanel()));
+}
+/* Elección de voz japonesa (las que ofrece el sistema); se guarda en este dispositivo. */
+function voicePanel() {
+  const ja = jaVoices(); const cur = jaVoice();
+  if (!ja.length) return h("p", { class: "small muted" }, "Este dispositivo no tiene voz japonesa. En Android: Ajustes → Sistema → Idiomas → Salida de texto a voz → instalar voz japonesa.");
+  return h("div", { class: "stack tight" },
+    h("label", {}, "Voz japonesa", h("select", { id: "cfg-voice", onchange: e => { store("kotoba.voiceURI", e.target.value); speak("おはよう。お", { rate: 0.8 }); } },
+      ...ja.map(v => h("option", { value: v.voiceURI, selected: cur && v.voiceURI === cur.voiceURI ? true : null }, v.name + (v.localService ? "" : " (en línea)"))))),
+    h("div", { class: "row" }, h("button", { class: "btn sm", type: "button", onclick: () => speakKana("お") }, "Probar: お"), h("button", { class: "btn sm", type: "button", onclick: () => speak("きょうは いい てんきですね。", { rate: 0.85 }) }, "Probar: frase")),
+    h("p", { class: "small muted" }, ja.length === 1 ? "Solo hay una voz japonesa instalada. En Android puedes añadir otras (p. ej. instalar otro motor de voz o más voces de Google) y aparecerán aquí." : "Si una voz suena cortada o artificial, prueba otra."));
 }
 const MONTHS = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
 function fmtRange(p) { const a = new Date(parseD(p.from)), b = new Date(parseD(p.to)); return MONTHS[a.getMonth()] + " " + a.getFullYear() + " – " + MONTHS[b.getMonth()] + " " + b.getFullYear(); }
@@ -1198,7 +1210,9 @@ const KANA_SKIP = new Set(["ん", "を", "ン", "ヲ"]);
 function kanaQ(pool, other, n, key, voice) {
   const items = shuffle(pool.filter(x => !KANA_SKIP.has(x[0]))).slice(0, n);
   return items.map(([ch, ro]) => {
-    const wrong = shuffle(pool.filter(x => x[1] !== ro && !KANA_SKIP.has(x[0]))).slice(0, 3);
+    /* De oído, las opciones no comparten vocal con la respuesta (お/こ/そ/と suenan casi igual en voz sintética). */
+    const vow = r => r.slice(-1);
+    const wrong = shuffle(pool.filter(x => x[1] !== ro && !KANA_SKIP.has(x[0]) && (!voice || vow(x[1]) !== vow(ro)))).slice(0, 3);
     if (voice) return { sec: key, ask: { audio: ch, text: "🔊" }, opts: shuffle([ch, ...wrong.map(x => x[0])]), correct: ch };
     const eq = r => other.find(x => x[1] === r)[0];
     return { sec: key, ask: ch, opts: shuffle([eq(ro), ...wrong.map(x => eq(x[1]))]), correct: eq(ro) };
@@ -1249,7 +1263,7 @@ function viewDiag() {
         onclick: () => { if (answered) return; D.picked = o; D.answers[D.i] = o; render(); } }, o)))),
     answered ? h("button", { class: "btn primary block", type: "button", onclick: () => { D.i++; D.picked = null; render(); } }, D.i + 1 < D.qs.length ? "Siguiente" : "Ver resultado")
       : h("button", { class: "btn ghost block", type: "button", onclick: () => { D.answers[D.i] = null; D.i++; render(); } }, "No sé, siguiente"),
-    q.ask?.audio ? noVoiceBtn(true, () => { D = null; }) : null,
+    q.ask?.audio ? h("div", { class: "row", style: "justify-content:center" }, noVoiceBtn(true, () => { D = null; }), jaVoices().length > 1 ? h("button", { class: "btn sm ghost", type: "button", onclick: () => go("progreso") }, "Cambiar voz") : null) : null,
     h("button", { class: "btn sm ghost", type: "button", style: "align-self:center", onclick: () => { D = null; go("hoy"); } }, "Salir de la prueba"));
 }
 
