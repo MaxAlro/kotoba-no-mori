@@ -312,13 +312,36 @@ let toastTimer;
 function toast(msg) { document.querySelector(".toast")?.remove(); const t = h("div", { class: "toast", role: "status" }, msg); document.body.append(t); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.remove(), 3200); }
 
 /* ---------- voz ---------- */
-function speak(text) {
-  try {
-    const u = new SpeechSynthesisUtterance(text); u.lang = "ja-JP"; u.rate = 0.9;
-    const v = speechSynthesis.getVoices().find(v => v.lang && v.lang.startsWith("ja")); if (v) u.voice = v;
-    speechSynthesis.cancel(); speechSynthesis.speak(u);
-  } catch { toast("Este navegador no tiene voz en japonés."); }
+/* Las voces llegan de forma asíncrona (voiceschanged); se guardan en caché y se elige la mejor voz japonesa. */
+let VOICES = [];
+function loadVoices() { try { VOICES = speechSynthesis.getVoices() || []; } catch { VOICES = []; } }
+try { loadVoices(); speechSynthesis.addEventListener("voiceschanged", loadVoices); } catch {}
+function jaVoice() {
+  if (!VOICES.length) loadVoices();
+  const ja = VOICES.filter(v => /^ja/i.test(v.lang || ""));
+  if (!ja.length) return null;
+  const score = v => (/^ja[-_]JP$/i.test(v.lang) ? 4 : 0) + (/google|kyoko|o-?ren|otoya|hattori|nanami|keita|ayumi|ichiro|haruka|sayaka|siri/i.test(v.name || "") ? 2 : 0) + (v.localService ? 1 : 0) + (v.default ? 1 : 0);
+  return [...ja].sort((a, b) => score(b) - score(a))[0];
 }
+const hasJaVoice = () => !!jaVoice();
+/* Modo de oído solo si hay voz japonesa y el usuario no lo desactivó ("no se entiende el audio"). */
+const voiceMode = () => hasJaVoice() && !store("kotoba.noVoice");
+let currentUtter = null; // referencia viva: Chrome recolecta la utterance y corta el audio si no se guarda
+function speak(text, opts = {}) {
+  try {
+    const v = jaVoice();
+    if (!v) { toast("Este navegador no tiene voz en japonés."); return false; }
+    const u = new SpeechSynthesisUtterance(text);
+    u.voice = v; u.lang = "ja-JP"; u.rate = opts.rate ?? 0.9; u.pitch = 1; u.volume = 1;
+    currentUtter = u;
+    speechSynthesis.cancel();
+    /* Tras cancel(), Android y Safari recortan el principio si se habla en seguida; un respiro evita que "お" quede en un chasquido. */
+    setTimeout(() => { try { speechSynthesis.resume(); speechSynthesis.speak(u); } catch {} }, 80);
+    return true;
+  } catch { toast("Este navegador no tiene voz en japonés."); return false; }
+}
+/* Un kana suelto dura una fracción de segundo y se pierde: se dice dos veces, despacio y con pausa (お。お). */
+const speakKana = ch => speak(ch + "。" + ch, { rate: 0.75 });
 const speakerIcon = () => { const svg = s("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", "aria-hidden": "true" }, s("path", { d: "M11 5 6 9H3v6h3l5 4z", fill: "currentColor" }), s("path", { d: "M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" })); return svg; };
 const speakBtn = (text, label) => h("button", { class: "speak", type: "button", "aria-label": "Escuchar " + (label || text), onclick: e => { e.stopPropagation(); speak(text); } }, speakerIcon());
 
@@ -1170,7 +1193,6 @@ const DG = [
   ["雨＿ふったら、行きません。", ["が", "を", "で", "に"], "が", "～たら condicional (N4)"],
 ];
 let D = null;
-const hasJaVoice = () => { try { return speechSynthesis.getVoices().some(v => v.lang && v.lang.startsWith("ja")); } catch { return false; } };
 const KANA_SKIP = new Set(["ん", "を", "ン", "ヲ"]);
 /* Pregunta de kana sin romaji: con voz → escucha y elige el kana; sin voz → muestra el kana y elige su equivalente en el otro silabario. */
 function kanaQ(pool, other, n, key, voice) {
@@ -1184,7 +1206,7 @@ function kanaQ(pool, other, n, key, voice) {
 }
 function buildDiag() {
   const mk = (pool, n, ask, ans, key) => shuffle(pool).slice(0, n).map(item => { const correct = ans(item); const others = shuffle(pool.filter(x => ans(x) !== correct)).slice(0, 3).map(ans); return { sec: key, ask: ask(item), opts: shuffle([correct, ...others]), correct }; });
-  const voice = hasJaVoice();
+  const voice = voiceMode();
   return [
     ...kanaQ(HIRA, KATA, 8, "Hiragana", voice),
     ...kanaQ(KATA, HIRA, 8, "Katakana", voice),
@@ -1227,20 +1249,26 @@ function viewDiag() {
         onclick: () => { if (answered) return; D.picked = o; D.answers[D.i] = o; render(); } }, o)))),
     answered ? h("button", { class: "btn primary block", type: "button", onclick: () => { D.i++; D.picked = null; render(); } }, D.i + 1 < D.qs.length ? "Siguiente" : "Ver resultado")
       : h("button", { class: "btn ghost block", type: "button", onclick: () => { D.answers[D.i] = null; D.i++; render(); } }, "No sé, siguiente"),
+    q.ask?.audio ? noVoiceBtn(true, () => { D = null; }) : null,
     h("button", { class: "btn sm ghost", type: "button", style: "align-self:center", onclick: () => { D = null; go("hoy"); } }, "Salir de la prueba"));
 }
 
+/* Cambiar entre oído y equivalencia hiragana↔katakana; reinicia la prueba o la práctica en curso. */
+function noVoiceBtn(on, reset) {
+  return h("button", { class: "btn sm ghost", type: "button", style: "align-self:center", onclick: () => { store("kotoba.noVoice", on); reset(); toast(on ? "Kana por equivalencia hiragana ↔ katakana, sin audio." : "Kana de oído activado."); render(); } },
+    on ? "No se entiende el audio: hacerlo sin audio" : "Volver a probar con audio");
+}
 /* Botón de audio grande para preguntas de oído; suena solo al aparecer la pregunta. */
 let lastAudioKey = null;
 function audioAsk(text, key) {
-  if (key !== lastAudioKey) { lastAudioKey = key; setTimeout(() => speak(text), 150); }
-  return h("button", { class: "audio-ask", type: "button", "aria-label": "Volver a escuchar", onclick: () => speak(text) }, speakerIcon(), h("span", { class: "small" }, "Escuchar otra vez"));
+  if (key !== lastAudioKey) { lastAudioKey = key; setTimeout(() => speakKana(text), 250); }
+  return h("button", { class: "audio-ask", type: "button", "aria-label": "Volver a escuchar", onclick: () => speakKana(text) }, speakerIcon(), h("span", { class: "small" }, "Escuchar otra vez"));
 }
 
 /* ---------- PRÁCTICA DE KANA (sin romaji, no entra al SRS) ---------- */
 let KN = null;
 function viewKana() {
-  if (!KN) { const voice = hasJaVoice(); KN = { qs: shuffle([...kanaQ(HIRA, KATA, 10, "Hiragana", voice), ...kanaQ(KATA, HIRA, 10, "Katakana", voice)]), i: 0, ok: 0, picked: null, voice, start: Date.now() }; }
+  if (!KN) { const voice = voiceMode(); KN = { qs: shuffle([...kanaQ(HIRA, KATA, 10, "Hiragana", voice), ...kanaQ(KATA, HIRA, 10, "Katakana", voice)]), i: 0, ok: 0, picked: null, voice, start: Date.now() }; }
   const back = h("button", { class: "btn sm ghost", type: "button", style: "align-self:flex-start", onclick: () => { KN = null; go("hoy"); } }, "← Hoy");
   if (KN.i >= KN.qs.length) {
     const best = store("kotoba.kanaBest") || 0; if (KN.ok > best) store("kotoba.kanaBest", KN.ok);
@@ -1258,7 +1286,9 @@ function viewKana() {
       h("p", { class: "small muted", style: "text-align:center" }, KN.voice ? "Escucha y elige el kana" : q.sec === "Hiragana" ? "¿Cuál es su katakana?" : "¿Cuál es su hiragana?"),
       h("div", { class: "options" }, q.opts.map(o => h("button", { class: "btn kana-opt " + (answered ? (o === q.correct ? "right" : o === KN.picked ? "wrong" : "") : ""), type: "button", disabled: answered,
         onclick: () => { if (answered) return; KN.picked = o; if (o === q.correct) KN.ok++; render(); setTimeout(() => { KN.i++; KN.picked = null; render(); }, o === q.correct ? 450 : 1100); } }, o)))),
-    !KN.voice ? h("p", { class: "small muted", style: "text-align:center" }, "Este dispositivo no tiene voz japonesa, así que se practica por equivalencia entre silabarios.") : null);
+    KN.voice ? noVoiceBtn(true, () => { KN = null; })
+      : store("kotoba.noVoice") ? noVoiceBtn(false, () => { KN = null; })
+      : h("p", { class: "small muted", style: "text-align:center" }, "Este dispositivo no tiene voz japonesa, así que se practica por equivalencia entre silabarios."));
 }
 
 /* ---------- arranque ---------- */
@@ -1278,7 +1308,6 @@ async function boot() {
   document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { loadPackFiles(); if (Sync.cfg) syncNow(); } else if (Local.dirty && Sync.cfg) syncNow(); });
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 }
-try { speechSynthesis.getVoices(); } catch {}
 boot();
 </script>
 </body>
